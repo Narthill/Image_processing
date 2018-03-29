@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	connect(ui->actionsaveas, &QAction::triggered, this, &MainWindow::saveAs);
 	connect(ui->action_Gray, &QAction::triggered, this, &MainWindow::gray);//灰度化
 	connect(ui->action_Sobel, &QAction::triggered, this, &MainWindow::sobel);//边缘检测
+	connect(ui->action_Filter, &QAction::triggered, this, &MainWindow::filter);//滤波
 }
 
 MainWindow::~MainWindow()
@@ -95,6 +96,26 @@ void MainWindow::save_on() {
 	}
 }
 
+//保存选项关闭
+void MainWindow::save_off() {
+	if (dstQimage.isNull()) {
+		ui->actionsave->setEnabled(false);
+		ui->actionsaveas->setEnabled(false);
+	}
+	else {
+		ui->actionsave->setEnabled(true);
+		ui->actionsaveas->setEnabled(true);
+	}
+}
+
+//清除原图
+void MainWindow::clearFormer() {
+	
+}
+//清除生成图
+void MainWindow::clearResult() {
+	
+}
 //旋转
 void MainWindow::turn()
 {
@@ -130,9 +151,26 @@ void MainWindow::sobel() {
 	save_on();
 }
 
+//滤波
+//void MainWindow::filter() {
+//	//模态对话框，主框体仅仅与一个消息框体同存
+//	QDialog dialog;
+//	dialog.setWindowTitle(tr("Hello, dialog!"));
+//	dialog.exec();
+//}
 
+void MainWindow::filter() {
+	//非模态对话框，主框体可与多消息框体同存
+	QDialog *dialog = new QDialog;
+	dialog->setAttribute(Qt::WA_DeleteOnClose);//消息窗口关闭时释放
+	dialog->setWindowTitle(tr("Hello, dialog!"));
+	dialog->show();
+}
 
-
+/*所谓的模态Dialog就是将当前线程放入阻塞队列，
+所谓的非模态Dialog就是再创建一个线程专门用来显示对话框，
+可以这么理解，事实上，模态、非模态是针对事件循环的。不过事件循环其实也是在一个新的线程里面的
+*/
 //void MainWindow::on_openBtn_clicked()
 //{
 //	QString fileName = QFileDialog::getOpenFileName(

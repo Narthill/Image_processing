@@ -27,7 +27,10 @@ public:
 	void turn();
 	void sobel();
 	void save_on();
-
+	void save_off();
+	void clearFormer();
+	void clearResult();
+	void filter();
 private:
 	Ui::MainWindow *ui;
 	/*QImage *img;*/
