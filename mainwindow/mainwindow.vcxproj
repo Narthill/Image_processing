@@ -115,6 +115,7 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ImageProcessing.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="Mat2QImage.cpp" />
@@ -132,6 +133,7 @@
     <QtRcc Include="mainwindow.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ImageProcessing.h" />
     <ClInclude Include="Mat2QImage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -39,6 +39,9 @@
     <ClCompile Include="Mat2QImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ImageProcessing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h">
@@ -60,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mat2QImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcessing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
