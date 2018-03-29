@@ -10,7 +10,6 @@ using namespace cv;
 
 //¹¹Ôìº¯ÊýcolorHandle
 ImageProcessing::ImageProcessing(Mat Img) {
-	//this->filename = fname;
 	srcImg = Img;
 }
 
