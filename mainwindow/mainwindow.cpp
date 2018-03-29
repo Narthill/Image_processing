@@ -152,20 +152,20 @@ void MainWindow::sobel() {
 }
 
 //滤波
-//void MainWindow::filter() {
-//	//模态对话框，主框体仅仅与一个消息框体同存
-//	QDialog dialog;
-//	dialog.setWindowTitle(tr("Hello, dialog!"));
-//	dialog.exec();
-//}
-
 void MainWindow::filter() {
-	//非模态对话框，主框体可与多消息框体同存
-	QDialog *dialog = new QDialog;
-	dialog->setAttribute(Qt::WA_DeleteOnClose);//消息窗口关闭时释放
-	dialog->setWindowTitle(tr("Hello, dialog!"));
-	dialog->show();
+	//模态对话框，主框体仅仅与一个消息框体同存
+	QDialog dialog;
+	dialog.setWindowTitle(tr("Hello, dialog!"));
+	dialog.exec();
 }
+
+//void MainWindow::filter() {
+//	//非模态对话框，主框体可与多消息框体同存
+//	QDialog *dialog = new QDialog;
+//	dialog->setAttribute(Qt::WA_DeleteOnClose);//消息窗口关闭时释放
+//	dialog->setWindowTitle(tr("Hello, dialog!"));
+//	dialog->show();
+//}
 
 /*所谓的模态Dialog就是将当前线程放入阻塞队列，
 所谓的非模态Dialog就是再创建一个线程专门用来显示对话框，
