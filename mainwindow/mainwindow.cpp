@@ -2,7 +2,8 @@
 #include "ui_mainwindow.h"
 #include"Mat2QImage.h"
 #include<QMessageBox>
-#include<iostream>
+#include"Binary.h"
+#include"ImageProcessing.h"
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 {
@@ -22,8 +23,10 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	connect(ui->actionsave, &QAction::triggered, this, &MainWindow::save);
 	connect(ui->actionsaveas, &QAction::triggered, this, &MainWindow::saveAs);
 	connect(ui->action_Gray, &QAction::triggered, this, &MainWindow::gray);//灰度化
+	
+	connect(ui->action_Binary, &QAction::triggered, this, &MainWindow::binary);//二值化
 	connect(ui->action_Sobel, &QAction::triggered, this, &MainWindow::sobel);//边缘检测
-	connect(ui->action_Filter, &QAction::triggered, this, &MainWindow::filter);//滤波
+	connect(ui->action_Binary, &QAction::triggered, this, &MainWindow::filter);//滤波
 }
 
 MainWindow::~MainWindow()
@@ -108,14 +111,25 @@ void MainWindow::save_off() {
 	}
 }
 
+//显示在生成图界面
+void MainWindow::display() {
+	resultScene.clear();//清空结果面板
+	QGraphicsScene *rScene = &resultScene;
+	rScene->addPixmap(QPixmap::fromImage(dstQimage));
+	ui->resultView->setScene(rScene);
+	ui->resultView->show();
+}
+
 //清除原图
 void MainWindow::clearFormer() {
 	
 }
+
 //清除生成图
 void MainWindow::clearResult() {
 	
 }
+
 //旋转
 void MainWindow::turn()
 {
@@ -129,12 +143,7 @@ void MainWindow::gray() {
 	//将Mat图像转换为QImage图像，才能显示
 	dstQimage = Mat2QImage(dstImage);
 
-	resultScene.clear();//清空结果面板
-	QGraphicsScene *rScene = &resultScene;
-	rScene->addPixmap(QPixmap::fromImage(dstQimage));
-	ui->resultView->setScene(rScene);
-	ui->resultView->show();
-
+	display();
 	save_on();
 }
 
@@ -143,29 +152,37 @@ void MainWindow::sobel() {
 	Canny(srcImage, dstImage, 128, 128 * 0.4, 3, true);
 	dstQimage = Mat2QImage(dstImage);
 
-	resultScene.clear();//清空结果面板
-	QGraphicsScene *rScene = &resultScene;
-	rScene->addPixmap(QPixmap::fromImage(dstQimage));
-	ui->resultView->setScene(rScene);
-	ui->resultView->show();
+	display();
+	save_on();
+}
+
+void MainWindow::binary() {
+	ImageProcessing img(srcImage);
+	dstImage = img.rgb2black(100);
+
+	dstQimage = Mat2QImage(dstImage);
+
+	display();
 	save_on();
 }
 
 //滤波
+//void MainWindow::filter() {
+//	//模态对话框，主框体仅仅与一个消息框体同存
+//	QDialog dialog;
+//	dialog.setWindowTitle(tr("Hello, dialog!"));
+//	dialog.exec();
+//}
+
 void MainWindow::filter() {
-	//模态对话框，主框体仅仅与一个消息框体同存
-	QDialog dialog;
-	dialog.setWindowTitle(tr("Hello, dialog!"));
-	dialog.exec();
+	//非模态对话框，主框体可与多消息框体同存
+	Binary *dialog = new Binary;
+	//dialog->setAttribute(Qt::WA_DeleteOnClose);//消息窗口关闭时释放
+	dialog->setWindowTitle(tr("Hello, dialog!"));
+	dialog->show();
 }
 
-//void MainWindow::filter() {
-//	//非模态对话框，主框体可与多消息框体同存
-//	QDialog *dialog = new QDialog;
-//	dialog->setAttribute(Qt::WA_DeleteOnClose);//消息窗口关闭时释放
-//	dialog->setWindowTitle(tr("Hello, dialog!"));
-//	dialog->show();
-//}
+
 
 /*所谓的模态Dialog就是将当前线程放入阻塞队列，
 所谓的非模态Dialog就是再创建一个线程专门用来显示对话框，

@@ -26,8 +26,10 @@ public:
 	void gray();
 	void turn();
 	void sobel();
+	void binary();
 	void save_on();
 	void save_off();
+	void display();
 	void clearFormer();
 	void clearResult();
 	void filter();

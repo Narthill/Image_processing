@@ -42,9 +42,15 @@
     <ClCompile Include="ImageProcessing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Binary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Binary.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -52,7 +58,7 @@
     <QtUic Include="mainwindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="DialogButtonRight.ui">
+    <QtUic Include="Binary.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

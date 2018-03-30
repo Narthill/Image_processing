@@ -46,10 +46,11 @@ Mat ImageProcessing::rgb2gray()
 	return srcImg;
 }
 //rgb2black函数用于将rgb图像转换黑白图像  --right--
-Mat ImageProcessing::rgb2black()
+Mat ImageProcessing::rgb2black(int num)
 {
+	int threNum = num;
 	cv::cvtColor(srcImg, srcImg, CV_RGB2GRAY);
-	threshold(srcImg, srcImg, 100, 255, THRESH_BINARY);
+	threshold(srcImg, srcImg, threNum, 255, THRESH_BINARY);
 	//得到二值化之后的图像
 	return srcImg;
 }

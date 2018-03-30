@@ -21,6 +21,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
@@ -36,25 +37,45 @@ public:
     QAction *action_Gray;
     QAction *action_Binary;
     QAction *action_Hist;
-    QAction *action_Filter;
     QAction *action_Dct;
     QAction *actionsaveas;
     QAction *action_Sobel;
+    QAction *action_LinearGray;
+    QAction *action_PieceWiselinearGray;
+    QAction *action_LoglinearGray;
+    QAction *action_PowerLawlinearGray;
+    QAction *action_CutColor;
+    QAction *action1;
+    QAction *action2;
+    QAction *action3;
+    QAction *action4;
+    QAction *action1_2;
+    QAction *action2_2;
+    QAction *action3_2;
+    QAction *action4_2;
+    QAction *action_SpaceFilter;
+    QAction *action_freqFilter;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_3;
     QGroupBox *groupBox_former;
     QVBoxLayout *verticalLayout_2;
     QGraphicsView *formerView;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer;
     QPushButton *clearFormer;
     QGroupBox *groupBox_res;
     QVBoxLayout *verticalLayout_3;
     QGraphicsView *resultView;
+    QHBoxLayout *horizontalLayout_2;
+    QSpacerItem *horizontalSpacer_2;
     QPushButton *clearResult;
     QStatusBar *statusBar;
     QMenuBar *menuBar;
     QMenu *menu;
     QMenu *menu_image;
+    QMenu *menu_2;
+    QMenu *menu_3;
     QMenu *menu_video;
     QToolBar *toolBar;
 
@@ -74,14 +95,42 @@ public:
         action_Binary->setObjectName(QStringLiteral("action_Binary"));
         action_Hist = new QAction(MainWindow);
         action_Hist->setObjectName(QStringLiteral("action_Hist"));
-        action_Filter = new QAction(MainWindow);
-        action_Filter->setObjectName(QStringLiteral("action_Filter"));
         action_Dct = new QAction(MainWindow);
         action_Dct->setObjectName(QStringLiteral("action_Dct"));
         actionsaveas = new QAction(MainWindow);
         actionsaveas->setObjectName(QStringLiteral("actionsaveas"));
         action_Sobel = new QAction(MainWindow);
         action_Sobel->setObjectName(QStringLiteral("action_Sobel"));
+        action_LinearGray = new QAction(MainWindow);
+        action_LinearGray->setObjectName(QStringLiteral("action_LinearGray"));
+        action_PieceWiselinearGray = new QAction(MainWindow);
+        action_PieceWiselinearGray->setObjectName(QStringLiteral("action_PieceWiselinearGray"));
+        action_LoglinearGray = new QAction(MainWindow);
+        action_LoglinearGray->setObjectName(QStringLiteral("action_LoglinearGray"));
+        action_PowerLawlinearGray = new QAction(MainWindow);
+        action_PowerLawlinearGray->setObjectName(QStringLiteral("action_PowerLawlinearGray"));
+        action_CutColor = new QAction(MainWindow);
+        action_CutColor->setObjectName(QStringLiteral("action_CutColor"));
+        action1 = new QAction(MainWindow);
+        action1->setObjectName(QStringLiteral("action1"));
+        action2 = new QAction(MainWindow);
+        action2->setObjectName(QStringLiteral("action2"));
+        action3 = new QAction(MainWindow);
+        action3->setObjectName(QStringLiteral("action3"));
+        action4 = new QAction(MainWindow);
+        action4->setObjectName(QStringLiteral("action4"));
+        action1_2 = new QAction(MainWindow);
+        action1_2->setObjectName(QStringLiteral("action1_2"));
+        action2_2 = new QAction(MainWindow);
+        action2_2->setObjectName(QStringLiteral("action2_2"));
+        action3_2 = new QAction(MainWindow);
+        action3_2->setObjectName(QStringLiteral("action3_2"));
+        action4_2 = new QAction(MainWindow);
+        action4_2->setObjectName(QStringLiteral("action4_2"));
+        action_SpaceFilter = new QAction(MainWindow);
+        action_SpaceFilter->setObjectName(QStringLiteral("action_SpaceFilter"));
+        action_freqFilter = new QAction(MainWindow);
+        action_freqFilter->setObjectName(QStringLiteral("action_freqFilter"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
@@ -104,12 +153,24 @@ public:
 
         verticalLayout_2->addWidget(formerView);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
         clearFormer = new QPushButton(groupBox_former);
         clearFormer->setObjectName(QStringLiteral("clearFormer"));
         clearFormer->setLayoutDirection(Qt::LeftToRight);
         clearFormer->setAutoRepeatDelay(300);
 
-        verticalLayout_2->addWidget(clearFormer);
+        horizontalLayout->addWidget(clearFormer);
+
+        horizontalLayout->setStretch(0, 3);
+        horizontalLayout->setStretch(1, 1);
+
+        verticalLayout_2->addLayout(horizontalLayout);
 
 
         horizontalLayout_3->addWidget(groupBox_former);
@@ -125,11 +186,23 @@ public:
 
         verticalLayout_3->addWidget(resultView);
 
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_2);
+
         clearResult = new QPushButton(groupBox_res);
         clearResult->setObjectName(QStringLiteral("clearResult"));
         clearResult->setLayoutDirection(Qt::LeftToRight);
 
-        verticalLayout_3->addWidget(clearResult);
+        horizontalLayout_2->addWidget(clearResult);
+
+        horizontalLayout_2->setStretch(0, 3);
+        horizontalLayout_2->setStretch(1, 1);
+
+        verticalLayout_3->addLayout(horizontalLayout_2);
 
 
         horizontalLayout_3->addWidget(groupBox_res);
@@ -148,6 +221,10 @@ public:
         menu->setObjectName(QStringLiteral("menu"));
         menu_image = new QMenu(menuBar);
         menu_image->setObjectName(QStringLiteral("menu_image"));
+        menu_2 = new QMenu(menu_image);
+        menu_2->setObjectName(QStringLiteral("menu_2"));
+        menu_3 = new QMenu(menu_image);
+        menu_3->setObjectName(QStringLiteral("menu_3"));
         menu_video = new QMenu(menuBar);
         menu_video->setObjectName(QStringLiteral("menu_video"));
         MainWindow->setMenuBar(menuBar);
@@ -163,11 +240,19 @@ public:
         menu->addAction(actionsave);
         menu->addAction(actionsaveas);
         menu_image->addAction(action_Gray);
+        menu_image->addAction(menu_2->menuAction());
         menu_image->addAction(action_Binary);
+        menu_image->addAction(action_CutColor);
         menu_image->addAction(action_Hist);
-        menu_image->addAction(action_Filter);
+        menu_image->addAction(menu_3->menuAction());
         menu_image->addAction(action_Dct);
         menu_image->addAction(action_Sobel);
+        menu_2->addAction(action_LinearGray);
+        menu_2->addAction(action_PieceWiselinearGray);
+        menu_2->addAction(action_LoglinearGray);
+        menu_2->addAction(action_PowerLawlinearGray);
+        menu_3->addAction(action_SpaceFilter);
+        menu_3->addAction(action_freqFilter);
 
         retranslateUi(MainWindow);
 
@@ -183,16 +268,34 @@ public:
         action_Gray->setText(QApplication::translate("MainWindow", "\347\201\260\345\272\246\345\214\226", Q_NULLPTR));
         action_Binary->setText(QApplication::translate("MainWindow", "\344\272\214\345\200\274\345\214\226", Q_NULLPTR));
         action_Hist->setText(QApplication::translate("MainWindow", "\347\233\264\346\226\271\345\233\276\345\217\212\345\235\207\350\241\241\345\214\226", Q_NULLPTR));
-        action_Filter->setText(QApplication::translate("MainWindow", "\346\273\244\346\263\242", Q_NULLPTR));
         action_Dct->setText(QApplication::translate("MainWindow", "\347\246\273\346\225\243\344\275\231\345\274\246\345\217\230\346\215\242", Q_NULLPTR));
         actionsaveas->setText(QApplication::translate("MainWindow", "\345\217\246\345\255\230\344\270\272", Q_NULLPTR));
         action_Sobel->setText(QApplication::translate("MainWindow", "\350\276\271\347\274\230\346\243\200\346\265\213", Q_NULLPTR));
+        action_LinearGray->setText(QApplication::translate("MainWindow", "\347\272\277\346\200\247\345\217\230\346\215\242", Q_NULLPTR));
+        action_PieceWiselinearGray->setText(QApplication::translate("MainWindow", "\347\272\277\346\200\247\345\210\206\346\256\265\345\217\230\346\215\242", Q_NULLPTR));
+        action_LoglinearGray->setText(QApplication::translate("MainWindow", "\345\257\271\346\225\260\345\217\230\346\215\242", Q_NULLPTR));
+        action_PowerLawlinearGray->setText(QApplication::translate("MainWindow", "\345\271\202\347\216\207\345\217\230\346\215\242", Q_NULLPTR));
+        action_CutColor->setText(QApplication::translate("MainWindow", "\351\242\234\350\211\262\347\251\272\351\227\264\347\274\251\345\207\217", Q_NULLPTR));
+        action1->setText(QApplication::translate("MainWindow", "1", Q_NULLPTR));
+        action2->setText(QApplication::translate("MainWindow", "2", Q_NULLPTR));
+        action3->setText(QApplication::translate("MainWindow", "3", Q_NULLPTR));
+        action4->setText(QApplication::translate("MainWindow", "4", Q_NULLPTR));
+        action1_2->setText(QApplication::translate("MainWindow", "1", Q_NULLPTR));
+        action2_2->setText(QApplication::translate("MainWindow", "2", Q_NULLPTR));
+        action3_2->setText(QApplication::translate("MainWindow", "3", Q_NULLPTR));
+        action4_2->setText(QApplication::translate("MainWindow", "4", Q_NULLPTR));
+        action_SpaceFilter->setText(QApplication::translate("MainWindow", "\347\251\272\351\227\264\346\273\244\346\263\242", Q_NULLPTR));
+        action_SpaceFilter->setIconText(QApplication::translate("MainWindow", "\347\251\272\351\227\264\346\273\244\346\263\242", Q_NULLPTR));
+        action_freqFilter->setText(QApplication::translate("MainWindow", "\351\242\221\345\237\237\346\273\244\346\263\242", Q_NULLPTR));
+        action_freqFilter->setIconText(QApplication::translate("MainWindow", "\351\242\221\345\237\237\346\273\244\346\263\242", Q_NULLPTR));
         groupBox_former->setTitle(QApplication::translate("MainWindow", "\345\216\237\345\233\276", Q_NULLPTR));
         clearFormer->setText(QApplication::translate("MainWindow", "\346\270\205\347\251\272\345\216\237\345\233\276", Q_NULLPTR));
         groupBox_res->setTitle(QApplication::translate("MainWindow", "\347\224\237\346\210\220\345\233\276", Q_NULLPTR));
         clearResult->setText(QApplication::translate("MainWindow", "\346\270\205\347\251\272\347\224\237\346\210\220\345\233\276", Q_NULLPTR));
         menu->setTitle(QApplication::translate("MainWindow", "\346\226\207\344\273\266", Q_NULLPTR));
         menu_image->setTitle(QApplication::translate("MainWindow", "\345\233\276\345\203\217", Q_NULLPTR));
+        menu_2->setTitle(QApplication::translate("MainWindow", "\347\201\260\345\272\246\345\217\230\346\215\242", Q_NULLPTR));
+        menu_3->setTitle(QApplication::translate("MainWindow", "\346\273\244\346\263\242", Q_NULLPTR));
         menu_video->setTitle(QApplication::translate("MainWindow", "\350\247\206\351\242\221", Q_NULLPTR));
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", Q_NULLPTR));
     } // retranslateUi

@@ -33,17 +33,34 @@
           <widget class="QGraphicsView" name="formerView"/>
          </item>
          <item>
-          <widget class="QPushButton" name="clearFormer">
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="text">
-            <string>清空原图</string>
-           </property>
-           <property name="autoRepeatDelay">
-            <number>300</number>
-           </property>
-          </widget>
+          <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,1">
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="clearFormer">
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="text">
+              <string>清空原图</string>
+             </property>
+             <property name="autoRepeatDelay">
+              <number>300</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -58,14 +75,31 @@
           <widget class="QGraphicsView" name="resultView"/>
          </item>
          <item>
-          <widget class="QPushButton" name="clearResult">
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="text">
-            <string>清空生成图</string>
-           </property>
-          </widget>
+          <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,1">
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="clearResult">
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="text">
+              <string>清空生成图</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -97,10 +131,28 @@
     <property name="title">
      <string>图像</string>
     </property>
+    <widget class="QMenu" name="menu_2">
+     <property name="title">
+      <string>灰度变换</string>
+     </property>
+     <addaction name="action_LinearGray"/>
+     <addaction name="action_PieceWiselinearGray"/>
+     <addaction name="action_LoglinearGray"/>
+     <addaction name="action_PowerLawlinearGray"/>
+    </widget>
+    <widget class="QMenu" name="menu_3">
+     <property name="title">
+      <string>滤波</string>
+     </property>
+     <addaction name="action_SpaceFilter"/>
+     <addaction name="action_freqFilter"/>
+    </widget>
     <addaction name="action_Gray"/>
+    <addaction name="menu_2"/>
     <addaction name="action_Binary"/>
+    <addaction name="action_CutColor"/>
     <addaction name="action_Hist"/>
-    <addaction name="action_Filter"/>
+    <addaction name="menu_3"/>
     <addaction name="action_Dct"/>
     <addaction name="action_Sobel"/>
    </widget>
@@ -155,11 +207,6 @@
     <string>直方图及均衡化</string>
    </property>
   </action>
-  <action name="action_Filter">
-   <property name="text">
-    <string>滤波</string>
-   </property>
-  </action>
   <action name="action_Dct">
    <property name="text">
     <string>离散余弦变换</string>
@@ -173,6 +220,87 @@
   <action name="action_Sobel">
    <property name="text">
     <string>边缘检测</string>
+   </property>
+  </action>
+  <action name="action_LinearGray">
+   <property name="text">
+    <string>线性变换</string>
+   </property>
+  </action>
+  <action name="action_PieceWiselinearGray">
+   <property name="text">
+    <string>线性分段变换</string>
+   </property>
+  </action>
+  <action name="action_LoglinearGray">
+   <property name="text">
+    <string>对数变换</string>
+   </property>
+  </action>
+  <action name="action_PowerLawlinearGray">
+   <property name="text">
+    <string>幂率变换</string>
+   </property>
+  </action>
+  <action name="action_CutColor">
+   <property name="text">
+    <string>颜色空间缩减</string>
+   </property>
+  </action>
+  <action name="action1">
+   <property name="text">
+    <string>1</string>
+   </property>
+  </action>
+  <action name="action2">
+   <property name="text">
+    <string>2</string>
+   </property>
+  </action>
+  <action name="action3">
+   <property name="text">
+    <string>3</string>
+   </property>
+  </action>
+  <action name="action4">
+   <property name="text">
+    <string>4</string>
+   </property>
+  </action>
+  <action name="action1_2">
+   <property name="text">
+    <string>1</string>
+   </property>
+  </action>
+  <action name="action2_2">
+   <property name="text">
+    <string>2</string>
+   </property>
+  </action>
+  <action name="action3_2">
+   <property name="text">
+    <string>3</string>
+   </property>
+  </action>
+  <action name="action4_2">
+   <property name="text">
+    <string>4</string>
+   </property>
+  </action>
+  <action name="action_SpaceFilter">
+   <property name="text">
+    <string>空间滤波</string>
+   </property>
+   <property name="iconText">
+    <string>空间滤波</string>
+   </property>
+  </action>
+  <action name="action_freqFilter">
+   <property name="text">
+    <string>频域滤波</string>
+   </property>
+   <property name="iconText">
+    <string>频域滤波</string>
    </property>
   </action>
  </widget>
