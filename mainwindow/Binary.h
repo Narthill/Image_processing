@@ -11,6 +11,10 @@ public:
 	Binary(QWidget *parent = Q_NULLPTR);
 	~Binary();
 
+signals:
+	void BinaryThres(int);
+public slots:
+	void send();
 private:
-	Ui::Binary ui;
+	Ui::Binary *ui;
 };

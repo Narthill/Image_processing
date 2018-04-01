@@ -26,7 +26,7 @@ public:
 	ImageProcessing(Mat srcImg);
 	
 	/* COLOR HANDLE FUNCTION */
-	Mat cutColor();
+	Mat cutColor(int n);
 	Mat rgb2gray();
 	Mat rgb2black(int num);
 	/* COLOR HANDLE FUNCTION */
@@ -55,6 +55,15 @@ public:
 	/* DCT TRANSFORMATION */
 	Mat dctTransformation(double t);
 	/* DCT TRANSFORMATION */
+
+	/* DFT TRANSFORMATION */
+	Mat dftTransformation();
+	void ShowSpectrum(Mat input, string caption);
+	Mat ShowImage(Mat input, string caption);
+	Mat gausHighLowFilter(Mat complexImg,float d0, bool flag);
+	Mat IdealHighLowFilter(Mat comlpexImg, float d0, bool flag);
+	Mat ButterworthHighLowFilter(Mat complexImg, float d0, float n, bool flag);
+	/* DFT TRANSFORMATION */
 
 	/* PICTURE MONTAGE */
 	Mat montage(string picName1, string picName2, string picName3, string picName4);

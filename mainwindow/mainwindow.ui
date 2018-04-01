@@ -145,7 +145,7 @@
       <string>滤波</string>
      </property>
      <addaction name="action_SpaceFilter"/>
-     <addaction name="action_freqFilter"/>
+     <addaction name="action_FreqFilter"/>
     </widget>
     <addaction name="action_Gray"/>
     <addaction name="menu_2"/>
@@ -295,7 +295,7 @@
     <string>空间滤波</string>
    </property>
   </action>
-  <action name="action_freqFilter">
+  <action name="action_FreqFilter">
    <property name="text">
     <string>频域滤波</string>
    </property>

@@ -24,9 +24,9 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	connect(ui->actionsaveas, &QAction::triggered, this, &MainWindow::saveAs);
 	connect(ui->action_Gray, &QAction::triggered, this, &MainWindow::gray);//灰度化
 	
-	connect(ui->action_Binary, &QAction::triggered, this, &MainWindow::binary);//二值化
+	connect(ui->action_Binary, &QAction::triggered, this, &MainWindow::binarySolt);//二值化
 	connect(ui->action_Sobel, &QAction::triggered, this, &MainWindow::sobel);//边缘检测
-	connect(ui->action_Binary, &QAction::triggered, this, &MainWindow::filter);//滤波
+	connect(ui->action_FreqFilter, &QAction::triggered, this, &MainWindow::freqFilter);//滤波
 }
 
 MainWindow::~MainWindow()
@@ -139,10 +139,28 @@ void MainWindow::turn()
 
 //灰度化
 void MainWindow::gray() {
-	cvtColor(srcImage, dstImage, CV_RGB2GRAY);
+	ImageProcessing img(srcImage);
+	dstImage = img.rgb2gray();
 	//将Mat图像转换为QImage图像，才能显示
 	dstQimage = Mat2QImage(dstImage);
+	display();
+	save_on();
+}
 
+//二值化
+void MainWindow::binarySolt() {
+	Binary *BinaryDialog = new Binary();
+	//对话框关闭时销毁
+	BinaryDialog->setAttribute(Qt::WA_DeleteOnClose);
+	BinaryDialog->setWindowTitle(tr("Binary"));
+	//BinaryDialog的阈值发送
+	connect(BinaryDialog, SIGNAL(BinaryThres(int)), this, SLOT(binaryCore(int)));
+	BinaryDialog->show();
+}
+void MainWindow::binaryCore(int thres) {
+	ImageProcessing img(srcImage);
+	dstImage = img.rgb2black(thres);
+	dstQimage = Mat2QImage(dstImage);
 	display();
 	save_on();
 }
@@ -150,16 +168,6 @@ void MainWindow::gray() {
 //边缘检测
 void MainWindow::sobel() {
 	Canny(srcImage, dstImage, 128, 128 * 0.4, 3, true);
-	dstQimage = Mat2QImage(dstImage);
-
-	display();
-	save_on();
-}
-
-void MainWindow::binary() {
-	ImageProcessing img(srcImage);
-	dstImage = img.rgb2black(100);
-
 	dstQimage = Mat2QImage(dstImage);
 
 	display();
@@ -174,15 +182,41 @@ void MainWindow::binary() {
 //	dialog.exec();
 //}
 
-void MainWindow::filter() {
-	//非模态对话框，主框体可与多消息框体同存
-	Binary *dialog = new Binary;
-	//dialog->setAttribute(Qt::WA_DeleteOnClose);//消息窗口关闭时释放
-	dialog->setWindowTitle(tr("Hello, dialog!"));
-	dialog->show();
+//void MainWindow::filter() {
+//	//非模态对话框，主框体可与多消息框体同存
+//	Binary *dialog = new Binary;
+//	//dialog->setAttribute(Qt::WA_DeleteOnClose);//消息窗口关闭时释放
+//	dialog->setWindowTitle(tr("Hello, dialog!"));
+//	dialog->show();
+//}
+
+void MainWindow::freqFilter() {
+
+	ImageProcessing img(srcImage);
+	dstImage = img.dftTransformation();
+	//dstImage = img.gausHighLowFilter(dstImage,20,false);
+	//dstImage = img.IdealHighLowFilter(dstImage,20, false);
+	dstImage = img.ButterworthHighLowFilter(dstImage, 20, 5, false);
+	//int a = dstImage.channels();
+	dstQimage = Mat2QImage(dstImage);
+
+	display();
+	save_on();
 }
 
+void MainWindow::spaceFilter() {
 
+	ImageProcessing img(srcImage);
+	dstImage = img.dftTransformation();
+	//dstImage = img.gausHighLowFilter(dstImage,20,false);
+	//dstImage = img.IdealHighLowFilter(dstImage,20, false);
+	dstImage = img.ButterworthHighLowFilter(dstImage, 20, 5, false);
+	//int a = dstImage.channels();
+	dstQimage = Mat2QImage(dstImage);
+
+	display();
+	save_on();
+}
 
 /*所谓的模态Dialog就是将当前线程放入阻塞队列，
 所谓的非模态Dialog就是再创建一个线程专门用来显示对话框，

@@ -54,7 +54,7 @@ public:
     QAction *action3_2;
     QAction *action4_2;
     QAction *action_SpaceFilter;
-    QAction *action_freqFilter;
+    QAction *action_FreqFilter;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_3;
@@ -129,8 +129,8 @@ public:
         action4_2->setObjectName(QStringLiteral("action4_2"));
         action_SpaceFilter = new QAction(MainWindow);
         action_SpaceFilter->setObjectName(QStringLiteral("action_SpaceFilter"));
-        action_freqFilter = new QAction(MainWindow);
-        action_freqFilter->setObjectName(QStringLiteral("action_freqFilter"));
+        action_FreqFilter = new QAction(MainWindow);
+        action_FreqFilter->setObjectName(QStringLiteral("action_FreqFilter"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
@@ -252,7 +252,7 @@ public:
         menu_2->addAction(action_LoglinearGray);
         menu_2->addAction(action_PowerLawlinearGray);
         menu_3->addAction(action_SpaceFilter);
-        menu_3->addAction(action_freqFilter);
+        menu_3->addAction(action_FreqFilter);
 
         retranslateUi(MainWindow);
 
@@ -286,8 +286,8 @@ public:
         action4_2->setText(QApplication::translate("MainWindow", "4", Q_NULLPTR));
         action_SpaceFilter->setText(QApplication::translate("MainWindow", "\347\251\272\351\227\264\346\273\244\346\263\242", Q_NULLPTR));
         action_SpaceFilter->setIconText(QApplication::translate("MainWindow", "\347\251\272\351\227\264\346\273\244\346\263\242", Q_NULLPTR));
-        action_freqFilter->setText(QApplication::translate("MainWindow", "\351\242\221\345\237\237\346\273\244\346\263\242", Q_NULLPTR));
-        action_freqFilter->setIconText(QApplication::translate("MainWindow", "\351\242\221\345\237\237\346\273\244\346\263\242", Q_NULLPTR));
+        action_FreqFilter->setText(QApplication::translate("MainWindow", "\351\242\221\345\237\237\346\273\244\346\263\242", Q_NULLPTR));
+        action_FreqFilter->setIconText(QApplication::translate("MainWindow", "\351\242\221\345\237\237\346\273\244\346\263\242", Q_NULLPTR));
         groupBox_former->setTitle(QApplication::translate("MainWindow", "\345\216\237\345\233\276", Q_NULLPTR));
         clearFormer->setText(QApplication::translate("MainWindow", "\346\270\205\347\251\272\345\216\237\345\233\276", Q_NULLPTR));
         groupBox_res->setTitle(QApplication::translate("MainWindow", "\347\224\237\346\210\220\345\233\276", Q_NULLPTR));

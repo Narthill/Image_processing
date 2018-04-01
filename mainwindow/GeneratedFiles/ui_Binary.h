@@ -30,17 +30,18 @@ public:
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
-    QSpinBox *spinBox;
-    QSlider *horizontalSlider;
+    QSpinBox *BinarySpinBox;
+    QSlider *BinarySlider;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
-    QPushButton *pushButton;
+    QPushButton *yesBtn;
+    QPushButton *closeBtn;
 
     void setupUi(QWidget *Binary)
     {
         if (Binary->objectName().isEmpty())
             Binary->setObjectName(QStringLiteral("Binary"));
-        Binary->resize(296, 91);
+        Binary->resize(325, 143);
         verticalLayout_2 = new QVBoxLayout(Binary);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -51,17 +52,19 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        spinBox = new QSpinBox(Binary);
-        spinBox->setObjectName(QStringLiteral("spinBox"));
+        BinarySpinBox = new QSpinBox(Binary);
+        BinarySpinBox->setObjectName(QStringLiteral("BinarySpinBox"));
 
-        horizontalLayout->addWidget(spinBox);
+        horizontalLayout->addWidget(BinarySpinBox);
 
-        horizontalSlider = new QSlider(Binary);
-        horizontalSlider->setObjectName(QStringLiteral("horizontalSlider"));
-        horizontalSlider->setOrientation(Qt::Horizontal);
+        BinarySlider = new QSlider(Binary);
+        BinarySlider->setObjectName(QStringLiteral("BinarySlider"));
+        BinarySlider->setOrientation(Qt::Horizontal);
 
-        horizontalLayout->addWidget(horizontalSlider);
+        horizontalLayout->addWidget(BinarySlider);
 
+        horizontalLayout->setStretch(0, 1);
+        horizontalLayout->setStretch(1, 3);
 
         verticalLayout->addLayout(horizontalLayout);
 
@@ -72,10 +75,15 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer);
 
-        pushButton = new QPushButton(Binary);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        yesBtn = new QPushButton(Binary);
+        yesBtn->setObjectName(QStringLiteral("yesBtn"));
 
-        horizontalLayout_2->addWidget(pushButton);
+        horizontalLayout_2->addWidget(yesBtn);
+
+        closeBtn = new QPushButton(Binary);
+        closeBtn->setObjectName(QStringLiteral("closeBtn"));
+
+        horizontalLayout_2->addWidget(closeBtn);
 
 
         verticalLayout->addLayout(horizontalLayout_2);
@@ -92,7 +100,8 @@ public:
     void retranslateUi(QWidget *Binary)
     {
         Binary->setWindowTitle(QApplication::translate("Binary", "Binary", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("Binary", "\345\205\263\351\227\255", Q_NULLPTR));
+        yesBtn->setText(QApplication::translate("Binary", "\347\241\256\345\256\232", Q_NULLPTR));
+        closeBtn->setText(QApplication::translate("Binary", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -19,20 +19,26 @@ public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
 
-	private slots:
+private slots:
 	void open();
 	void save();
 	void saveAs();
-	void gray();
-	void turn();
-	void sobel();
-	void binary();
 	void save_on();
 	void save_off();
 	void display();
 	void clearFormer();
 	void clearResult();
-	void filter();
+
+	//¥¶¿Ì≤€
+	void gray();
+	//void grayLinear();
+	void turn();
+	void sobel();
+	void binarySolt();
+	void binaryCore(int thres);
+	void freqFilter();
+	void spaceFilter();
+
 private:
 	Ui::MainWindow *ui;
 	/*QImage *img;*/
