@@ -3,6 +3,9 @@
 #include"Mat2QImage.h"
 #include<QMessageBox>
 #include"Binary.h"
+#include"LinearGrayScale.h"
+#include"PieceWiselinearGrayScale.h"
+
 #include"ImageProcessing.h"
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
@@ -13,20 +16,26 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	ui->setupUi(this);
 	ui->menu_image->setEnabled(false);
 	ui->menu_video->setEnabled(false);
-	ui->actionsave->setEnabled(false);
-	ui->actionsaveas->setEnabled(false);
+	save_off();
+
 	ui->actionopen->setShortcuts(QKeySequence::Open);
 	ui->actionsave->setShortcuts(QKeySequence::Save);
 	ui->actionsaveas->setShortcuts(QKeySequence::SaveAs);
+
 	//信号槽连接
 	connect(ui->actionopen, &QAction::triggered, this, &MainWindow::open);
 	connect(ui->actionsave, &QAction::triggered, this, &MainWindow::save);
 	connect(ui->actionsaveas, &QAction::triggered, this, &MainWindow::saveAs);
+	connect(ui->clearFormer, &QPushButton::clicked, this, &MainWindow::clearFormer);
+	connect(ui->clearResult, &QPushButton::clicked, this, &MainWindow::clearResult);
+
 	connect(ui->action_Gray, &QAction::triggered, this, &MainWindow::gray);//灰度化
+	connect(ui->action_LinearGray, &QAction::triggered, this, &MainWindow::linearGray);//线性灰度变换
+	connect(ui->action_PieceWiselinearGray, &QAction::triggered, this, &MainWindow::pieceWiselinearGray);//线性灰度变换
 	
 	connect(ui->action_Binary, &QAction::triggered, this, &MainWindow::binarySolt);//二值化
 	connect(ui->action_Sobel, &QAction::triggered, this, &MainWindow::sobel);//边缘检测
-	connect(ui->action_FreqFilter, &QAction::triggered, this, &MainWindow::freqFilter);//滤波
+	connect(ui->action_FreqFilter, &QAction::triggered, this, &MainWindow::freqFilter);//频域滤波
 }
 
 MainWindow::~MainWindow()
@@ -101,14 +110,8 @@ void MainWindow::save_on() {
 
 //保存选项关闭
 void MainWindow::save_off() {
-	if (dstQimage.isNull()) {
-		ui->actionsave->setEnabled(false);
-		ui->actionsaveas->setEnabled(false);
-	}
-	else {
-		ui->actionsave->setEnabled(true);
-		ui->actionsaveas->setEnabled(true);
-	}
+	ui->actionsave->setEnabled(false);
+	ui->actionsaveas->setEnabled(false);
 }
 
 //显示在生成图界面
@@ -122,12 +125,15 @@ void MainWindow::display() {
 
 //清除原图
 void MainWindow::clearFormer() {
-	
+	formerScene.clear();//清空原图面板
+	ui->menu_image->setEnabled(false);
+	ui->menu_video->setEnabled(false);
 }
 
 //清除生成图
 void MainWindow::clearResult() {
-	
+	resultScene.clear();//清空原图面板
+	save_off();
 }
 
 //旋转
@@ -147,13 +153,47 @@ void MainWindow::gray() {
 	save_on();
 }
 
+//线性灰度变换
+void MainWindow::linearGray() {
+	LinearGrayScale *LinearGrayScaleDialog = new LinearGrayScale();
+	LinearGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
+	LinearGrayScaleDialog->setWindowTitle(tr("LinearGrayScale"));
+	connect(LinearGrayScaleDialog, SIGNAL(contrastAndBright(int,int)), this, SLOT(linearGrayCore(int,int)));
+	LinearGrayScaleDialog->show();
+}
+void MainWindow::linearGrayCore(int contrastValue, int brightValue) {
+	ImageProcessing img(srcImage);
+	dstImage = img.linearGrayScaleTransformation(contrastValue, brightValue);
+	//将Mat图像转换为QImage图像，才能显示
+	dstQimage = Mat2QImage(dstImage);
+	display();
+	save_on();
+}
+
+//分段线性变换
+void MainWindow::pieceWiselinearGray() {
+	PieceWiselinearGrayScale *PieceWiselinearGrayScaleDialog = new PieceWiselinearGrayScale();
+	PieceWiselinearGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
+	PieceWiselinearGrayScaleDialog->setWindowTitle(tr("PieceWiselinearGrayScale"));
+	connect(PieceWiselinearGrayScaleDialog, SIGNAL(inflectionPoint(int,int,int,int)), this, SLOT(pieceWiselinearGrayCore(int,int,int,int)));
+	PieceWiselinearGrayScaleDialog->show();
+}
+void MainWindow::pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2) {
+	ImageProcessing img(srcImage);
+	dstImage = img.pieceWiselinearGrayScaleTransformation(X1,Y1,X2,Y2);
+	//将Mat图像转换为QImage图像，才能显示
+	dstQimage = Mat2QImage(dstImage);
+	display();
+	save_on();
+}
+
 //二值化
 void MainWindow::binarySolt() {
 	Binary *BinaryDialog = new Binary();
 	//对话框关闭时销毁
 	BinaryDialog->setAttribute(Qt::WA_DeleteOnClose);
 	BinaryDialog->setWindowTitle(tr("Binary"));
-	//BinaryDialog的阈值发送
+	//BinaryDialog的阈值发送给二值的core
 	connect(BinaryDialog, SIGNAL(BinaryThres(int)), this, SLOT(binaryCore(int)));
 	BinaryDialog->show();
 }
@@ -175,21 +215,6 @@ void MainWindow::sobel() {
 }
 
 //滤波
-//void MainWindow::filter() {
-//	//模态对话框，主框体仅仅与一个消息框体同存
-//	QDialog dialog;
-//	dialog.setWindowTitle(tr("Hello, dialog!"));
-//	dialog.exec();
-//}
-
-//void MainWindow::filter() {
-//	//非模态对话框，主框体可与多消息框体同存
-//	Binary *dialog = new Binary;
-//	//dialog->setAttribute(Qt::WA_DeleteOnClose);//消息窗口关闭时释放
-//	dialog->setWindowTitle(tr("Hello, dialog!"));
-//	dialog->show();
-//}
-
 void MainWindow::freqFilter() {
 
 	ImageProcessing img(srcImage);
@@ -217,6 +242,22 @@ void MainWindow::spaceFilter() {
 	display();
 	save_on();
 }
+
+//滤波
+//void MainWindow::filter() {
+//	//模态对话框，主框体仅仅与一个消息框体同存
+//	QDialog dialog;
+//	dialog.setWindowTitle(tr("Hello, dialog!"));
+//	dialog.exec();
+//}
+
+//void MainWindow::filter() {
+//	//非模态对话框，主框体可与多消息框体同存
+//	Binary *dialog = new Binary;
+//	//dialog->setAttribute(Qt::WA_DeleteOnClose);//消息窗口关闭时释放
+//	dialog->setWindowTitle(tr("Hello, dialog!"));
+//	dialog->show();
+//}
 
 /*所谓的模态Dialog就是将当前线程放入阻塞队列，
 所谓的非模态Dialog就是再创建一个线程专门用来显示对话框，

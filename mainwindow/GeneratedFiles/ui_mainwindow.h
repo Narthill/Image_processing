@@ -22,6 +22,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
@@ -56,8 +57,8 @@ public:
     QAction *action_SpaceFilter;
     QAction *action_FreqFilter;
     QWidget *centralWidget;
-    QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_3;
+    QSplitter *splitter;
     QGroupBox *groupBox_former;
     QVBoxLayout *verticalLayout_2;
     QGraphicsView *formerView;
@@ -83,7 +84,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1294, 778);
+        MainWindow->resize(1294, 783);
         actionopen = new QAction(MainWindow);
         actionopen->setObjectName(QStringLiteral("actionopen"));
         actionopen->setCheckable(false);
@@ -133,14 +134,14 @@ public:
         action_FreqFilter->setObjectName(QStringLiteral("action_FreqFilter"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        verticalLayout = new QVBoxLayout(centralWidget);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3 = new QHBoxLayout(centralWidget);
         horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        groupBox_former = new QGroupBox(centralWidget);
+        splitter = new QSplitter(centralWidget);
+        splitter->setObjectName(QStringLiteral("splitter"));
+        splitter->setOrientation(Qt::Horizontal);
+        groupBox_former = new QGroupBox(splitter);
         groupBox_former->setObjectName(QStringLiteral("groupBox_former"));
         groupBox_former->setCursor(QCursor(Qt::ArrowCursor));
         groupBox_former->setLayoutDirection(Qt::LeftToRight);
@@ -148,6 +149,7 @@ public:
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
         formerView = new QGraphicsView(groupBox_former);
         formerView->setObjectName(QStringLiteral("formerView"));
 
@@ -172,15 +174,14 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout);
 
-
-        horizontalLayout_3->addWidget(groupBox_former);
-
-        groupBox_res = new QGroupBox(centralWidget);
+        splitter->addWidget(groupBox_former);
+        groupBox_res = new QGroupBox(splitter);
         groupBox_res->setObjectName(QStringLiteral("groupBox_res"));
         verticalLayout_3 = new QVBoxLayout(groupBox_res);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_3->setSizeConstraint(QLayout::SetDefaultConstraint);
         resultView = new QGraphicsView(groupBox_res);
         resultView->setObjectName(QStringLiteral("resultView"));
 
@@ -204,11 +205,9 @@ public:
 
         verticalLayout_3->addLayout(horizontalLayout_2);
 
+        splitter->addWidget(groupBox_res);
 
-        horizontalLayout_3->addWidget(groupBox_res);
-
-
-        verticalLayout->addLayout(horizontalLayout_3);
+        horizontalLayout_3->addWidget(splitter);
 
         MainWindow->setCentralWidget(centralWidget);
         statusBar = new QStatusBar(MainWindow);

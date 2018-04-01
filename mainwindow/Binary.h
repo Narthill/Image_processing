@@ -10,11 +10,10 @@ class Binary : public QWidget
 public:
 	Binary(QWidget *parent = Q_NULLPTR);
 	~Binary();
-
-signals:
-	void BinaryThres(int);
 public slots:
 	void send();
+signals:
+	void BinaryThres(int);
 private:
 	Ui::Binary *ui;
 };

@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Binary</class>
- <widget class="QWidget" name="Binary">
+ <class>LinearGrayScale</class>
+ <widget class="QWidget" name="LinearGrayScale">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>422</width>
-    <height>141</height>
+    <width>319</width>
+    <height>164</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Binary</string>
+   <string>LinearGrayScale</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>二值化阈值</string>
+          <string>对比度</string>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,4">
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QSpinBox" name="BinarySpinBox"/>
+          <widget class="QSpinBox" name="contrastSpinBox"/>
          </item>
          <item>
-          <widget class="QSlider" name="BinarySlider">
+          <widget class="QSlider" name="contrastSlider">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -42,7 +42,32 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>亮度</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QSpinBox" name="brightSpinBox"/>
+         </item>
+         <item>
+          <widget class="QSlider" name="brightSlider">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">

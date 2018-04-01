@@ -15,6 +15,7 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
@@ -27,28 +28,37 @@ QT_BEGIN_NAMESPACE
 class Ui_Binary
 {
 public:
+    QVBoxLayout *verticalLayout_3;
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout;
+    QLabel *label;
     QHBoxLayout *horizontalLayout;
     QSpinBox *BinarySpinBox;
     QSlider *BinarySlider;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
-    QPushButton *yesBtn;
     QPushButton *closeBtn;
 
     void setupUi(QWidget *Binary)
     {
         if (Binary->objectName().isEmpty())
             Binary->setObjectName(QStringLiteral("Binary"));
-        Binary->resize(325, 143);
-        verticalLayout_2 = new QVBoxLayout(Binary);
+        Binary->resize(422, 141);
+        verticalLayout_3 = new QVBoxLayout(Binary);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        label = new QLabel(Binary);
+        label->setObjectName(QStringLiteral("label"));
+
+        verticalLayout->addWidget(label);
+
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
@@ -64,9 +74,12 @@ public:
         horizontalLayout->addWidget(BinarySlider);
 
         horizontalLayout->setStretch(0, 1);
-        horizontalLayout->setStretch(1, 3);
+        horizontalLayout->setStretch(1, 4);
 
         verticalLayout->addLayout(horizontalLayout);
+
+
+        verticalLayout_2->addLayout(verticalLayout);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -75,21 +88,16 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer);
 
-        yesBtn = new QPushButton(Binary);
-        yesBtn->setObjectName(QStringLiteral("yesBtn"));
-
-        horizontalLayout_2->addWidget(yesBtn);
-
         closeBtn = new QPushButton(Binary);
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
 
         horizontalLayout_2->addWidget(closeBtn);
 
 
-        verticalLayout->addLayout(horizontalLayout_2);
+        verticalLayout_2->addLayout(horizontalLayout_2);
 
 
-        verticalLayout_2->addLayout(verticalLayout);
+        verticalLayout_3->addLayout(verticalLayout_2);
 
 
         retranslateUi(Binary);
@@ -100,7 +108,7 @@ public:
     void retranslateUi(QWidget *Binary)
     {
         Binary->setWindowTitle(QApplication::translate("Binary", "Binary", Q_NULLPTR));
-        yesBtn->setText(QApplication::translate("Binary", "\347\241\256\345\256\232", Q_NULLPTR));
+        label->setText(QApplication::translate("Binary", "\344\272\214\345\200\274\345\214\226\351\230\210\345\200\274", Q_NULLPTR));
         closeBtn->setText(QApplication::translate("Binary", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 

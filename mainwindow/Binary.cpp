@@ -12,9 +12,8 @@ Binary::Binary(QWidget *parent)
 	ui->BinarySpinBox->setRange(0, 255);
 
 	//互连Slider和SpinBox
-	QObject::connect(ui->BinarySlider, &QSlider::valueChanged, ui->BinarySpinBox, &QSpinBox::setValue);
-	void (QSpinBox:: *spinBoxSignal)(int) = &QSpinBox::valueChanged;
-	QObject::connect(ui->BinarySpinBox, spinBoxSignal, ui->BinarySlider, &QSlider::setValue);
+	QObject::connect(ui->BinarySlider, SIGNAL(valueChanged(int)), ui->BinarySpinBox, SLOT(setValue(int)));
+	QObject::connect(ui->BinarySpinBox, SIGNAL(valueChanged(int)), ui->BinarySlider, SLOT(setValue(int)));
 	
 	//Slider滚动触发发送信号
 	QObject::connect(ui->BinarySlider, SIGNAL(valueChanged(int)), this, SLOT(send()));

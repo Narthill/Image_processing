@@ -23,25 +23,30 @@ private slots:
 	void open();
 	void save();
 	void saveAs();
+
+	//处理槽
+	void turn();
+	void sobel();
+	void gray();
+	void linearGray();
+	void linearGrayCore(int contrastValue, int brightValue);
+	void pieceWiselinearGray();
+	void pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2);
+
+	void binarySolt();
+	void binaryCore(int thres);
+	void freqFilter();
+	void spaceFilter();
+
+public:
 	void save_on();
 	void save_off();
 	void display();
 	void clearFormer();
 	void clearResult();
 
-	//处理槽
-	void gray();
-	//void grayLinear();
-	void turn();
-	void sobel();
-	void binarySolt();
-	void binaryCore(int thres);
-	void freqFilter();
-	void spaceFilter();
-
 private:
 	Ui::MainWindow *ui;
-	/*QImage *img;*/
 	QString filename;
 	Mat srcImage;	//原mat
 	Mat dstImage;	//原mat

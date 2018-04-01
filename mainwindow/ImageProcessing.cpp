@@ -59,24 +59,34 @@ Mat ImageProcessing::rgb2black(int num)
 
 
 /* 线性-非线性灰度变换 */
-//linearGrayScaleTransformation函数用于进行线性灰度变换，使用时需要传入两个参数用于调整contrastValue(对比度)/brightValue(亮度)  --right--
+//linearGrayScaleTransformation函数用于进行线性灰度变换，使用时需要传入两个参数用于调整contrastValue(对比度)/brightValue(亮度)  --no-- srcImg改为dstImg
 Mat ImageProcessing::linearGrayScaleTransformation(int contrastValue, int brightValue) {
 	//创建窗口
 	//Mat srcImgClone = srcImg.clone();
 	//srcImgClone = Mat::zeros(srcImg.size(), srcImg.type());
 	// 三个for循环，执行运算 g_dstImage(i,j) = a*g_srcImage(i,j) + b 
 	//实现彩色图像的线性灰度变换
+
+	//if (contrastValue == 0) {
+	//	contrastValue = 1;
+	//}
+	//if (brightValue == 0) {
+	//	brightValue = 1;
+	//}
+
+	Mat dstImg = srcImg.clone();
+
 	for (int x = 0; x < srcImg.rows; x++)
 	{
 		for (int y = 0; y < srcImg.cols; y++)
 		{
 			for (int c = 0; c < 3; c++)
 			{
-				srcImg.at<Vec3b>(x, y)[c] = saturate_cast<uchar>((contrastValue*0.01)*(srcImg.at<Vec3b>(x, y)[c]) + brightValue);
+				dstImg.at<Vec3b>(x, y)[c] = saturate_cast<uchar>((contrastValue*0.01)*(srcImg.at<Vec3b>(x, y)[c]) + brightValue);
 			}
 		}
 	}
-	return srcImg;
+	return dstImg;
 }
 //pieceWiselinearGrayScaleTransformation函数用于进行分段线性灰度变换，使用时需要传入两个点的坐标共四个参数用于进行调整  --right--
 Mat ImageProcessing::pieceWiselinearGrayScaleTransformation(double X_1, double Y_1, double X_2, double Y_2) {
@@ -90,7 +100,7 @@ Mat ImageProcessing::pieceWiselinearGrayScaleTransformation(double X_1, double Y
 	}
 	uchar* p;
 	int i, j;
-
+	Mat dstImg = srcImg.clone();
 	double intercept_1, intercept_2, intercept_3; //斜率
 
 	intercept_1 = (Y_1 / X_1);
@@ -109,12 +119,12 @@ Mat ImageProcessing::pieceWiselinearGrayScaleTransformation(double X_1, double Y
 	}
 
 	for (i = 0; i<nRows; i++) {
-		p = srcImg.ptr<uchar>(i);
+		p = dstImg.ptr<uchar>(i);
 		for (j = 0; j<nCols; j++) {
 			p[j] = table[p[j]];
 		}
 	}
-	return srcImg;
+	return dstImg;
 }
 //loglinearGrayScaleTransformation函数用于进行非线性-对数灰度变换，使用时需要传入常数c  --right--
 Mat ImageProcessing::loglinearGrayScaleTransformation(int c) {
@@ -136,8 +146,6 @@ Mat ImageProcessing::loglinearGrayScaleTransformation(int c) {
 			srcImg.ptr(x)[y] = g;
 		}
 	}
-
-	imshow("1",srcImg);
 
 	return srcImg;
 }

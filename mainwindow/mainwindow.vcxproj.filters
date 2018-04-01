@@ -28,6 +28,12 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Source Files\ui">
+      <UniqueIdentifier>{9d429486-f06f-40a4-9611-41f5ed00b5d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ui">
+      <UniqueIdentifier>{bd989a3e-ee0a-4fb2-bae4-e39e99f92caf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -43,7 +49,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Binary.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearGrayScale.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="PieceWiselinearGrayScale.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -51,7 +63,13 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Binary.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="LinearGrayScale.h">
+      <Filter>Header Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="PieceWiselinearGrayScale.h">
+      <Filter>Header Files\ui</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +77,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="Binary.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="LinearGrayScale.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="PieceWiselinearGrayScale.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -74,5 +98,11 @@
     <ClInclude Include="ImageProcessing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="mainwindow.rc" />
   </ItemGroup>
 </Project>
