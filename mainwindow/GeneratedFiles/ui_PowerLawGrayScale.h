@@ -20,7 +20,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -31,11 +30,6 @@ class Ui_PowerLawGrayScale
 public:
     QVBoxLayout *verticalLayout_4;
     QVBoxLayout *verticalLayout_3;
-    QVBoxLayout *verticalLayout;
-    QLabel *label;
-    QHBoxLayout *horizontalLayout_2;
-    QSpinBox *kSpinBox;
-    QSlider *kSlider;
     QVBoxLayout *verticalLayout_2;
     QLabel *label_2;
     QHBoxLayout *horizontalLayout_3;
@@ -49,7 +43,7 @@ public:
     {
         if (PowerLawGrayScale->objectName().isEmpty())
             PowerLawGrayScale->setObjectName(QStringLiteral("PowerLawGrayScale"));
-        PowerLawGrayScale->resize(422, 145);
+        PowerLawGrayScale->resize(410, 140);
         verticalLayout_4 = new QVBoxLayout(PowerLawGrayScale);
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -57,34 +51,6 @@ public:
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(6);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        label = new QLabel(PowerLawGrayScale);
-        label->setObjectName(QStringLiteral("label"));
-
-        verticalLayout->addWidget(label);
-
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        kSpinBox = new QSpinBox(PowerLawGrayScale);
-        kSpinBox->setObjectName(QStringLiteral("kSpinBox"));
-
-        horizontalLayout_2->addWidget(kSpinBox);
-
-        kSlider = new QSlider(PowerLawGrayScale);
-        kSlider->setObjectName(QStringLiteral("kSlider"));
-        kSlider->setOrientation(Qt::Horizontal);
-
-        horizontalLayout_2->addWidget(kSlider);
-
-
-        verticalLayout->addLayout(horizontalLayout_2);
-
-
-        verticalLayout_3->addLayout(verticalLayout);
-
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
@@ -140,7 +106,6 @@ public:
     void retranslateUi(QWidget *PowerLawGrayScale)
     {
         PowerLawGrayScale->setWindowTitle(QApplication::translate("PowerLawGrayScale", "PowerLawGrayScale", Q_NULLPTR));
-        label->setText(QApplication::translate("PowerLawGrayScale", "\345\272\225\347\232\204\345\200\215\346\225\260K", Q_NULLPTR));
         label_2->setText(QApplication::translate("PowerLawGrayScale", "\346\214\207\346\225\260", Q_NULLPTR));
         closeBtn->setText(QApplication::translate("PowerLawGrayScale", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi

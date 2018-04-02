@@ -6,22 +6,15 @@ PowerLawGrayScale::PowerLawGrayScale(QWidget *parent)
 	ui = new Ui::PowerLawGrayScale;
 	ui->setupUi(this);
 
-	ui->kSlider->setRange(1, 10);
-	ui->kSpinBox->setRange(1, 10);
-
-	ui->indexSlider->setRange((double)1.00, (double)5.00);
-	ui->indexSpinBox->setRange((double)1.00, (double)5.00);
+	ui->indexSlider->setRange(0,50);
+	ui->indexSpinBox->setRange(0,5.0);
 
 	//互连Slider和SpinBox
-	QObject::connect(ui->kSlider, SIGNAL(valueChanged(int)), ui->kSpinBox, SLOT(setValue(int)));
-	QObject::connect(ui->kSpinBox, SIGNAL(valueChanged(int)), ui->kSlider, SLOT(setValue(int)));
-
-	QObject::connect(ui->indexSlider, SIGNAL(valueChanged(double)), ui->indexSpinBox, SLOT(setValue(double)));
-	QObject::connect(ui->indexSpinBox, SIGNAL(valueChanged(double)), ui->indexSlider, SLOT(setValue(double)));
+	QObject::connect(ui->indexSlider, SIGNAL(valueChanged(int)), this, SLOT(slotslider_DoubleSpinBox()));
+	QObject::connect(ui->indexSpinBox, SIGNAL(valueChanged(double)), this, SLOT(slotDoubleSpinbox_slider()));
 
 	//Slider滚动触发发送信号
-	QObject::connect(ui->kSlider, SIGNAL(valueChanged(int)), this, SLOT(send()));
-	QObject::connect(ui->indexSlider, SIGNAL(valueChanged(double)), this, SLOT(send()));
+	QObject::connect(ui->indexSlider, SIGNAL(valueChanged(int)), this, SLOT(send()));
 
 	//关闭信号
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
@@ -31,8 +24,17 @@ PowerLawGrayScale::~PowerLawGrayScale()
 {
 	delete ui;
 }
+
 void PowerLawGrayScale::send() {
-	int k = ui->kSlider->value();
-	double index = ui->indexSlider->value();
-	emit PowerLaw(k,index);
+	double index = ui->indexSpinBox->value();
+	emit PowerLaw(index);
+}
+
+void PowerLawGrayScale::slotDoubleSpinbox_slider()
+{
+	ui->indexSlider->setValue((int)(ui->indexSpinBox->value() * 10));
+}
+void PowerLawGrayScale::slotslider_DoubleSpinBox()
+{
+	ui->indexSpinBox->setValue((double)(ui->indexSlider->value()) / 10);
 }

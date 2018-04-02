@@ -214,12 +214,12 @@ void MainWindow::powerLawGrayScaleSolt() {
 	PowerLawGrayScale *PowerLawGrayScaleDialog = new PowerLawGrayScale();
 	PowerLawGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
 	PowerLawGrayScaleDialog->setWindowTitle(tr("PieceWiselinearGrayScale"));
-	connect(PowerLawGrayScaleDialog, SIGNAL(PowerLaw(int, double)), this, SLOT(powerLawGrayScaleCore(int,double)));
+	connect(PowerLawGrayScaleDialog, SIGNAL(PowerLaw(double)), this, SLOT(powerLawGrayScaleCore(double)));
 	PowerLawGrayScaleDialog->show();
 }
-void MainWindow::powerLawGrayScaleCore(int k, double index) {
+void MainWindow::powerLawGrayScaleCore(double index) {
 	ImageProcessing img(srcImage);
-	dstImage = img.powerLawlinearGrayScaleTransformation(k, index);
+	dstImage = img.powerLawlinearGrayScaleTransformation(index);
 	//将Mat图像转换为QImage图像，才能显示
 	dstQimage = Mat2QImage(dstImage);
 	display();

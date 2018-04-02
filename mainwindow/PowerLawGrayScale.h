@@ -12,8 +12,10 @@ public:
 	~PowerLawGrayScale();
 public slots:
 	void send();
+	void slotDoubleSpinbox_slider();
+	void slotslider_DoubleSpinBox();
 signals:
-	void PowerLaw(int,double);
+	void PowerLaw(double);
 private:
 	Ui::PowerLawGrayScale *ui;
 };

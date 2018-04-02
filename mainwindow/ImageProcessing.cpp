@@ -150,7 +150,7 @@ Mat ImageProcessing::loglinearGrayScaleTransformation(int c) {
 	return srcImg;
 }
 //powerLawlinearGrayScaleTransformation函数用于进行非线性-幂律灰度变换，使用时需要传入常数k  --right--
-Mat ImageProcessing::powerLawlinearGrayScaleTransformation(int k,double index) {
+Mat ImageProcessing::powerLawlinearGrayScaleTransformation(double index) {
 	int channels = srcImg.channels();
 	int nRows = srcImg.rows;
 	int nCols = srcImg.cols* channels;
@@ -165,7 +165,7 @@ Mat ImageProcessing::powerLawlinearGrayScaleTransformation(int k,double index) {
 	for (int x = 0; x < nRows; x++) {
 		for (int y = 0; y < nCols; y++) {
 			g = srcImg.ptr(x)[y];
-			g = k*saturate_cast<uchar>(pow((double)g, index));
+			g = saturate_cast<uchar>(pow((double)g/255., index)*255.0f);
 			dstImg.ptr(x)[y] = g;
 		}
 	}

@@ -37,7 +37,7 @@ private slots:
 	void pieceWiselinearGraySolt();
 	void pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2);
 	void powerLawGrayScaleSolt();
-	void powerLawGrayScaleCore(int k,double index);
+	void powerLawGrayScaleCore(double index);
 
 	//ÑÕÉ«¿Õ¼äËõ¼õ
 	void cutColorSolt();
