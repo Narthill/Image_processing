@@ -69,6 +69,7 @@ public:
 	Mat montage(string picName1, string picName2, string picName3, string picName4);
 	/* PICTURE MONTAGE */
 
+	Mat edgeDetection(int k, int b, int kSize);
 };
 /* ImageProcessing  funtion*/
 

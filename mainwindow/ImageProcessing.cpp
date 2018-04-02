@@ -690,3 +690,14 @@ Mat ImageProcessing::picSrcChannelsSave() {
 	return channelsMerge;
 }
 /* ÷±∑ΩÕºœ‘ æ */
+
+
+
+/* ±ﬂ‘µºÏ≤‚ */
+Mat ImageProcessing::edgeDetection(int k,int b,int kSize) {
+	Mat dstImg = srcImg.clone();
+	GaussianBlur(dstImg, dstImg, Size(5, 5), 0, 0, BORDER_DEFAULT);
+	Canny(dstImg, dstImg, k, b, kSize);
+	return dstImg;
+}
+/* ±ﬂ‘µºÏ≤‚ */
