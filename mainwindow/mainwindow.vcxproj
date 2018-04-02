@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="Binary.cpp" />
     <ClCompile Include="CutColor.cpp" />
+    <ClCompile Include="EdgeDetection.cpp" />
     <ClCompile Include="ImageProcessing.cpp" />
     <ClCompile Include="LinearGrayScale.cpp" />
     <ClCompile Include="LoglinearGrayScale.cpp" />
@@ -132,6 +133,7 @@
   <ItemGroup>
     <QtUic Include="Binary.ui" />
     <QtUic Include="CutColor.ui" />
+    <QtUic Include="EdgeDetection.ui" />
     <QtUic Include="LinearGrayScale.ui" />
     <QtUic Include="LoglinearGrayScale.ui" />
     <QtUic Include="mainwindow.ui">
@@ -148,6 +150,7 @@
     <QtMoc Include="CutColor.h" />
     <QtMoc Include="PowerLawGrayScale.h" />
     <QtMoc Include="LoglinearGrayScale.h" />
+    <QtMoc Include="EdgeDetection.h" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="Binary.h" />
     <ClInclude Include="ImageProcessing.h" />

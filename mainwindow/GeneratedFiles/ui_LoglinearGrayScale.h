@@ -28,9 +28,9 @@ QT_BEGIN_NAMESPACE
 class Ui_LoglinearGrayScale
 {
 public:
+    QVBoxLayout *verticalLayout_3;
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout_3;
     QLabel *label;
     QHBoxLayout *horizontalLayout_2;
     QSpinBox *cSpinBox;
@@ -43,21 +43,21 @@ public:
     {
         if (LoglinearGrayScale->objectName().isEmpty())
             LoglinearGrayScale->setObjectName(QStringLiteral("LoglinearGrayScale"));
-        LoglinearGrayScale->resize(336, 112);
-        verticalLayout_2 = new QVBoxLayout(LoglinearGrayScale);
+        LoglinearGrayScale->resize(322, 123);
+        verticalLayout_3 = new QVBoxLayout(LoglinearGrayScale);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setSpacing(6);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         label = new QLabel(LoglinearGrayScale);
         label->setObjectName(QStringLiteral("label"));
 
-        horizontalLayout_3->addWidget(label);
+        verticalLayout->addWidget(label);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -74,10 +74,10 @@ public:
         horizontalLayout_2->addWidget(cSlider);
 
 
-        horizontalLayout_3->addLayout(horizontalLayout_2);
+        verticalLayout->addLayout(horizontalLayout_2);
 
 
-        verticalLayout->addLayout(horizontalLayout_3);
+        verticalLayout_2->addLayout(verticalLayout);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
@@ -92,10 +92,10 @@ public:
         horizontalLayout->addWidget(closeBtn);
 
 
-        verticalLayout->addLayout(horizontalLayout);
+        verticalLayout_2->addLayout(horizontalLayout);
 
 
-        verticalLayout_2->addLayout(verticalLayout);
+        verticalLayout_3->addLayout(verticalLayout_2);
 
 
         retranslateUi(LoglinearGrayScale);

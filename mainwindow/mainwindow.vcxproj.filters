@@ -28,9 +28,6 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Source Files\ui">
-      <UniqueIdentifier>{9d429486-f06f-40a4-9611-41f5ed00b5d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\main_ui">
       <UniqueIdentifier>{eab74640-651d-404b-90ec-10c47631f676}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,9 @@
     </Filter>
     <Filter Include="Header Files\dialog_ui">
       <UniqueIdentifier>{bd989a3e-ee0a-4fb2-bae4-e39e99f92caf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dialog_ui">
+      <UniqueIdentifier>{9d429486-f06f-40a4-9611-41f5ed00b5d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,24 +52,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Binary.cpp">
-      <Filter>Source Files\ui</Filter>
+      <Filter>Source Files\dialog_ui</Filter>
     </ClCompile>
     <ClCompile Include="LinearGrayScale.cpp">
-      <Filter>Source Files\ui</Filter>
+      <Filter>Source Files\dialog_ui</Filter>
     </ClCompile>
     <ClCompile Include="PieceWiselinearGrayScale.cpp">
-      <Filter>Source Files\ui</Filter>
+      <Filter>Source Files\dialog_ui</Filter>
     </ClCompile>
     <ClCompile Include="mainwindow.cpp">
       <Filter>Source Files\main_ui</Filter>
     </ClCompile>
     <ClCompile Include="CutColor.cpp">
-      <Filter>Source Files\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerLawGrayScale.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\dialog_ui</Filter>
     </ClCompile>
     <ClCompile Include="LoglinearGrayScale.cpp">
+      <Filter>Source Files\dialog_ui</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerLawGrayScale.cpp">
+      <Filter>Source Files\dialog_ui</Filter>
+    </ClCompile>
+    <ClCompile Include="EdgeDetection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,10 +92,13 @@
     <QtMoc Include="CutColor.h">
       <Filter>Header Files\dialog_ui</Filter>
     </QtMoc>
-    <QtMoc Include="PowerLawGrayScale.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="LoglinearGrayScale.h">
+      <Filter>Header Files\dialog_ui</Filter>
+    </QtMoc>
+    <QtMoc Include="PowerLawGrayScale.h">
+      <Filter>Header Files\dialog_ui</Filter>
+    </QtMoc>
+    <QtMoc Include="EdgeDetection.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -116,6 +122,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="LoglinearGrayScale.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="EdgeDetection.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
