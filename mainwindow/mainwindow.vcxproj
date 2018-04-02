@@ -119,6 +119,7 @@
     <ClCompile Include="CutColor.cpp" />
     <ClCompile Include="ImageProcessing.cpp" />
     <ClCompile Include="LinearGrayScale.cpp" />
+    <ClCompile Include="LoglinearGrayScale.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="Mat2QImage.cpp" />
@@ -132,6 +133,7 @@
     <QtUic Include="Binary.ui" />
     <QtUic Include="CutColor.ui" />
     <QtUic Include="LinearGrayScale.ui" />
+    <QtUic Include="LoglinearGrayScale.ui" />
     <QtUic Include="mainwindow.ui">
       <SubType>Designer</SubType>
     </QtUic>
@@ -145,6 +147,7 @@
     <QtMoc Include="PieceWiselinearGrayScale.h" />
     <QtMoc Include="CutColor.h" />
     <QtMoc Include="PowerLawGrayScale.h" />
+    <QtMoc Include="LoglinearGrayScale.h" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="Binary.h" />
     <ClInclude Include="ImageProcessing.h" />

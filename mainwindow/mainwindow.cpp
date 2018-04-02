@@ -6,6 +6,7 @@
 #include"LinearGrayScale.h"
 #include"PieceWiselinearGrayScale.h"
 #include "CutColor.h"
+#include"LoglinearGrayScale.h"
 #include"ImageProcessing.h"
 #include"PowerLawGrayScale.h"
 
@@ -33,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	connect(ui->action_Gray, &QAction::triggered, this, &MainWindow::gray);//灰度化
 	connect(ui->action_LinearGray, &QAction::triggered, this, &MainWindow::linearGraySolt);//线性灰度变换
 	connect(ui->action_PieceWiselinearGray, &QAction::triggered, this, &MainWindow::pieceWiselinearGraySolt);//分段线性灰度变换
+	connect(ui->action_LoglinearGray, &QAction::triggered, this, &MainWindow::loglinearGrayScaleSolt);//对数变换
 	connect(ui->action_PowerLawlinearGray, &QAction::triggered, this, &MainWindow::powerLawGrayScaleSolt);//幂率变换
 
 	connect(ui->action_CutColor, &QAction::triggered, this, &MainWindow::cutColorSolt);//颜色空间缩减
@@ -203,6 +205,23 @@ void MainWindow::pieceWiselinearGraySolt() {
 void MainWindow::pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2) {
 	ImageProcessing img(srcImage);
 	dstImage = img.pieceWiselinearGrayScaleTransformation(X1,Y1,X2,Y2);
+	//将Mat图像转换为QImage图像，才能显示
+	dstQimage = Mat2QImage(dstImage);
+	display();
+	save_on();
+}
+
+//对数
+void MainWindow::loglinearGrayScaleSolt() {
+	LoglinearGrayScale *loglinearGrayScaleDialog = new LoglinearGrayScale();
+	loglinearGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
+	loglinearGrayScaleDialog->setWindowTitle(tr("PieceWiselinearGrayScale"));
+	connect(loglinearGrayScaleDialog, SIGNAL(Loglinear(int)), this, SLOT(loglinearGrayScaleCore(int)));
+	loglinearGrayScaleDialog->show();
+}
+void MainWindow::loglinearGrayScaleCore(int c) {
+	ImageProcessing img(srcImage);
+	dstImage = img.loglinearGrayScaleTransformation(c);
 	//将Mat图像转换为QImage图像，才能显示
 	dstQimage = Mat2QImage(dstImage);
 	display();

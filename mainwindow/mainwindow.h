@@ -36,6 +36,8 @@ private slots:
 	void linearGrayCore(int contrastValue, int brightValue);
 	void pieceWiselinearGraySolt();
 	void pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2);
+	void loglinearGrayScaleSolt();
+	void loglinearGrayScaleCore(int c);
 	void powerLawGrayScaleSolt();
 	void powerLawGrayScaleCore(double index);
 
