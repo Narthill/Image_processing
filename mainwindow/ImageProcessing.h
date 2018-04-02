@@ -35,7 +35,7 @@ public:
 	Mat linearGrayScaleTransformation(int contrastValue, int brightValue);//线性
 	Mat pieceWiselinearGrayScaleTransformation(double X_1, double Y_1, double X_2, double Y_2);//分段
 	Mat loglinearGrayScaleTransformation(int c);//对数
-	Mat powerLawlinearGrayScaleTransformation(int k);//幂率
+	Mat powerLawlinearGrayScaleTransformation(int k,double index);//幂率
 	/* GRAY SCALE TRANSFORMATION */
 
 	/* HISTOGRAM */

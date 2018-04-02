@@ -27,16 +27,16 @@ Mat ImageProcessing::cutColor(int n)
 		nCols *= nRows;
 		nRows = 1;
 	}
-
+	Mat dstImg= srcImg.clone();
 	int i, j;
 	for (i = 0; i<nRows; ++i) {
 		for (j = 0; j<nCols; ++j) {
 			int value = srcImg.ptr(i)[j];
-			srcImg.ptr(i)[j] = n * (value / n);
+			dstImg.ptr(i)[j] = n * (value / n);
 		}
 	}
 	//得到颜色空间缩减后的图像
-	return srcImg;
+	return dstImg;
 }
 //rgb2gray函数用于将rgb图像转换为灰度图像  --right--
 Mat ImageProcessing::rgb2gray()
@@ -150,7 +150,7 @@ Mat ImageProcessing::loglinearGrayScaleTransformation(int c) {
 	return srcImg;
 }
 //powerLawlinearGrayScaleTransformation函数用于进行非线性-幂律灰度变换，使用时需要传入常数k  --right--
-Mat ImageProcessing::powerLawlinearGrayScaleTransformation(int k) {
+Mat ImageProcessing::powerLawlinearGrayScaleTransformation(int k,double index) {
 	int channels = srcImg.channels();
 	int nRows = srcImg.rows;
 	int nCols = srcImg.cols* channels;
@@ -159,17 +159,17 @@ Mat ImageProcessing::powerLawlinearGrayScaleTransformation(int k) {
 		nCols *= nRows;
 		nRows = 1;
 	}
-
+	Mat dstImg = srcImg.clone();
 	uchar* p;
 	double g = 0;
 	for (int x = 0; x < nRows; x++) {
 		for (int y = 0; y < nCols; y++) {
 			g = srcImg.ptr(x)[y];
-			g = k*saturate_cast<uchar>(pow((double)g, 1.5));
-			srcImg.ptr(x)[y] = g;
+			g = k*saturate_cast<uchar>(pow((double)g, index));
+			dstImg.ptr(x)[y] = g;
 		}
 	}
-	return srcImg;
+	return dstImg;
 }
 /* 线性-非线性灰度变换 */
 

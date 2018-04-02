@@ -34,12 +34,15 @@
     <Filter Include="Header Files\ui">
       <UniqueIdentifier>{bd989a3e-ee0a-4fb2-bae4-e39e99f92caf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\main_ui">
+      <UniqueIdentifier>{eab74640-651d-404b-90ec-10c47631f676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\main_ui">
+      <UniqueIdentifier>{da9a8d5b-949c-45c1-8724-757d2f5c09af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mainwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mat2QImage.cpp">
@@ -57,11 +60,17 @@
     <ClCompile Include="PieceWiselinearGrayScale.cpp">
       <Filter>Source Files\ui</Filter>
     </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Source Files\main_ui</Filter>
+    </ClCompile>
+    <ClCompile Include="CutColor.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerLawGrayScale.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="mainwindow.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="Binary.h">
       <Filter>Header Files\ui</Filter>
     </QtMoc>
@@ -70,6 +79,15 @@
     </QtMoc>
     <QtMoc Include="PieceWiselinearGrayScale.h">
       <Filter>Header Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="mainwindow.h">
+      <Filter>Header Files\main_ui</Filter>
+    </QtMoc>
+    <QtMoc Include="CutColor.h">
+      <Filter>Header Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="PowerLawGrayScale.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +101,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="PieceWiselinearGrayScale.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="CutColor.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="PowerLawGrayScale.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

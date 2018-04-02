@@ -5,8 +5,9 @@
 #include"Binary.h"
 #include"LinearGrayScale.h"
 #include"PieceWiselinearGrayScale.h"
-
+#include "CutColor.h"
 #include"ImageProcessing.h"
+#include"PowerLawGrayScale.h"
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 {
@@ -30,8 +31,11 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	connect(ui->clearResult, &QPushButton::clicked, this, &MainWindow::clearResult);
 
 	connect(ui->action_Gray, &QAction::triggered, this, &MainWindow::gray);//灰度化
-	connect(ui->action_LinearGray, &QAction::triggered, this, &MainWindow::linearGray);//线性灰度变换
-	connect(ui->action_PieceWiselinearGray, &QAction::triggered, this, &MainWindow::pieceWiselinearGray);//线性灰度变换
+	connect(ui->action_LinearGray, &QAction::triggered, this, &MainWindow::linearGraySolt);//线性灰度变换
+	connect(ui->action_PieceWiselinearGray, &QAction::triggered, this, &MainWindow::pieceWiselinearGraySolt);//分段线性灰度变换
+	connect(ui->action_PowerLawlinearGray, &QAction::triggered, this, &MainWindow::powerLawGrayScaleSolt);//幂率变换
+
+	connect(ui->action_CutColor, &QAction::triggered, this, &MainWindow::cutColorSolt);//颜色空间缩减
 	
 	connect(ui->action_Binary, &QAction::triggered, this, &MainWindow::binarySolt);//二值化
 	connect(ui->action_Sobel, &QAction::triggered, this, &MainWindow::sobel);//边缘检测
@@ -153,8 +157,26 @@ void MainWindow::gray() {
 	save_on();
 }
 
+//二值化
+void MainWindow::binarySolt() {
+	Binary *BinaryDialog = new Binary();
+	//对话框关闭时销毁
+	BinaryDialog->setAttribute(Qt::WA_DeleteOnClose);
+	BinaryDialog->setWindowTitle(tr("Binary"));
+	//BinaryDialog的阈值发送给二值的core
+	connect(BinaryDialog, SIGNAL(BinaryThres(int)), this, SLOT(binaryCore(int)));
+	BinaryDialog->show();
+}
+void MainWindow::binaryCore(int thres) {
+	ImageProcessing img(srcImage);
+	dstImage = img.rgb2black(thres);
+	dstQimage = Mat2QImage(dstImage);
+	display();
+	save_on();
+}
+
 //线性灰度变换
-void MainWindow::linearGray() {
+void MainWindow::linearGraySolt() {
 	LinearGrayScale *LinearGrayScaleDialog = new LinearGrayScale();
 	LinearGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
 	LinearGrayScaleDialog->setWindowTitle(tr("LinearGrayScale"));
@@ -171,7 +193,7 @@ void MainWindow::linearGrayCore(int contrastValue, int brightValue) {
 }
 
 //分段线性变换
-void MainWindow::pieceWiselinearGray() {
+void MainWindow::pieceWiselinearGraySolt() {
 	PieceWiselinearGrayScale *PieceWiselinearGrayScaleDialog = new PieceWiselinearGrayScale();
 	PieceWiselinearGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
 	PieceWiselinearGrayScaleDialog->setWindowTitle(tr("PieceWiselinearGrayScale"));
@@ -187,19 +209,36 @@ void MainWindow::pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2) {
 	save_on();
 }
 
-//二值化
-void MainWindow::binarySolt() {
-	Binary *BinaryDialog = new Binary();
-	//对话框关闭时销毁
-	BinaryDialog->setAttribute(Qt::WA_DeleteOnClose);
-	BinaryDialog->setWindowTitle(tr("Binary"));
-	//BinaryDialog的阈值发送给二值的core
-	connect(BinaryDialog, SIGNAL(BinaryThres(int)), this, SLOT(binaryCore(int)));
-	BinaryDialog->show();
+//幂率
+void MainWindow::powerLawGrayScaleSolt() {
+	PowerLawGrayScale *PowerLawGrayScaleDialog = new PowerLawGrayScale();
+	PowerLawGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
+	PowerLawGrayScaleDialog->setWindowTitle(tr("PieceWiselinearGrayScale"));
+	connect(PowerLawGrayScaleDialog, SIGNAL(PowerLaw(int, double)), this, SLOT(powerLawGrayScaleCore(int,double)));
+	PowerLawGrayScaleDialog->show();
 }
-void MainWindow::binaryCore(int thres) {
+void MainWindow::powerLawGrayScaleCore(int k, double index) {
 	ImageProcessing img(srcImage);
-	dstImage = img.rgb2black(thres);
+	dstImage = img.powerLawlinearGrayScaleTransformation(k, index);
+	//将Mat图像转换为QImage图像，才能显示
+	dstQimage = Mat2QImage(dstImage);
+	display();
+	save_on();
+}
+
+//颜色空间缩减
+void MainWindow::cutColorSolt() {
+	CutColor *CutColorDialog = new CutColor();
+	//对话框关闭时销毁
+	CutColorDialog->setAttribute(Qt::WA_DeleteOnClose);
+	CutColorDialog->setWindowTitle(tr("CutColor"));
+	//BinaryDialog的阈值发送给二值的core
+	connect(CutColorDialog, SIGNAL(CutColorRank(int)), this, SLOT(cutColorCore(int)));
+	CutColorDialog->show();
+}
+void MainWindow::cutColorCore(int n) {
+	ImageProcessing img(srcImage);
+	dstImage = img.cutColor(n);
 	dstQimage = Mat2QImage(dstImage);
 	display();
 	save_on();

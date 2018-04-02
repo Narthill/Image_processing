@@ -24,17 +24,25 @@ private slots:
 	void save();
 	void saveAs();
 
-	//处理槽
+	//处理槽	
+
 	void turn();
 	void sobel();
 	void gray();
-	void linearGray();
-	void linearGrayCore(int contrastValue, int brightValue);
-	void pieceWiselinearGray();
-	void pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2);
-
 	void binarySolt();
 	void binaryCore(int thres);
+	//灰度变换
+	void linearGraySolt();
+	void linearGrayCore(int contrastValue, int brightValue);
+	void pieceWiselinearGraySolt();
+	void pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2);
+	void powerLawGrayScaleSolt();
+	void powerLawGrayScaleCore(int k,double index);
+
+	//颜色空间缩减
+	void cutColorSolt();
+	void cutColorCore(int n);
+
 	void freqFilter();
 	void spaceFilter();
 
