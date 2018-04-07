@@ -75,6 +75,12 @@
     <ClCompile Include="EdgeDetection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Histogram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreqFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Binary.h">
@@ -101,6 +107,12 @@
     <QtMoc Include="EdgeDetection.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Histogram.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="FreqFilter.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainwindow.ui">
@@ -125,6 +137,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="EdgeDetection.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="Histogram.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="FreqFilter.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

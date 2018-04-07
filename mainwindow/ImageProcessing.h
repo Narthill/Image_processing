@@ -22,6 +22,7 @@ private:
 	Mat rChannelsSave;
 	Mat gChannelsSave;
 	Mat bChannelsSave;
+	//vector<Mat> getAllChannels;
 public:
 	ImageProcessing(Mat srcImg);
 	
@@ -58,8 +59,8 @@ public:
 
 	/* DFT TRANSFORMATION */
 	Mat dftTransformation();
-	void ShowSpectrum(Mat input, string caption);
-	Mat ShowImage(Mat input, string caption);
+	Mat ShowSpectrum(Mat input);
+	Mat ShowImage(Mat input);
 	Mat gausHighLowFilter(Mat complexImg,float d0, bool flag);
 	Mat IdealHighLowFilter(Mat comlpexImg, float d0, bool flag);
 	Mat ButterworthHighLowFilter(Mat complexImg, float d0, float n, bool flag);
@@ -69,7 +70,7 @@ public:
 	Mat montage(string picName1, string picName2, string picName3, string picName4);
 	/* PICTURE MONTAGE */
 
-	Mat edgeDetection(int k, int b, int kSize);
+	Mat edgeDetection(int w,int b, int s, int kSize);
 };
 /* ImageProcessing  funtion*/
 

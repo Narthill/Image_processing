@@ -3,10 +3,11 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QMetaType>  
 #include<QGraphicsScene>
 #include<opencv2/opencv.hpp>  
 using namespace cv;
-
+Q_DECLARE_METATYPE(cv::Mat);
 namespace Ui {
 	class MainWindow;
 }
@@ -27,7 +28,6 @@ private slots:
 	//处理槽	
 
 	void turn();
-	void sobel();
 	void gray();
 	void binarySolt();
 	void binaryCore(int thres);
@@ -45,8 +45,16 @@ private slots:
 	void cutColorSolt();
 	void cutColorCore(int n);
 
+	//直方图及均衡化
+	void HistogramSolt();
+	void HistogramCore(Mat);
+
 	void freqFilter();
 	void spaceFilter();
+
+	//边缘检测
+	void EdgeDetectionSolt();
+	void EdgeDetectionCore(int w, int b, int s, int kSize);
 
 public:
 	void save_on();
@@ -66,5 +74,4 @@ private:
 	QGraphicsScene resultScene;
 	
 };
-
 #endif // MAINWINDOW_H

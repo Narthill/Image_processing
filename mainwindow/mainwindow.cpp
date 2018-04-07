@@ -9,17 +9,20 @@
 #include"LoglinearGrayScale.h"
 #include"ImageProcessing.h"
 #include"PowerLawGrayScale.h"
+#include"EdgeDetection.h"
+#include"Histogram.h"
+#include"FreqFilter.h"
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 {
 	ui = new Ui::MainWindow;
-
+	qRegisterMetaType<Mat>("Mat");//注册mat在信号槽中可传递
 	setWindowState(Qt::WindowMaximized);//可最大化
 	ui->setupUi(this);
 	ui->menu_image->setEnabled(false);
 	ui->menu_video->setEnabled(false);
 	save_off();
-
+	
 	ui->actionopen->setShortcuts(QKeySequence::Open);
 	ui->actionsave->setShortcuts(QKeySequence::Save);
 	ui->actionsaveas->setShortcuts(QKeySequence::SaveAs);
@@ -38,9 +41,10 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	connect(ui->action_PowerLawlinearGray, &QAction::triggered, this, &MainWindow::powerLawGrayScaleSolt);//幂率变换
 
 	connect(ui->action_CutColor, &QAction::triggered, this, &MainWindow::cutColorSolt);//颜色空间缩减
-	
+	connect(ui->action_Hist, &QAction::triggered, this, &MainWindow::HistogramSolt);//直方图
+
 	connect(ui->action_Binary, &QAction::triggered, this, &MainWindow::binarySolt);//二值化
-	connect(ui->action_Sobel, &QAction::triggered, this, &MainWindow::sobel);//边缘检测
+	connect(ui->action_Sobel, &QAction::triggered, this, &MainWindow::EdgeDetectionSolt);//边缘检测
 	connect(ui->action_FreqFilter, &QAction::triggered, this, &MainWindow::freqFilter);//频域滤波
 }
 
@@ -124,7 +128,13 @@ void MainWindow::save_off() {
 void MainWindow::display() {
 	resultScene.clear();//清空结果面板
 	QGraphicsScene *rScene = &resultScene;
-	rScene->addPixmap(QPixmap::fromImage(dstQimage));
+
+	//int with = ui->resultView->width();
+	//int height = ui->resultView->height();
+	QPixmap pixmap = QPixmap::fromImage(dstQimage);
+	//QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);//按比例缩小
+	//QPixmap fitpixmap = pixmap.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//填充满
+	rScene->addPixmap(pixmap);
 	ui->resultView->setScene(rScene);
 	ui->resultView->show();
 }
@@ -263,25 +273,57 @@ void MainWindow::cutColorCore(int n) {
 	save_on();
 }
 
-//边缘检测
-void MainWindow::sobel() {
-	Canny(srcImage, dstImage, 128, 128 * 0.4, 3, true);
+//直方图及均衡化
+void MainWindow::HistogramSolt() {
+	Histogram *hist = new Histogram();
+	hist->getSrcImg(srcImage);
+	//对话框关闭时销毁
+	hist->setAttribute(Qt::WA_DeleteOnClose);
+	hist->setWindowTitle(tr("histogram"));
+	QObject::connect(hist, SIGNAL(equaliPic(Mat)), this, SLOT(HistogramCore(Mat)));
+	hist->show();
+}
+void MainWindow::HistogramCore(Mat res) {
+	dstImage = res;
 	dstQimage = Mat2QImage(dstImage);
+	display();
+	save_on();
+}
 
+//边缘检测
+void MainWindow::EdgeDetectionSolt() {
+	EdgeDetection *EdgeDetectionDialog = new EdgeDetection();
+	//对话框关闭时销毁
+	EdgeDetectionDialog->setAttribute(Qt::WA_DeleteOnClose);
+	EdgeDetectionDialog->setWindowTitle(tr("EdgeDetection"));
+	//BinaryDialog的阈值发送给二值的core
+	connect(EdgeDetectionDialog, SIGNAL(EdgeNum(int, int, int, int)), this, SLOT(EdgeDetectionCore(int,int,int,int)));
+	EdgeDetectionDialog->show();
+}
+void MainWindow::EdgeDetectionCore(int w,int b,int s,int kSize) {
+	ImageProcessing img(srcImage);
+	dstImage = img.edgeDetection(w,b,s,kSize);
+	dstQimage = Mat2QImage(dstImage);
 	display();
 	save_on();
 }
 
 //滤波
 void MainWindow::freqFilter() {
+	FreqFilter *FreqFilterDialog = new FreqFilter();
+	FreqFilterDialog->getSrcImg(srcImage);
+	FreqFilterDialog->srcSpectrum();
+	FreqFilterDialog->setAttribute(Qt::WA_DeleteOnClose);
+	FreqFilterDialog->setWindowTitle(tr("EdgeDetection"));
+	FreqFilterDialog->show();
 
-	ImageProcessing img(srcImage);
-	dstImage = img.dftTransformation();
-	//dstImage = img.gausHighLowFilter(dstImage,20,false);
-	//dstImage = img.IdealHighLowFilter(dstImage,20, false);
-	dstImage = img.ButterworthHighLowFilter(dstImage, 20, 5, false);
-	//int a = dstImage.channels();
-	dstQimage = Mat2QImage(dstImage);
+	//ImageProcessing img(srcImage);
+	//dstImage = img.dftTransformation();
+	////dstImage = img.gausHighLowFilter(dstImage,20,false);
+	////dstImage = img.IdealHighLowFilter(dstImage,20, false);
+	//dstImage = img.ButterworthHighLowFilter(dstImage, 20, 5, false);
+	////int a = dstImage.channels();
+	//dstQimage = Mat2QImage(dstImage);
 
 	display();
 	save_on();

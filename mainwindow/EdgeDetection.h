@@ -13,7 +13,7 @@ public:
 public slots:
 	void send();
 signals:
-	void EdgeNum(int,int,int);
-private:
+	void EdgeNum(int,int,int,int);
+private:                                                 
 	Ui::EdgeDetection *ui;
 };
