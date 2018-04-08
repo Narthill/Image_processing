@@ -8,9 +8,15 @@ FreqFilter::FreqFilter(QWidget *parent)
 	: QWidget(parent)
 {
 	ui = new Ui::FreqFilter();
-
 	ui->setupUi(this);
 	ui->btwGroupBox->hide();
+	//ui->rSpinBox->setValue(2);
+	//ui->rSlider->setValue(2);
+
+	ui->highOrlow->setId(ui->lowRbtn, true);
+	ui->highOrlow->setId(ui->highRbtn, false);
+	ui->lowRbtn->setChecked(true);
+
 	QObject::connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(chooseFilter(int)));
 
 	//互连Slider和SpinBox
@@ -19,9 +25,9 @@ FreqFilter::FreqFilter(QWidget *parent)
 	QObject::connect(ui->btwSlider, SIGNAL(valueChanged(int)), ui->btwSpinBox, SLOT(setValue(int)));
 	QObject::connect(ui->btwSpinBox, SIGNAL(valueChanged(int)), ui->btwSlider, SLOT(setValue(int)));
 
-	//
-	QObject::connect(ui->rSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering(int)));
-	QObject::connect(ui->btwSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering(int)));
+	//处理信号
+	QObject::connect(ui->rSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
+	QObject::connect(ui->btwSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
 	//关闭信号
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 }
@@ -38,15 +44,19 @@ void FreqFilter::getSrcImg(cv::Mat res) {
 	resource = res;
 }
 
-void FreqFilter::srcSpectrum() {
+void FreqFilter::srcDftSpectrum() {
 	ImageProcessing img(resource);
-	srcSpectrumImage = img.ShowSpectrum(img.dftTransformation());
+	Mat dftImg = img.dftTransformation();
+	srcSpectrum = img.ShowSpectrum(dftImg);
+
 	ui->srcLabel->clear();
 	int width = ui->srcLabel->width();
 	int height = ui->srcLabel->height();
-	QPixmap pixmap = QPixmap::fromImage(Mat2QImage(srcSpectrumImage));
-	QPixmap fitpixmap = pixmap.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);//按比例缩小
+	QPixmap pixmap = QPixmap::fromImage(Mat2QImage(srcSpectrum));
+	QPixmap fitpixmap = pixmap.scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 	ui->srcLabel->setPixmap(fitpixmap);
+
+
 }
 
 void FreqFilter::chooseFilter(int a) {
@@ -60,7 +70,57 @@ void FreqFilter::chooseFilter(int a) {
 	}
 }
 
-void FreqFilter::filtering(int d0) {
+void FreqFilter::filtering() {
+	ImageProcessing img(resource);
+	Mat dftImg = img.dftTransformation();
+	int choose = ui->comboBox->currentIndex();
+	int R = ui->rSlider->value();
+	bool flag = ui->highOrlow->checkedId();;
+	int N = ui->btwSlider->value();
+	Mat kernel;
+	Mat kernelSpectrum;
+	
 
+	if (choose == 0) {
+		kernel = img.gausKernel(dftImg,R, flag);
+		kernelSpectrum = img.ShowSpectrum(kernel);
+	}
+	else if (choose == 1) {
+		 kernel = img.IdealKernel(dftImg, R, flag);
+		 kernelSpectrum = img.ShowSpectrum(kernel);
+	}
+	else if (choose == 2) {
+		 kernel = img.ButterworthKernel(dftImg, R,N,flag);
+		 kernelSpectrum = img.ShowSpectrum(kernel);
+	}
+	else {
+		
+	}
 
+	Mat idftImg;
+	Mat idftSpectrum;
+	if (kernel.data!=NULL) {
+		ui->filterLabel->clear();
+		int width = ui->filterLabel->width();
+		int height = ui->filterLabel->height();
+		QPixmap pixmap = QPixmap::fromImage(Mat2QImage(kernelSpectrum));
+		QPixmap fitpixmap = pixmap.scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+		ui->filterLabel->setPixmap(fitpixmap);
+
+		idftImg = img.dftMultiply(dftImg, kernel);
+		idftSpectrum = img.ShowSpectrum(idftImg);
+	}
+
+	if (idftImg.data != NULL) {
+		ui->dstLabel->clear();
+		int width = ui->dstLabel->width();
+		int height = ui->dstLabel->height();
+		QPixmap pixmap = QPixmap::fromImage(Mat2QImage(idftSpectrum));
+		QPixmap fitpixmap = pixmap.scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+		ui->dstLabel->setPixmap(fitpixmap);
+	}
+	Mat dstImg;
+	dstImg = img.idftTransformation(idftImg);
+
+	emit idftImage(dstImg);
 }

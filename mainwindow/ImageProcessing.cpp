@@ -354,9 +354,9 @@ Mat ImageProcessing::ShowImage(Mat input) {
 	
 	return tmp;
 }
-//gausHighFilter函数用于进行高斯高通滤波处理
-Mat ImageProcessing::gausHighLowFilter(Mat complexImg,float d0, bool flag) {
-	Mat GaussianHighLowFilter = complexImg.clone();
+//返回高斯核，flag为高低通标识
+Mat ImageProcessing::gausKernel(Mat &dftImg, float d0, bool flag) {
+	Mat GaussianHighLowFilter = dftImg.clone();
 
 	Mat GaussianKernel(GaussianHighLowFilter.size(), CV_32FC2);//高斯滤波器模板
 	float D0 = 2 * pow(double(d0), 2.0);//d0的平方
@@ -375,33 +375,11 @@ Mat ImageProcessing::gausHighLowFilter(Mat complexImg,float d0, bool flag) {
 		}
 	}
 
-	Mat gausHighFilterImage;
-	Mat gausLowFilterImage;
-
-	Mat outImage;
-
-	if (flag) {//低通
-		gausLowFilterImage = GaussianHighLowFilter;
-		//ShowSpectrum(GaussianKernel, "高斯模板");
-		multiply(gausLowFilterImage, GaussianKernel, gausLowFilterImage);//矩阵相乘，输出到input
-		//ShowSpectrum(gausLowFilterImage, "高斯低通傅里叶频谱");
-		idft(gausLowFilterImage, complexImg);//高斯低通滤波后傅里叶逆变换
-		outImage=ShowImage(complexImg);
-	}
-	else {//高通
-		gausHighFilterImage = GaussianHighLowFilter;
-		//ShowSpectrum(GaussianKernel, "高斯模板");
-		multiply(gausHighFilterImage, GaussianKernel, gausHighFilterImage);//矩阵相乘，输出到input
-		//ShowSpectrum(gausHighFilterImage, "高斯高通傅里叶频谱");
-		idft(gausHighFilterImage, complexImg);//高斯高通滤波后傅里叶逆变换
-		outImage = ShowImage(complexImg);
-	}
-	//int a = complexImg.channels();
-	return outImage;
+	return GaussianKernel;
 }
-//IdealHighLowFilter函数用于进行理想滤波处理
-Mat ImageProcessing::IdealHighLowFilter(Mat complexImg, float d0, bool flag) {
-	Mat IdealHighLowFilter = complexImg.clone();
+//返回均值滤波核
+Mat ImageProcessing::IdealKernel(Mat &dftImg, float d0, bool flag) {
+	Mat IdealHighLowFilter = dftImg.clone();
 	Mat IdealKernel(IdealHighLowFilter.size(), CV_32FC2);//理想滤波器模板
 	for (int i = 0; i < IdealHighLowFilter.rows; i++) {
 		float*p = IdealKernel.ptr<float>(i);
@@ -412,7 +390,8 @@ Mat ImageProcessing::IdealHighLowFilter(Mat complexImg, float d0, bool flag) {
 					//小于d0的都为1
 					p[2 * j] = 1;
 					p[2 * j + 1] = 1;
-				}else{
+				}
+				else {
 					//大于d0的都为0
 					p[2 * j] = 0;
 					p[2 * j + 1] = 0;
@@ -425,7 +404,7 @@ Mat ImageProcessing::IdealHighLowFilter(Mat complexImg, float d0, bool flag) {
 					p[2 * j] = 0;
 					p[2 * j + 1] = 0;
 				}
-				else{
+				else {
 					//大于d0的都为1
 					p[2 * j] = 1;
 					p[2 * j + 1] = 1;
@@ -434,33 +413,11 @@ Mat ImageProcessing::IdealHighLowFilter(Mat complexImg, float d0, bool flag) {
 		}
 	}
 
-	Mat IdealHighFilterImage;
-	Mat IdealLowFilterImage;
-
-	Mat outImage;
-
-	if (flag) {//低通
-		IdealLowFilterImage = IdealHighLowFilter;
-		//ShowSpectrum(GaussianKernel, "理想模板");
-		multiply(IdealLowFilterImage, IdealKernel, IdealLowFilterImage);//矩阵相乘，输出到input
-		//ShowSpectrum(gausLowFilterImage, "理想低通傅里叶频谱");
-		idft(IdealLowFilterImage, complexImg);//理想低通滤波后傅里叶逆变换
-		outImage = ShowImage(complexImg);
-	}
-	else {//高通
-		IdealHighFilterImage = IdealHighLowFilter;
-		//ShowSpectrum(GaussianKernel, "理想模板");
-		multiply(IdealHighFilterImage, IdealKernel, IdealHighFilterImage);//矩阵相乘，输出到input
-		//ShowSpectrum(gausHighFilterImage, "理想高通傅里叶频谱");
-		idft(IdealHighFilterImage, complexImg);//理想高通滤波后傅里叶逆变换
-		outImage = ShowImage(complexImg);
-	}
-	
-	return outImage;
+	return IdealKernel;
 }
-//ButterworthHighLowFilter函数用于进行巴特沃斯滤波处理
-Mat ImageProcessing::ButterworthHighLowFilter(Mat complexImg, float d0, float n, bool flag) {
-	Mat ButterworthHighLowFilter = complexImg.clone();
+//返回巴特沃斯核
+Mat ImageProcessing::ButterworthKernel(Mat &dftImg, float d0,int n, bool flag) {
+	Mat ButterworthHighLowFilter = dftImg.clone();
 	Mat ButterworthKernel(ButterworthHighLowFilter.size(), CV_32FC2);//巴特沃斯滤波器模板
 	for (int i = 0; i < ButterworthHighLowFilter.rows; i++) {
 		float*p = ButterworthKernel.ptr<float>(i);
@@ -476,32 +433,21 @@ Mat ImageProcessing::ButterworthHighLowFilter(Mat complexImg, float d0, float n,
 			}
 		}
 	}
-
-	Mat ButterworthHighFilterImage;
-	Mat ButterworthLowFilterImage;
-
+	return ButterworthKernel;
+}
+//返回矩阵相乘
+Mat ImageProcessing::dftMultiply(Mat &dftImg, Mat &kernel) {
 	Mat outImage;
-
-	if (flag) {//低通
-		ButterworthLowFilterImage = ButterworthHighLowFilter;
-		//ShowSpectrum(GaussianKernel, "巴特沃斯模板");
-		multiply(ButterworthHighLowFilter, ButterworthKernel, ButterworthHighLowFilter);//矩阵相乘，输出到input
-		//ShowSpectrum(gausLowFilterImage, "巴特沃斯低通傅里叶频谱");
-		idft(ButterworthLowFilterImage, complexImg);//巴特沃斯低通滤波后傅里叶逆变换
-		outImage = ShowImage(complexImg);
-	}
-	else {//高通
-		ButterworthHighFilterImage = ButterworthHighLowFilter;
-		//ShowSpectrum(GaussianKernel, "巴特沃斯模板");
-		multiply(ButterworthHighLowFilter, ButterworthKernel, ButterworthHighLowFilter);//矩阵相乘，输出到input
-		//ShowSpectrum(gausHighFilterImage, "巴特沃斯高通傅里叶频谱");
-		idft(ButterworthHighFilterImage, complexImg);//巴特沃斯高通滤波后傅里叶逆变换
-		outImage = ShowImage(complexImg);
-	}
-
+	multiply(dftImg, kernel, outImage);//模板与傅里叶变换后图像矩阵相乘
 	return outImage;
 }
-/* 频域滤波相关 */
+//用于进行傅里叶逆变换
+Mat ImageProcessing::idftTransformation(Mat &outImage) {
+	idft(outImage, outImage);//逆变换
+	outImage = ShowImage(outImage);//转换为可视图像
+	return outImage;
+}
+
 
 
 

@@ -49,7 +49,8 @@ private slots:
 	void HistogramSolt();
 	void HistogramCore(Mat);
 
-	void freqFilter();
+	void freqFilterSolt();
+	void freqFilterCore(Mat dst);
 	void spaceFilter();
 
 	//±ßÔµ¼ì²â

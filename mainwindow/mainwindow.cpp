@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 
 	connect(ui->action_Binary, &QAction::triggered, this, &MainWindow::binarySolt);//二值化
 	connect(ui->action_Sobel, &QAction::triggered, this, &MainWindow::EdgeDetectionSolt);//边缘检测
-	connect(ui->action_FreqFilter, &QAction::triggered, this, &MainWindow::freqFilter);//频域滤波
+	connect(ui->action_FreqFilter, &QAction::triggered, this, &MainWindow::freqFilterSolt);//频域滤波
 }
 
 MainWindow::~MainWindow()
@@ -308,14 +308,24 @@ void MainWindow::EdgeDetectionCore(int w,int b,int s,int kSize) {
 	save_on();
 }
 
-//滤波
-void MainWindow::freqFilter() {
+//频域滤波
+void MainWindow::freqFilterSolt() {
 	FreqFilter *FreqFilterDialog = new FreqFilter();
 	FreqFilterDialog->getSrcImg(srcImage);
-	FreqFilterDialog->srcSpectrum();
+	FreqFilterDialog->srcDftSpectrum();
 	FreqFilterDialog->setAttribute(Qt::WA_DeleteOnClose);
-	FreqFilterDialog->setWindowTitle(tr("EdgeDetection"));
+	FreqFilterDialog->setWindowTitle(tr("freqFilter"));
+	QObject::connect(FreqFilterDialog, SIGNAL(idftImage(cv::Mat)), this, SLOT(freqFilterCore(Mat)));
 	FreqFilterDialog->show();
+}
+void MainWindow::freqFilterCore(Mat dst) {
+	dstImage = dst;
+	dstQimage = Mat2QImage(dstImage);
+	display();
+	save_on();
+}
+
+void MainWindow::spaceFilter() {
 
 	//ImageProcessing img(srcImage);
 	//dstImage = img.dftTransformation();
@@ -324,20 +334,6 @@ void MainWindow::freqFilter() {
 	//dstImage = img.ButterworthHighLowFilter(dstImage, 20, 5, false);
 	////int a = dstImage.channels();
 	//dstQimage = Mat2QImage(dstImage);
-
-	display();
-	save_on();
-}
-
-void MainWindow::spaceFilter() {
-
-	ImageProcessing img(srcImage);
-	dstImage = img.dftTransformation();
-	//dstImage = img.gausHighLowFilter(dstImage,20,false);
-	//dstImage = img.IdealHighLowFilter(dstImage,20, false);
-	dstImage = img.ButterworthHighLowFilter(dstImage, 20, 5, false);
-	//int a = dstImage.channels();
-	dstQimage = Mat2QImage(dstImage);
 
 	display();
 	save_on();

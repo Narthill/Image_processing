@@ -12,13 +12,15 @@ public:
 	FreqFilter(QWidget *parent = Q_NULLPTR);
 	~FreqFilter();
 	void getSrcImg(cv::Mat);
-	void srcSpectrum();
+	void srcDftSpectrum();
 public slots:
 	void chooseFilter(int);
-	void filtering(int);
+	void filtering();
+signals:
+	void idftImage(cv::Mat);
 private:
 	Ui::FreqFilter *ui;
 	cv::Mat resource;
 	cv::Mat dstImage;
-	cv::Mat srcSpectrumImage;
+	cv::Mat srcSpectrum;
 };
