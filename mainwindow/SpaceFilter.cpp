@@ -23,6 +23,7 @@ SpaceFilter::SpaceFilter(Mat &src,QWidget *parent)
 	QObject::connect(ui->kheightSlider, SIGNAL(valueChanged(int)), ui->kheightSpinBox, SLOT(setValue(int)));
 	QObject::connect(ui->kwidthSlider, SIGNAL(valueChanged(int)), ui->kwidthSpinBox, SLOT(setValue(int)));
 	QObject::connect(ui->ksizeSlider, SIGNAL(valueChanged(int)), ui->ksizeSpinBox, SLOT(setValue(int)));
+
 	QObject::connect(ui->kheightSpinBox, SIGNAL(valueChanged(int)), ui->kheightSlider, SLOT(setValue(int)));
 	QObject::connect(ui->kwidthSpinBox, SIGNAL(valueChanged(int)), ui->kwidthSlider, SLOT(setValue(int)));
 	QObject::connect(ui->ksizeSpinBox, SIGNAL(valueChanged(int)), ui->ksizeSlider, SLOT(setValue(int)));
@@ -60,26 +61,30 @@ void SpaceFilter::filtering() {
 	ImageProcessing img(srcImg);
 	int choose = ui->comboBox->currentIndex();
 	int width = ui->kwidthSlider->value();
-	int height = ui->kwidthSlider->value();
+	int height = ui->kheightSlider->value();
 	int ksize = ui->ksizeSlider->value();
+
 	Mat dstImg;
 	if (choose == 0) {
+		//均值滤波
 		dstImg = img.blurFilter(width, height);
 	}
 	else if (choose == 1) {
-		//高斯
+		//高斯条件，不能为偶
 		if (width % 2 == 0) {
 			width++;
+			ui->kwidthSlider->setValue(width);
 		}
 		if (height % 2 == 0) {
 			height++;
+			ui->kheightSlider->setValue(height);
 		}
-		ui->kheightSlider->setValue(height);
-		ui->kwidthSlider->setValue(width);
+		
 
 		dstImg = img.gaussianBlurFilter(width, height);
 	}
 	else if (choose == 2) {
+		//中值条件，不能为偶
 		if (ksize % 2 == 0) {
 			ksize++;
 		}
@@ -87,6 +92,7 @@ void SpaceFilter::filtering() {
 		dstImg = img.medianBlurFilter(ksize);
 	}
 	else if (choose == 3) {
+		//拉普拉斯
 		dstImg = img.fil2DLaplace(ksize);
 	}
 	else {
