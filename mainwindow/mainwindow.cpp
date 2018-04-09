@@ -13,11 +13,12 @@
 #include"Histogram.h"
 #include"FreqFilter.h"
 #include"SpaceFilter.h"
+#include"DctTransformation.h"
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 {
 	ui = new Ui::MainWindow;
-	qRegisterMetaType<Mat>("Mat");//注册mat在信号槽中可传递
+	qRegisterMetaType<Mat>("Mat");//注册mat类型数据在信号槽中可传递
 	setWindowState(Qt::WindowMaximized);//可最大化
 	ui->setupUi(this);
 	ui->menu_image->setEnabled(false);
@@ -47,7 +48,9 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	connect(ui->action_Binary, &QAction::triggered, this, &MainWindow::binarySolt);//二值化
 	connect(ui->action_Sobel, &QAction::triggered, this, &MainWindow::EdgeDetectionSolt);//边缘检测
 	connect(ui->action_FreqFilter, &QAction::triggered, this, &MainWindow::freqFilterSolt);//频域滤波
-	connect(ui->action_SpaceFilter, &QAction::triggered, this, &MainWindow::spaceFilterSolt);//频域滤波
+	connect(ui->action_SpaceFilter, &QAction::triggered, this, &MainWindow::spaceFilterSolt);//空间滤波
+
+	connect(ui->action_Dct, &QAction::triggered, this, &MainWindow::dctSolt);//dct
 }
 
 MainWindow::~MainWindow()
@@ -285,9 +288,8 @@ void MainWindow::HistogramSolt() {
 	QObject::connect(hist, SIGNAL(equaliPic(Mat)), this, SLOT(HistogramCore(Mat)));
 	hist->show();
 }
-void MainWindow::HistogramCore(Mat res) {
-	dstImage = res;
-	dstQimage = Mat2QImage(dstImage);
+void MainWindow::HistogramCore(Mat dst) {
+	dstQimage = Mat2QImage(dst);
 	display();
 	save_on();
 }
@@ -321,8 +323,7 @@ void MainWindow::freqFilterSolt() {
 	FreqFilterDialog->show();
 }
 void MainWindow::freqFilterCore(Mat dst) {
-	dstImage = dst;
-	dstQimage = Mat2QImage(dstImage);
+	dstQimage = Mat2QImage(dst);
 	display();
 	save_on();
 }
@@ -336,12 +337,24 @@ void MainWindow::spaceFilterSolt() {
 	SpaceFilterDialog->show();
 }
 void MainWindow::spaceFilterCore(Mat dst) {
-	dstImage = dst;
-	dstQimage = Mat2QImage(dstImage);
+	dstQimage = Mat2QImage(dst);
 	display();
 	save_on();
 }
 
+//dct
+void  MainWindow::dctSolt() {
+	DctTransformation *Dcter = new DctTransformation(srcImage);
+	Dcter->setAttribute(Qt::WA_DeleteOnClose);
+	Dcter->setWindowTitle(tr("dctTransformation"));
+	QObject::connect(Dcter, SIGNAL(sendDstImage(Mat)), this, SLOT(dctCore(Mat)));
+	Dcter->show();
+}
+void  MainWindow::dctCore(Mat dst) {
+	dstQimage = Mat2QImage(dst);
+	display();
+	save_on();
+}
 //滤波
 //void MainWindow::filter() {
 //	//模态对话框，主框体仅仅与一个消息框体同存

@@ -48,12 +48,16 @@ private slots:
 	//Ö±·½Í¼¼°¾ùºâ»¯
 	void HistogramSolt();
 	void HistogramCore(Mat);
-
+	
+	//ÆµÓòÂË²¨
 	void freqFilterSolt();
 	void freqFilterCore(Mat dst);
+	//¿Õ¼äÂË²¨
 	void spaceFilterSolt();
 	void spaceFilterCore(Mat dst);
-
+	//dct
+	void dctSolt();
+	void dctCore(Mat dst);
 	//±ßÔµ¼ì²â
 	void EdgeDetectionSolt();
 	void EdgeDetectionCore(int w, int b, int s, int kSize);

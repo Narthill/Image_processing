@@ -51,10 +51,8 @@ void FreqFilter::srcDftSpectrum() {
 	int width = ui->srcLabel->width();
 	int height = ui->srcLabel->height();
 	QPixmap pixmap = QPixmap::fromImage(Mat2QImage(srcSpectrum));
-	QPixmap fitpixmap = pixmap.scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	QPixmap fitpixmap = pixmap.scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//°´±ÈÀýËõÐ¡
 	ui->srcLabel->setPixmap(fitpixmap);
-
-
 }
 
 void FreqFilter::chooseFilter(int a) {

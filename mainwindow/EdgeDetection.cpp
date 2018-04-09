@@ -34,8 +34,6 @@ EdgeDetection::EdgeDetection(QWidget *parent)
 
 	//¹Ø±ÕÐÅºÅ
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
-
-
 }
 
 EdgeDetection::~EdgeDetection()

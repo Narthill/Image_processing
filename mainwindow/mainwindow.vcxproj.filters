@@ -73,15 +73,18 @@
       <Filter>Source Files\dialog_ui</Filter>
     </ClCompile>
     <ClCompile Include="EdgeDetection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Histogram.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\dialog_ui</Filter>
     </ClCompile>
     <ClCompile Include="FreqFilter.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\dialog_ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Histogram.cpp">
+      <Filter>Source Files\dialog_ui</Filter>
     </ClCompile>
     <ClCompile Include="SpaceFilter.cpp">
+      <Filter>Source Files\dialog_ui</Filter>
+    </ClCompile>
+    <ClCompile Include="DctTransformation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -108,15 +111,18 @@
       <Filter>Header Files\dialog_ui</Filter>
     </QtMoc>
     <QtMoc Include="EdgeDetection.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="Histogram.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\dialog_ui</Filter>
     </QtMoc>
     <QtMoc Include="FreqFilter.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\dialog_ui</Filter>
+    </QtMoc>
+    <QtMoc Include="Histogram.h">
+      <Filter>Header Files\dialog_ui</Filter>
     </QtMoc>
     <QtMoc Include="SpaceFilter.h">
+      <Filter>Header Files\dialog_ui</Filter>
+    </QtMoc>
+    <QtMoc Include="DctTransformation.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -152,6 +158,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="SpaceFilter.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="DctTransformation.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

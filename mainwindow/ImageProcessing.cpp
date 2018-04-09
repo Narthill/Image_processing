@@ -182,8 +182,8 @@ Mat ImageProcessing::blurFilter(int width, int height) {
 	return filterResImage;
 }
 //gaussianBlurFilter函数用于进行高斯滤波处理  --right--
-Mat ImageProcessing::gaussianBlurFilter(int width, int height) {
-	GaussianBlur(srcImg, filterResImage, Size(width, height), 0, 0, BORDER_DEFAULT);
+Mat ImageProcessing::gaussianBlurFilter(int width, int height,int sigmaX,int sigmaY) {
+	GaussianBlur(srcImg, filterResImage, Size(width, height), sigmaX, sigmaY, BORDER_DEFAULT);
 	return filterResImage;
 }
 //medianBlurFilter函数用于进行中值滤波处理，使用时需传入常数kSize作为滤波模板的尺寸大小，必须是大于1的奇数  --right--

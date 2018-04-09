@@ -48,13 +48,14 @@ public:
 
 	/* FILTER */
 	Mat blurFilter(int width, int height);
-	Mat gaussianBlurFilter(int width, int height);
+	Mat gaussianBlurFilter(int width, int height, int sigmaX, int sigmaY);
 	Mat medianBlurFilter(int kSize);
 	Mat fil2DLaplace(int lapSize);
 	/* FILTER */
 
 	/* DCT TRANSFORMATION */
-	Mat dctTransformation(double t);
+	Mat ShowDctSpectrum(Mat input);
+	vector<Mat> dctTransformation(double t);
 	/* DCT TRANSFORMATION */
 
 	/* DFT TRANSFORMATION */

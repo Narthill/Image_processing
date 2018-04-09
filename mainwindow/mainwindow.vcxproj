@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="Binary.cpp" />
     <ClCompile Include="CutColor.cpp" />
+    <ClCompile Include="DctTransformation.cpp" />
     <ClCompile Include="EdgeDetection.cpp" />
     <ClCompile Include="FreqFilter.cpp" />
     <ClCompile Include="Histogram.cpp" />
@@ -136,6 +137,7 @@
   <ItemGroup>
     <QtUic Include="Binary.ui" />
     <QtUic Include="CutColor.ui" />
+    <QtUic Include="DctTransformation.ui" />
     <QtUic Include="EdgeDetection.ui" />
     <QtUic Include="FreqFilter.ui" />
     <QtUic Include="Histogram.ui" />
@@ -160,6 +162,7 @@
     <QtMoc Include="EdgeDetection.h" />
     <QtMoc Include="Histogram.h" />
     <QtMoc Include="FreqFilter.h" />
+    <QtMoc Include="DctTransformation.h" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="Binary.h" />
     <ClInclude Include="ImageProcessing.h" />
