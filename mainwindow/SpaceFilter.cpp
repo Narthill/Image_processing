@@ -9,6 +9,8 @@ SpaceFilter::SpaceFilter(Mat &src,QWidget *parent)
 	ui = new Ui::SpaceFilter();
 	ui->setupUi(this);
 	ui->groupBox_ksize->hide();
+	ui->groupBox_sigmaX->hide();
+	ui->groupBox_sigmaY->hide();
 
 	ui->kheightSlider->setRange(1,99);
 	ui->kwidthSlider->setRange(1, 99);
@@ -18,20 +20,39 @@ SpaceFilter::SpaceFilter(Mat &src,QWidget *parent)
 	ui->kwidthSpinBox->setRange(1, 99);
 	ui->ksizeSpinBox->setRange(1, 99);
 
+	/* test */
+	ui->sigmaXSlider->setRange(1, 10);
+	ui->sigmaXSlider->setRange(1, 10);
+	ui->sigmaXspinBox->setRange(1,10);
+	ui->sigmaYspinBox->setRange(1,10);
+	/* test */
+
 	QObject::connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(chooseFilter(int)));
 
 	QObject::connect(ui->kheightSlider, SIGNAL(valueChanged(int)), ui->kheightSpinBox, SLOT(setValue(int)));
 	QObject::connect(ui->kwidthSlider, SIGNAL(valueChanged(int)), ui->kwidthSpinBox, SLOT(setValue(int)));
 	QObject::connect(ui->ksizeSlider, SIGNAL(valueChanged(int)), ui->ksizeSpinBox, SLOT(setValue(int)));
 
+	/* test */
+	QObject::connect(ui->sigmaXSlider, SIGNAL(valueChanged(int)), ui->sigmaXspinBox, SLOT(setValue(int)));
+	QObject::connect(ui->sigmaYSlider, SIGNAL(valueChanged(int)), ui->sigmaYspinBox, SLOT(setValue(int)));
+	/* test */
+
 	QObject::connect(ui->kheightSpinBox, SIGNAL(valueChanged(int)), ui->kheightSlider, SLOT(setValue(int)));
 	QObject::connect(ui->kwidthSpinBox, SIGNAL(valueChanged(int)), ui->kwidthSlider, SLOT(setValue(int)));
 	QObject::connect(ui->ksizeSpinBox, SIGNAL(valueChanged(int)), ui->ksizeSlider, SLOT(setValue(int)));
+
+	/* test */
+	QObject::connect(ui->sigmaXspinBox, SIGNAL(valueChanged(int)),ui->sigmaXSlider,SLOT(filtering()));
+	QObject::connect(ui->sigmaYspinBox, SIGNAL(valueChanged(int)),ui->sigmaYSlider, SLOT(filtering()));
+	/* test */
 
 	//处理信号
 	QObject::connect(ui->kheightSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
 	QObject::connect(ui->kwidthSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
 	QObject::connect(ui->ksizeSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
+	QObject::connect(ui->sigmaXSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
+	QObject::connect(ui->sigmaYSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
 
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 }
@@ -55,6 +76,16 @@ void SpaceFilter::chooseFilter(int a) {
 		ui->groupBox_kheight->hide();
 		ui->groupBox_kwidth->hide();
 		ui->groupBox_ksize->show();
+
+	}
+
+	if (a==1) {
+		ui->groupBox_sigmaX->show();
+		ui->groupBox_sigmaY->show();
+	}
+	else {
+		ui->groupBox_sigmaX->hide();
+		ui->groupBox_sigmaY->hide();
 	}
 }
 void SpaceFilter::filtering() {
@@ -63,6 +94,11 @@ void SpaceFilter::filtering() {
 	int width = ui->kwidthSlider->value();
 	int height = ui->kheightSlider->value();
 	int ksize = ui->ksizeSlider->value();
+
+	/* test */
+	double sigmaX = ui->sigmaXSlider->value();
+	double sigmaY = ui->sigmaYSlider->value();
+	/* test */
 
 	Mat dstImg;
 	if (choose == 0) {
@@ -81,7 +117,7 @@ void SpaceFilter::filtering() {
 		}
 		
 
-		dstImg = img.gaussianBlurFilter(width, height);
+		dstImg = img.gaussianBlurFilter(width, height,sigmaX,sigmaY);
 	}
 	else if (choose == 2) {
 		//中值条件，不能为偶

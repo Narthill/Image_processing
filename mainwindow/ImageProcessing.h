@@ -48,7 +48,7 @@ public:
 
 	/* FILTER */
 	Mat blurFilter(int width, int height);
-	Mat gaussianBlurFilter(int width, int height);
+	Mat gaussianBlurFilter(int width, int height, int sigmaX, int sigmaY);
 	Mat medianBlurFilter(int kSize);
 	Mat fil2DLaplace(int lapSize);
 	/* FILTER */
