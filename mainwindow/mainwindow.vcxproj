@@ -128,6 +128,7 @@
     <ClCompile Include="Mat2QImage.cpp" />
     <ClCompile Include="PieceWiselinearGrayScale.cpp" />
     <ClCompile Include="PowerLawGrayScale.cpp" />
+    <ClCompile Include="SpaceFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h" />
@@ -145,11 +146,13 @@
     </QtUic>
     <QtUic Include="PieceWiselinearGrayScale.ui" />
     <QtUic Include="PowerLawGrayScale.ui" />
+    <QtUic Include="SpaceFilter.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="mainwindow.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="SpaceFilter.h" />
     <QtMoc Include="PieceWiselinearGrayScale.h" />
     <QtMoc Include="CutColor.h" />
     <QtMoc Include="PowerLawGrayScale.h" />

@@ -12,6 +12,7 @@
 #include"EdgeDetection.h"
 #include"Histogram.h"
 #include"FreqFilter.h"
+#include"SpaceFilter.h"
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 {
@@ -46,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	connect(ui->action_Binary, &QAction::triggered, this, &MainWindow::binarySolt);//二值化
 	connect(ui->action_Sobel, &QAction::triggered, this, &MainWindow::EdgeDetectionSolt);//边缘检测
 	connect(ui->action_FreqFilter, &QAction::triggered, this, &MainWindow::freqFilterSolt);//频域滤波
+	connect(ui->action_SpaceFilter, &QAction::triggered, this, &MainWindow::spaceFilterSolt);//频域滤波
 }
 
 MainWindow::~MainWindow()
@@ -315,7 +317,7 @@ void MainWindow::freqFilterSolt() {
 	FreqFilterDialog->srcDftSpectrum();
 	FreqFilterDialog->setAttribute(Qt::WA_DeleteOnClose);
 	FreqFilterDialog->setWindowTitle(tr("freqFilter"));
-	QObject::connect(FreqFilterDialog, SIGNAL(idftImage(cv::Mat)), this, SLOT(freqFilterCore(Mat)));
+	QObject::connect(FreqFilterDialog, SIGNAL(idftImage(cv::Mat)), this, SLOT(freqFilterCore(cv::Mat)));
 	FreqFilterDialog->show();
 }
 void MainWindow::freqFilterCore(Mat dst) {
@@ -325,16 +327,17 @@ void MainWindow::freqFilterCore(Mat dst) {
 	save_on();
 }
 
-void MainWindow::spaceFilter() {
-
-	//ImageProcessing img(srcImage);
-	//dstImage = img.dftTransformation();
-	////dstImage = img.gausHighLowFilter(dstImage,20,false);
-	////dstImage = img.IdealHighLowFilter(dstImage,20, false);
-	//dstImage = img.ButterworthHighLowFilter(dstImage, 20, 5, false);
-	////int a = dstImage.channels();
-	//dstQimage = Mat2QImage(dstImage);
-
+//空间滤波
+void MainWindow::spaceFilterSolt() {
+	SpaceFilter *SpaceFilterDialog = new SpaceFilter(srcImage);
+	SpaceFilterDialog->setAttribute(Qt::WA_DeleteOnClose);
+	SpaceFilterDialog->setWindowTitle(tr("spaceFilter"));
+	QObject::connect(SpaceFilterDialog, SIGNAL(sendDstImage(cv::Mat)), this, SLOT(spaceFilterCore(cv::Mat)));
+	SpaceFilterDialog->show();
+}
+void MainWindow::spaceFilterCore(Mat dst) {
+	dstImage = dst;
+	dstQimage = Mat2QImage(dstImage);
 	display();
 	save_on();
 }

@@ -62,7 +62,7 @@ public:
 	Mat ShowSpectrum(Mat input);//生成频谱图
 	Mat ShowImage(Mat input);//变换后图像生成
 	Mat gausKernel(Mat &dftImg, float d0, bool flag);//返回高斯核，flag为高低通
-	Mat IdealKernel(Mat &dftImg, float d0, bool flag);//返回均值滤波核
+	Mat IdealKernel(Mat &dftImg, float d0, bool flag);//返回理想滤波核
 	Mat ButterworthKernel(Mat &dftImg, float d0,int n,bool flag);//返回巴特沃斯核
 	Mat dftMultiply(Mat &dftImg, Mat &kernel);//核与dft矩阵相乘
 	Mat idftTransformation(Mat &outImage);//逆傅里叶变换

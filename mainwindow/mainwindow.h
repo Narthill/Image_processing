@@ -51,7 +51,8 @@ private slots:
 
 	void freqFilterSolt();
 	void freqFilterCore(Mat dst);
-	void spaceFilter();
+	void spaceFilterSolt();
+	void spaceFilterCore(Mat dst);
 
 	//±ßÔµ¼ì²â
 	void EdgeDetectionSolt();

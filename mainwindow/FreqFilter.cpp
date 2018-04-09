@@ -10,8 +10,6 @@ FreqFilter::FreqFilter(QWidget *parent)
 	ui = new Ui::FreqFilter();
 	ui->setupUi(this);
 	ui->btwGroupBox->hide();
-	//ui->rSpinBox->setValue(2);
-	//ui->rSlider->setValue(2);
 
 	ui->highOrlow->setId(ui->lowRbtn, true);
 	ui->highOrlow->setId(ui->highRbtn, false);
@@ -61,8 +59,8 @@ void FreqFilter::srcDftSpectrum() {
 
 void FreqFilter::chooseFilter(int a) {
 	ui->rSlider->setValue(0);
+	ui->btwSlider->setValue(0);
 	if (a == 2) {
-		ui->btwSlider->setValue(0);
 		ui->btwGroupBox->show();
 	}
 	else{

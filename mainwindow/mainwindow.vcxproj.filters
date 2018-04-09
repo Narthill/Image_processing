@@ -81,6 +81,9 @@
     <ClCompile Include="FreqFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SpaceFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Binary.h">
@@ -113,6 +116,9 @@
     <QtMoc Include="FreqFilter.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="SpaceFilter.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainwindow.ui">
@@ -143,6 +149,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="FreqFilter.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SpaceFilter.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -377,7 +377,7 @@ Mat ImageProcessing::gausKernel(Mat &dftImg, float d0, bool flag) {
 
 	return GaussianKernel;
 }
-//返回均值滤波核
+//返回理想滤波核
 Mat ImageProcessing::IdealKernel(Mat &dftImg, float d0, bool flag) {
 	Mat IdealHighLowFilter = dftImg.clone();
 	Mat IdealKernel(IdealHighLowFilter.size(), CV_32FC2);//理想滤波器模板
