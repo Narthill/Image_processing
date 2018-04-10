@@ -30,22 +30,23 @@ QT_BEGIN_NAMESPACE
 class Ui_SpaceFilter
 {
 public:
-    QVBoxLayout *verticalLayout_8;
-    QVBoxLayout *verticalLayout_7;
+    QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_4;
     QComboBox *comboBox;
     QSpacerItem *horizontalSpacer_2;
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout_6;
     QGroupBox *groupBox_sigmaX;
-    QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_9;
+    QHBoxLayout *horizontalLayout_7;
     QSpinBox *sigmaXspinBox;
+    QFrame *line_5;
     QSlider *sigmaXSlider;
     QGroupBox *groupBox_sigmaY;
-    QVBoxLayout *verticalLayout_2;
-    QHBoxLayout *horizontalLayout_11;
+    QHBoxLayout *horizontalLayout_5;
+    QHBoxLayout *horizontalLayout_2;
     QSpinBox *sigmaYspinBox;
+    QFrame *line_4;
     QSlider *sigmaYSlider;
     QGroupBox *groupBox_kheight;
     QVBoxLayout *verticalLayout_3;
@@ -74,14 +75,11 @@ public:
     {
         if (SpaceFilter->objectName().isEmpty())
             SpaceFilter->setObjectName(QStringLiteral("SpaceFilter"));
-        SpaceFilter->resize(583, 619);
-        verticalLayout_8 = new QVBoxLayout(SpaceFilter);
-        verticalLayout_8->setSpacing(6);
-        verticalLayout_8->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
-        verticalLayout_7 = new QVBoxLayout();
-        verticalLayout_7->setSpacing(6);
-        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        SpaceFilter->resize(372, 429);
+        verticalLayout = new QVBoxLayout(SpaceFilter);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(6);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
@@ -101,7 +99,7 @@ public:
         horizontalLayout_4->addItem(horizontalSpacer_2);
 
 
-        verticalLayout_7->addLayout(horizontalLayout_4);
+        verticalLayout->addLayout(horizontalLayout_4);
 
         groupBox = new QGroupBox(SpaceFilter);
         groupBox->setObjectName(QStringLiteral("groupBox"));
@@ -111,52 +109,66 @@ public:
         verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
         groupBox_sigmaX = new QGroupBox(groupBox);
         groupBox_sigmaX->setObjectName(QStringLiteral("groupBox_sigmaX"));
-        verticalLayout = new QVBoxLayout(groupBox_sigmaX);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9 = new QHBoxLayout(groupBox_sigmaX);
         horizontalLayout_9->setSpacing(6);
+        horizontalLayout_9->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
         sigmaXspinBox = new QSpinBox(groupBox_sigmaX);
         sigmaXspinBox->setObjectName(QStringLiteral("sigmaXspinBox"));
 
-        horizontalLayout_9->addWidget(sigmaXspinBox);
+        horizontalLayout_7->addWidget(sigmaXspinBox);
+
+        line_5 = new QFrame(groupBox_sigmaX);
+        line_5->setObjectName(QStringLiteral("line_5"));
+        line_5->setFrameShape(QFrame::VLine);
+        line_5->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout_7->addWidget(line_5);
 
         sigmaXSlider = new QSlider(groupBox_sigmaX);
         sigmaXSlider->setObjectName(QStringLiteral("sigmaXSlider"));
         sigmaXSlider->setOrientation(Qt::Horizontal);
 
-        horizontalLayout_9->addWidget(sigmaXSlider);
+        horizontalLayout_7->addWidget(sigmaXSlider);
 
 
-        verticalLayout->addLayout(horizontalLayout_9);
+        horizontalLayout_9->addLayout(horizontalLayout_7);
 
 
         verticalLayout_6->addWidget(groupBox_sigmaX);
 
         groupBox_sigmaY = new QGroupBox(groupBox);
         groupBox_sigmaY->setObjectName(QStringLiteral("groupBox_sigmaY"));
-        verticalLayout_2 = new QVBoxLayout(groupBox_sigmaY);
-        verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        horizontalLayout_11 = new QHBoxLayout();
-        horizontalLayout_11->setSpacing(6);
-        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        horizontalLayout_5 = new QHBoxLayout(groupBox_sigmaY);
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         sigmaYspinBox = new QSpinBox(groupBox_sigmaY);
         sigmaYspinBox->setObjectName(QStringLiteral("sigmaYspinBox"));
 
-        horizontalLayout_11->addWidget(sigmaYspinBox);
+        horizontalLayout_2->addWidget(sigmaYspinBox);
+
+        line_4 = new QFrame(groupBox_sigmaY);
+        line_4->setObjectName(QStringLiteral("line_4"));
+        line_4->setFrameShape(QFrame::VLine);
+        line_4->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout_2->addWidget(line_4);
 
         sigmaYSlider = new QSlider(groupBox_sigmaY);
         sigmaYSlider->setObjectName(QStringLiteral("sigmaYSlider"));
         sigmaYSlider->setOrientation(Qt::Horizontal);
 
-        horizontalLayout_11->addWidget(sigmaYSlider);
+        horizontalLayout_2->addWidget(sigmaYSlider);
 
 
-        verticalLayout_2->addLayout(horizontalLayout_11);
+        horizontalLayout_5->addLayout(horizontalLayout_2);
 
 
         verticalLayout_6->addWidget(groupBox_sigmaY);
@@ -265,7 +277,7 @@ public:
         verticalLayout_6->addItem(verticalSpacer);
 
 
-        verticalLayout_7->addWidget(groupBox);
+        verticalLayout->addWidget(groupBox);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
@@ -280,10 +292,7 @@ public:
         horizontalLayout->addWidget(closeBtn);
 
 
-        verticalLayout_7->addLayout(horizontalLayout);
-
-
-        verticalLayout_8->addLayout(verticalLayout_7);
+        verticalLayout->addLayout(horizontalLayout);
 
 
         retranslateUi(SpaceFilter);

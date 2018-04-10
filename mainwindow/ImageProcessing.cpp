@@ -216,62 +216,116 @@ Mat ImageProcessing::fil2DLaplace(int lapSize) {
 
 /* DCT变换 */
 //dctTransformation函数用于进行dct变换处理  --right--
-Mat ImageProcessing::dctTransformation(double t) {
+vector<Mat> ImageProcessing::dctTransformation(double T) {
 
-	double T;
-	T = t;
-	int h = srcImg.rows;
-	int w = srcImg.cols;
-	if (srcImg.rows % 2 != 0 || srcImg.cols % 2 != 0) {
-		copyMakeBorder(srcImg, srcImg, 0, srcImg.rows % 2, 0, srcImg.cols % 2, BORDER_CONSTANT, Scalar::all(0));
+	//判断长宽的奇偶并填充原图像
+	Mat src = srcImg.clone();
+	if (src.rows % 2 != 0 || src.cols %2  != 0) {
+		copyMakeBorder(src, src, 0, src.rows % 2, 0, src.cols % 2, BORDER_CONSTANT, Scalar::all(0));
 	}
-
+	int h = src.rows;
+	int w = src.cols;
 	//从BGR空间转换到YUV空间     
-	Mat yuvimg(srcImg.size(), CV_8UC3);
-	//定义YUV空间图像yuvimg
-	cvtColor(srcImg, yuvimg, CV_BGR2YUV); 
-	//定义输出图像为dst
-	Mat dst(srcImg.size(), CV_8UC3);        				    
+	//YUV空间图像yuvimg  
+	Mat yuvimg(src.size(), CV_8UC3);
+	cvtColor(src, yuvimg, CV_BGR2YUV);
+	//输出图像为dst   
+	Mat dst(src.size(), CV_8UC3);
+
+	//YUV通道分离    
 	vector<Mat> channels(3);
-	//YUV通道分离
 	split(yuvimg, channels);
+
 	//提取YUV颜色空间各通道      
 	Mat_<double>Y = channels.at(0);
 	Mat_<double>U = channels.at(1);
 	Mat_<double>V = channels.at(2);
-	//DCT系数的三个通道    
-	Mat DCTY(srcImg.size(), CV_64FC1);
-	Mat DCTU(srcImg.size(), CV_64FC1);
-	Mat DCTV(srcImg.size(), CV_64FC1);
-	//DCT变换    
-	dct(Y, DCTY);
-	dct(U, DCTU);
-	dct(V, DCTV);
-	//三通道，作阈值处理，进行压缩      
-	for (int i = 0; i < h; i++)
-	{
-		double *y = DCTY.ptr<double>(i);
-		double *u = DCTU.ptr<double>(i);
-		double *v = DCTV.ptr<double>(i);
-		for (int j = 0; j < w; j++)
-		{
-			if (abs(y[j]) < T) { y[j] = 0; }
-			if (abs(u[j]) < T) { u[j] = 0; }
-			if (abs(v[j]) < T) { v[j] = 0; }
 
+	//三个通道的频谱    
+	Mat DCTY(src.size(), CV_64FC1);
+	Mat DCTU(src.size(), CV_64FC1);
+	Mat DCTV(src.size(), CV_64FC1);
+
+	//离散余弦变换
+	Rect box;//设置一个8*8矩阵，用于分块
+	box.height = 8;
+	box.width = 8;
+	for (int i = 0; i<(w / 8); i++)
+	{
+		for (int j = 0; j<(h / 8); j++)
+		{
+			//矩阵头坐标(块起始坐标)
+			box.x = 8 * i;//左上角横坐标
+			box.y = 8 * j;//左上角纵坐标
+						  //设置矩阵大小(块大小)
+
+						  //各通道在分块大小下进行离散余弦变换
+			dct(Y(box), DCTY(box));
+			dct(U(box), DCTU(box));
+			dct(V(box), DCTV(box));
 		}
 	}
-	//DCT逆变换    
-	idct(DCTY, Y);
-	idct(DCTU, U);
-	idct(DCTV, V);
+
+	//显示频谱
+	//imshow("Y频谱", DCTY);
+	//imshow("U频谱", DCTU);
+	//imshow("V频谱", DCTV);
+
+	//遍历各通道频谱，设定阈值用以压缩
+	for (int m = 0; m < h; m++)
+	{
+		double *y = DCTY.ptr<double>(m);
+		double *u = DCTU.ptr<double>(m);
+		double *v = DCTV.ptr<double>(m);//定义指向各通道指针
+		for (int n = 0; n < w; n++)
+		{
+			if (abs(y[n]) < T) { y[n] = 0; }
+			if (abs(u[n]) < T) { u[n] = 0; }
+			if (abs(v[n]) < T) { v[n] = 0; }//绝对值小于阈值就赋值为0
+		}
+	}
+	vector<Mat> allimg;//所有传出图片放在这个向量中
+	allimg.push_back(ShowDctSpectrum(DCTY.clone()));
+	allimg.push_back(ShowDctSpectrum(DCTU.clone()));
+	allimg.push_back(ShowDctSpectrum(DCTV.clone()));
+
+	//逆变换
+	for (int i = 0; i<(w / 8); i++)
+	{
+		for (int j = 0; j<(h / 8); j++)
+		{
+			//矩阵头坐标(块起始坐标)
+			box.x = 8 * i;//左上角横坐标
+			box.y = 8 * j;//左上角纵坐标
+						  //各通道在分块大小下进行逆变换
+			idct(DCTY(box), Y(box));
+			idct(DCTU(box), U(box));
+			idct(DCTV(box), V(box));
+		}
+	}
+
+	//通道组合
 	channels.at(0) = Mat_<uchar>(Y);
 	channels.at(1) = Mat_<uchar>(U);
 	channels.at(2) = Mat_<uchar>(V);
-	merge(channels, yuvimg);
-	//将压缩后图像从YUV空间重新转换到BGR空间    
+	merge(channels, yuvimg);//通道组合
+	
+							//压缩后图像从YUV空间重新转换到BGR空间    
 	cvtColor(yuvimg, dst, CV_YUV2BGR);
-	return dst;
+
+	allimg.push_back(dst);
+
+	return allimg;
+}
+Mat ImageProcessing::ShowDctSpectrum(Mat input) {
+	for (int i = 0; i<input.rows; i++)//遍历乘以255
+	{
+		uchar *ptr = input.ptr<uchar>(i);
+		for (int j = 0; j < input.cols*8; j++)
+			ptr[j] *= 255;
+	}
+	input.convertTo(input, CV_8UC1);
+	return input;
 }
 /* DCT变换 */
 
