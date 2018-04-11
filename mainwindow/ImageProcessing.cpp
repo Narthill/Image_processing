@@ -227,7 +227,7 @@ vector<Mat> ImageProcessing::dctTransformation(double T) {
 	int w = src.cols;
 	//从BGR空间转换到YUV空间     
 	//YUV空间图像yuvimg  
-	Mat yuvimg(src.size(), CV_8UC3);
+	Mat yuvimg(src.size(), CV_8UC3); 
 	cvtColor(src, yuvimg, CV_BGR2YUV);
 	//输出图像为dst   
 	Mat dst(src.size(), CV_8UC3);

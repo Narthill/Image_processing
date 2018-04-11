@@ -22,8 +22,8 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -57,14 +57,18 @@ public:
     QAction *action_SpaceFilter;
     QAction *action_FreqFilter;
     QWidget *centralWidget;
+    QHBoxLayout *horizontalLayout_5;
+    QTabWidget *tabWidget;
+    QWidget *tab;
     QHBoxLayout *horizontalLayout_3;
-    QSplitter *splitter;
     QGroupBox *groupBox_former;
     QVBoxLayout *verticalLayout_2;
     QGraphicsView *formerView;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
     QPushButton *clearFormer;
+    QWidget *tab_2;
+    QHBoxLayout *horizontalLayout_4;
     QGroupBox *groupBox_res;
     QVBoxLayout *verticalLayout_3;
     QGraphicsView *resultView;
@@ -134,14 +138,28 @@ public:
         action_FreqFilter->setObjectName(QStringLiteral("action_FreqFilter"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        horizontalLayout_3 = new QHBoxLayout(centralWidget);
+        horizontalLayout_5 = new QHBoxLayout(centralWidget);
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        tabWidget = new QTabWidget(centralWidget);
+        tabWidget->setObjectName(QStringLiteral("tabWidget"));
+        tabWidget->setFocusPolicy(Qt::TabFocus);
+        tabWidget->setLayoutDirection(Qt::LeftToRight);
+        tabWidget->setTabPosition(QTabWidget::South);
+        tabWidget->setTabShape(QTabWidget::Rounded);
+        tabWidget->setElideMode(Qt::ElideLeft);
+        tabWidget->setDocumentMode(true);
+        tabWidget->setTabsClosable(true);
+        tabWidget->setMovable(true);
+        tabWidget->setTabBarAutoHide(false);
+        tab = new QWidget();
+        tab->setObjectName(QStringLiteral("tab"));
+        horizontalLayout_3 = new QHBoxLayout(tab);
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        splitter = new QSplitter(centralWidget);
-        splitter->setObjectName(QStringLiteral("splitter"));
-        splitter->setOrientation(Qt::Horizontal);
-        groupBox_former = new QGroupBox(splitter);
+        groupBox_former = new QGroupBox(tab);
         groupBox_former->setObjectName(QStringLiteral("groupBox_former"));
         groupBox_former->setCursor(QCursor(Qt::ArrowCursor));
         groupBox_former->setLayoutDirection(Qt::LeftToRight);
@@ -174,8 +192,17 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout);
 
-        splitter->addWidget(groupBox_former);
-        groupBox_res = new QGroupBox(splitter);
+
+        horizontalLayout_3->addWidget(groupBox_former);
+
+        tabWidget->addTab(tab, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QStringLiteral("tab_2"));
+        horizontalLayout_4 = new QHBoxLayout(tab_2);
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        groupBox_res = new QGroupBox(tab_2);
         groupBox_res->setObjectName(QStringLiteral("groupBox_res"));
         verticalLayout_3 = new QVBoxLayout(groupBox_res);
         verticalLayout_3->setSpacing(6);
@@ -205,9 +232,12 @@ public:
 
         verticalLayout_3->addLayout(horizontalLayout_2);
 
-        splitter->addWidget(groupBox_res);
 
-        horizontalLayout_3->addWidget(splitter);
+        horizontalLayout_4->addWidget(groupBox_res);
+
+        tabWidget->addTab(tab_2, QString());
+
+        horizontalLayout_5->addWidget(tabWidget);
 
         MainWindow->setCentralWidget(centralWidget);
         statusBar = new QStatusBar(MainWindow);
@@ -215,7 +245,7 @@ public:
         MainWindow->setStatusBar(statusBar);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1286, 26));
+        menuBar->setGeometry(QRect(0, 0, 1286, 23));
         menu = new QMenu(menuBar);
         menu->setObjectName(QStringLiteral("menu"));
         menu_image = new QMenu(menuBar);
@@ -255,6 +285,9 @@ public:
 
         retranslateUi(MainWindow);
 
+        tabWidget->setCurrentIndex(1);
+
+
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
 
@@ -289,8 +322,10 @@ public:
         action_FreqFilter->setIconText(QApplication::translate("MainWindow", "\351\242\221\345\237\237\346\273\244\346\263\242", Q_NULLPTR));
         groupBox_former->setTitle(QApplication::translate("MainWindow", "\345\216\237\345\233\276", Q_NULLPTR));
         clearFormer->setText(QApplication::translate("MainWindow", "\346\270\205\347\251\272\345\216\237\345\233\276", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "\345\216\237\345\233\276", Q_NULLPTR));
         groupBox_res->setTitle(QApplication::translate("MainWindow", "\347\224\237\346\210\220\345\233\276", Q_NULLPTR));
         clearResult->setText(QApplication::translate("MainWindow", "\346\270\205\347\251\272\347\224\237\346\210\220\345\233\276", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "\347\224\237\346\210\220\345\233\276", Q_NULLPTR));
         menu->setTitle(QApplication::translate("MainWindow", "\346\226\207\344\273\266", Q_NULLPTR));
         menu_image->setTitle(QApplication::translate("MainWindow", "\345\233\276\345\203\217", Q_NULLPTR));
         menu_2->setTitle(QApplication::translate("MainWindow", "\347\201\260\345\272\246\345\217\230\346\215\242", Q_NULLPTR));

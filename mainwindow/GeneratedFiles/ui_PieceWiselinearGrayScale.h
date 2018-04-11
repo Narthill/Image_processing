@@ -23,29 +23,28 @@
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <qchartview.h>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_PieceWiselinearGrayScale
 {
 public:
-    QVBoxLayout *verticalLayout_8;
-    QVBoxLayout *verticalLayout_7;
-    QHBoxLayout *horizontalLayout;
-    QGroupBox *groupBox;
     QVBoxLayout *verticalLayout_3;
-    QHBoxLayout *horizontalLayout_3;
-    QVBoxLayout *verticalLayout;
+    QChartView *ChartView_1;
+    QHBoxLayout *horizontalLayout_4;
+    QGroupBox *groupBox;
+    QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout_2;
     QLabel *label_13;
     QSpinBox *X1_SpinBox;
     QSlider *X1_Slider;
-    QVBoxLayout *verticalLayout_2;
+    QVBoxLayout *verticalLayout;
     QLabel *label_10;
     QSpinBox *Y1_SpinBox;
     QSlider *Y1_Slider;
     QGroupBox *groupBox_2;
-    QVBoxLayout *verticalLayout_6;
-    QHBoxLayout *horizontalLayout_4;
+    QHBoxLayout *horizontalLayout_3;
     QVBoxLayout *verticalLayout_4;
     QLabel *label_14;
     QSpinBox *X2_SpinBox;
@@ -62,85 +61,78 @@ public:
     {
         if (PieceWiselinearGrayScale->objectName().isEmpty())
             PieceWiselinearGrayScale->setObjectName(QStringLiteral("PieceWiselinearGrayScale"));
-        PieceWiselinearGrayScale->resize(303, 277);
-        verticalLayout_8 = new QVBoxLayout(PieceWiselinearGrayScale);
-        verticalLayout_8->setSpacing(6);
-        verticalLayout_8->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
-        verticalLayout_7 = new QVBoxLayout();
-        verticalLayout_7->setSpacing(6);
-        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        groupBox = new QGroupBox(PieceWiselinearGrayScale);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
-        verticalLayout_3 = new QVBoxLayout(groupBox);
+        PieceWiselinearGrayScale->resize(496, 448);
+        verticalLayout_3 = new QVBoxLayout(PieceWiselinearGrayScale);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setSpacing(6);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(6);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        ChartView_1 = new QChartView(PieceWiselinearGrayScale);
+        ChartView_1->setObjectName(QStringLiteral("ChartView_1"));
+
+        verticalLayout_3->addWidget(ChartView_1);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        groupBox = new QGroupBox(PieceWiselinearGrayScale);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        horizontalLayout = new QHBoxLayout(groupBox);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         label_13 = new QLabel(groupBox);
         label_13->setObjectName(QStringLiteral("label_13"));
 
-        verticalLayout->addWidget(label_13);
+        verticalLayout_2->addWidget(label_13);
 
         X1_SpinBox = new QSpinBox(groupBox);
         X1_SpinBox->setObjectName(QStringLiteral("X1_SpinBox"));
 
-        verticalLayout->addWidget(X1_SpinBox);
+        verticalLayout_2->addWidget(X1_SpinBox);
 
         X1_Slider = new QSlider(groupBox);
         X1_Slider->setObjectName(QStringLiteral("X1_Slider"));
-        X1_Slider->setOrientation(Qt::Vertical);
+        X1_Slider->setOrientation(Qt::Horizontal);
 
-        verticalLayout->addWidget(X1_Slider);
+        verticalLayout_2->addWidget(X1_Slider);
 
 
-        horizontalLayout_3->addLayout(verticalLayout);
+        horizontalLayout->addLayout(verticalLayout_2);
 
-        verticalLayout_2 = new QVBoxLayout();
-        verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setSpacing(6);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         label_10 = new QLabel(groupBox);
         label_10->setObjectName(QStringLiteral("label_10"));
 
-        verticalLayout_2->addWidget(label_10);
+        verticalLayout->addWidget(label_10);
 
         Y1_SpinBox = new QSpinBox(groupBox);
         Y1_SpinBox->setObjectName(QStringLiteral("Y1_SpinBox"));
 
-        verticalLayout_2->addWidget(Y1_SpinBox);
+        verticalLayout->addWidget(Y1_SpinBox);
 
         Y1_Slider = new QSlider(groupBox);
         Y1_Slider->setObjectName(QStringLiteral("Y1_Slider"));
-        Y1_Slider->setOrientation(Qt::Vertical);
+        Y1_Slider->setOrientation(Qt::Horizontal);
 
-        verticalLayout_2->addWidget(Y1_Slider);
-
-
-        horizontalLayout_3->addLayout(verticalLayout_2);
+        verticalLayout->addWidget(Y1_Slider);
 
 
-        verticalLayout_3->addLayout(horizontalLayout_3);
+        horizontalLayout->addLayout(verticalLayout);
 
 
-        horizontalLayout->addWidget(groupBox);
+        horizontalLayout_4->addWidget(groupBox);
 
         groupBox_2 = new QGroupBox(PieceWiselinearGrayScale);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        verticalLayout_6 = new QVBoxLayout(groupBox_2);
-        verticalLayout_6->setSpacing(6);
-        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setSpacing(6);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_3 = new QHBoxLayout(groupBox_2);
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
@@ -156,12 +148,12 @@ public:
 
         X2_Slider = new QSlider(groupBox_2);
         X2_Slider->setObjectName(QStringLiteral("X2_Slider"));
-        X2_Slider->setOrientation(Qt::Vertical);
+        X2_Slider->setOrientation(Qt::Horizontal);
 
         verticalLayout_4->addWidget(X2_Slider);
 
 
-        horizontalLayout_4->addLayout(verticalLayout_4);
+        horizontalLayout_3->addLayout(verticalLayout_4);
 
         verticalLayout_5 = new QVBoxLayout();
         verticalLayout_5->setSpacing(6);
@@ -178,21 +170,18 @@ public:
 
         Y2_Slider = new QSlider(groupBox_2);
         Y2_Slider->setObjectName(QStringLiteral("Y2_Slider"));
-        Y2_Slider->setOrientation(Qt::Vertical);
+        Y2_Slider->setOrientation(Qt::Horizontal);
 
         verticalLayout_5->addWidget(Y2_Slider);
 
 
-        horizontalLayout_4->addLayout(verticalLayout_5);
+        horizontalLayout_3->addLayout(verticalLayout_5);
 
 
-        verticalLayout_6->addLayout(horizontalLayout_4);
+        horizontalLayout_4->addWidget(groupBox_2);
 
 
-        horizontalLayout->addWidget(groupBox_2);
-
-
-        verticalLayout_7->addLayout(horizontalLayout);
+        verticalLayout_3->addLayout(horizontalLayout_4);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -209,11 +198,10 @@ public:
         horizontalLayout_2->setStretch(0, 3);
         horizontalLayout_2->setStretch(1, 1);
 
-        verticalLayout_7->addLayout(horizontalLayout_2);
+        verticalLayout_3->addLayout(horizontalLayout_2);
 
-
-        verticalLayout_8->addLayout(verticalLayout_7);
-
+        verticalLayout_3->setStretch(0, 6);
+        verticalLayout_3->setStretch(1, 1);
 
         retranslateUi(PieceWiselinearGrayScale);
 
