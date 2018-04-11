@@ -66,17 +66,18 @@ public:
 	void save_on();
 	void save_off();
 	void display();
-	void clearFormer();
+	//void clearFormer();
 	void clearResult();
 
 private:
 	Ui::MainWindow *ui;
 	QString filename;
 	Mat srcImage;	//原mat
-	Mat dstImage;	//原mat
+	Mat nowImage;	//原mat
+	Mat dstImage;	//生成mat
 	QImage srcQimage;//原图的QImage
 	QImage dstQimage;//生成图的QImage
-	QGraphicsScene formerScene;
+	//QGraphicsScene formerScene;
 	QGraphicsScene resultScene;
 	
 };

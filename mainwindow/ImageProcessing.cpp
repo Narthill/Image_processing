@@ -41,8 +41,12 @@ Mat ImageProcessing::cutColor(int n)
 //rgb2gray函数用于将rgb图像转换为灰度图像  --right--
 Mat ImageProcessing::rgb2gray()
 {
-	cv::cvtColor(srcImg, srcImg, CV_RGB2GRAY);
+	if (srcImg.channels() == 3) {
+		cv::cvtColor(srcImg, srcImg, CV_RGB2GRAY);
+	}
 	//得到灰度化之后的图
+	cv::cvtColor(srcImg, srcImg, CV_GRAY2RGB);
+
 	return srcImg;
 }
 //rgb2black函数用于将rgb图像转换黑白图像  --right--
@@ -52,6 +56,7 @@ Mat ImageProcessing::rgb2black(int num)
 	cv::cvtColor(srcImg, srcImg, CV_RGB2GRAY);
 	threshold(srcImg, srcImg, threNum, 255, THRESH_BINARY);
 	//得到二值化之后的图像
+	cv::cvtColor(srcImg, srcImg, CV_GRAY2RGB);
 	return srcImg;
 }
 /* 颜色空间缩减-灰度化-二值化 */
@@ -708,6 +713,7 @@ Mat ImageProcessing::edgeDetection(int w,int b,int s,int kSize) {
 	Mat dstImg = srcImg.clone();
 	GaussianBlur(srcImg, dstImg, Size(w, w), 0, 0, BORDER_DEFAULT);
 	Canny(dstImg, dstImg, b, s, kSize);
+	cv::cvtColor(dstImg, dstImg, CV_GRAY2RGB);
 	return dstImg;
 }
 /* 边缘检测 */

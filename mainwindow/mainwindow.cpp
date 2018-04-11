@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	connect(ui->actionopen, &QAction::triggered, this, &MainWindow::open);
 	connect(ui->actionsave, &QAction::triggered, this, &MainWindow::save);
 	connect(ui->actionsaveas, &QAction::triggered, this, &MainWindow::saveAs);
-	connect(ui->clearFormer, &QPushButton::clicked, this, &MainWindow::clearFormer);
+	//connect(ui->clearFormer, &QPushButton::clicked, this, &MainWindow::clearFormer);
 	connect(ui->clearResult, &QPushButton::clicked, this, &MainWindow::clearResult);
 
 	connect(ui->action_Gray, &QAction::triggered, this, &MainWindow::gray);//灰度化
@@ -71,15 +71,17 @@ void MainWindow::open()
 		srcImage.release();
 		//文件路径不为空,用一个opencv Mat全局变量接收图像
 		srcImage = imread(filename.toLocal8Bit().data());
-		formerScene.clear();//清空原图面板
+		nowImage = srcImage.clone();//当前img;
+		dstImage = srcImage.clone();
+		resultScene.clear();//清空原图面板
 
 		//QImage加载成功则展示
 		if (srcQimage.load(filename)) {
 			ui->menu_image->setEnabled(true);
-			QGraphicsScene *fScene =&formerScene;
+			QGraphicsScene *fScene =&resultScene;
 			fScene->addPixmap(QPixmap::fromImage(srcQimage));
-			ui->formerView->setScene(fScene);
-			ui->formerView->show();
+			ui->resultView->setScene(fScene);
+			ui->resultView->show();
 		}
 		else {
 			QMessageBox::information(this,
@@ -109,7 +111,7 @@ void MainWindow::saveAs() {
 	else {
 		return;
 	}
-}
+} 
 
 //保存选项打开
 void MainWindow::save_on() {
@@ -145,15 +147,17 @@ void MainWindow::display() {
 }
 
 //清除原图
-void MainWindow::clearFormer() {
-	formerScene.clear();//清空原图面板
-	ui->menu_image->setEnabled(false);
-	ui->menu_video->setEnabled(false);
-}
+//void MainWindow::clearFormer() {
+//	formerScene.clear();//清空原图面板
+//	ui->menu_image->setEnabled(false);
+//	ui->menu_video->setEnabled(false);
+//}
 
 //清除生成图
 void MainWindow::clearResult() {
 	resultScene.clear();//清空原图面板
+	ui->menu_image->setEnabled(false);
+	ui->menu_video->setEnabled(false);
 	save_off();
 }
 
@@ -166,8 +170,10 @@ void MainWindow::turn()
 
 //灰度化
 void MainWindow::gray() {
-	ImageProcessing img(srcImage);
+	ImageProcessing img(nowImage);
 	dstImage = img.rgb2gray();
+
+	nowImage = dstImage;
 	//将Mat图像转换为QImage图像，才能显示
 	dstQimage = Mat2QImage(dstImage);
 	display();
@@ -176,16 +182,18 @@ void MainWindow::gray() {
 
 //二值化
 void MainWindow::binarySolt() {
+	nowImage = dstImage;
 	Binary *BinaryDialog = new Binary();
 	//对话框关闭时销毁
 	BinaryDialog->setAttribute(Qt::WA_DeleteOnClose);
 	BinaryDialog->setWindowTitle(tr("Binary"));
 	//BinaryDialog的阈值发送给二值的core
 	connect(BinaryDialog, SIGNAL(BinaryThres(int)), this, SLOT(binaryCore(int)));
+	//ui->widget->addwidget(BinaryDialog)
 	BinaryDialog->show();
 }
 void MainWindow::binaryCore(int thres) {
-	ImageProcessing img(srcImage);
+	ImageProcessing img(nowImage);
 	dstImage = img.rgb2black(thres);
 	dstQimage = Mat2QImage(dstImage);
 	display();
@@ -194,6 +202,7 @@ void MainWindow::binaryCore(int thres) {
 
 //线性灰度变换
 void MainWindow::linearGraySolt() {
+	nowImage = dstImage;
 	LinearGrayScale *LinearGrayScaleDialog = new LinearGrayScale();
 	LinearGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
 	LinearGrayScaleDialog->setWindowTitle(tr("LinearGrayScale"));
@@ -201,7 +210,7 @@ void MainWindow::linearGraySolt() {
 	LinearGrayScaleDialog->show();
 }
 void MainWindow::linearGrayCore(int contrastValue, int brightValue) {
-	ImageProcessing img(srcImage);
+	ImageProcessing img(nowImage);
 	dstImage = img.linearGrayScaleTransformation(contrastValue, brightValue);
 	//将Mat图像转换为QImage图像，才能显示
 	dstQimage = Mat2QImage(dstImage);
@@ -211,6 +220,7 @@ void MainWindow::linearGrayCore(int contrastValue, int brightValue) {
 
 //分段线性变换
 void MainWindow::pieceWiselinearGraySolt() {
+	nowImage = dstImage;
 	PieceWiselinearGrayScale *PieceWiselinearGrayScaleDialog = new PieceWiselinearGrayScale();
 	PieceWiselinearGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
 	PieceWiselinearGrayScaleDialog->setWindowTitle(tr("PieceWiselinearGrayScale"));
@@ -218,7 +228,7 @@ void MainWindow::pieceWiselinearGraySolt() {
 	PieceWiselinearGrayScaleDialog->show();
 }
 void MainWindow::pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2) {
-	ImageProcessing img(srcImage);
+	ImageProcessing img(nowImage);
 	dstImage = img.pieceWiselinearGrayScaleTransformation(X1,Y1,X2,Y2);
 	//将Mat图像转换为QImage图像，才能显示
 	dstQimage = Mat2QImage(dstImage);
@@ -228,6 +238,7 @@ void MainWindow::pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2) {
 
 //对数
 void MainWindow::loglinearGrayScaleSolt() {
+	nowImage = dstImage;
 	LoglinearGrayScale *loglinearGrayScaleDialog = new LoglinearGrayScale();
 	loglinearGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
 	loglinearGrayScaleDialog->setWindowTitle(tr("PieceWiselinearGrayScale"));
@@ -235,7 +246,7 @@ void MainWindow::loglinearGrayScaleSolt() {
 	loglinearGrayScaleDialog->show();
 }
 void MainWindow::loglinearGrayScaleCore(int c) {
-	ImageProcessing img(srcImage);
+	ImageProcessing img(nowImage);
 	dstImage = img.loglinearGrayScaleTransformation(c);
 	//将Mat图像转换为QImage图像，才能显示
 	dstQimage = Mat2QImage(dstImage);
@@ -245,6 +256,7 @@ void MainWindow::loglinearGrayScaleCore(int c) {
 
 //幂率
 void MainWindow::powerLawGrayScaleSolt() {
+	nowImage = dstImage;
 	PowerLawGrayScale *PowerLawGrayScaleDialog = new PowerLawGrayScale();
 	PowerLawGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
 	PowerLawGrayScaleDialog->setWindowTitle(tr("PieceWiselinearGrayScale"));
@@ -252,7 +264,7 @@ void MainWindow::powerLawGrayScaleSolt() {
 	PowerLawGrayScaleDialog->show();
 }
 void MainWindow::powerLawGrayScaleCore(double index) {
-	ImageProcessing img(srcImage);
+	ImageProcessing img(nowImage);
 	dstImage = img.powerLawlinearGrayScaleTransformation(index);
 	//将Mat图像转换为QImage图像，才能显示
 	dstQimage = Mat2QImage(dstImage);
@@ -262,6 +274,7 @@ void MainWindow::powerLawGrayScaleCore(double index) {
 
 //颜色空间缩减
 void MainWindow::cutColorSolt() {
+	nowImage = dstImage;
 	CutColor *CutColorDialog = new CutColor();
 	//对话框关闭时销毁
 	CutColorDialog->setAttribute(Qt::WA_DeleteOnClose);
@@ -271,7 +284,7 @@ void MainWindow::cutColorSolt() {
 	CutColorDialog->show();
 }
 void MainWindow::cutColorCore(int n) {
-	ImageProcessing img(srcImage);
+	ImageProcessing img(nowImage);
 	dstImage = img.cutColor(n);
 	dstQimage = Mat2QImage(dstImage);
 	display();
@@ -280,8 +293,9 @@ void MainWindow::cutColorCore(int n) {
 
 //直方图及均衡化
 void MainWindow::HistogramSolt() {
+	nowImage = dstImage;
 	Histogram *hist = new Histogram();
-	hist->getSrcImg(srcImage);
+	hist->getSrcImg(nowImage);
 	//对话框关闭时销毁
 	hist->setAttribute(Qt::WA_DeleteOnClose);
 	hist->setWindowTitle(tr("histogram"));
@@ -289,6 +303,7 @@ void MainWindow::HistogramSolt() {
 	hist->show();
 }
 void MainWindow::HistogramCore(Mat dst) {
+	dstImage = dst;
 	dstQimage = Mat2QImage(dst);
 	display();
 	save_on();
@@ -296,6 +311,7 @@ void MainWindow::HistogramCore(Mat dst) {
 
 //边缘检测
 void MainWindow::EdgeDetectionSolt() {
+	nowImage = dstImage;
 	EdgeDetection *EdgeDetectionDialog = new EdgeDetection();
 	//对话框关闭时销毁
 	EdgeDetectionDialog->setAttribute(Qt::WA_DeleteOnClose);
@@ -305,7 +321,7 @@ void MainWindow::EdgeDetectionSolt() {
 	EdgeDetectionDialog->show();
 }
 void MainWindow::EdgeDetectionCore(int w,int b,int s,int kSize) {
-	ImageProcessing img(srcImage);
+	ImageProcessing img(nowImage);
 	dstImage = img.edgeDetection(w,b,s,kSize);
 	dstQimage = Mat2QImage(dstImage);
 	display();
@@ -314,15 +330,17 @@ void MainWindow::EdgeDetectionCore(int w,int b,int s,int kSize) {
 
 //频域滤波
 void MainWindow::freqFilterSolt() {
+	nowImage = dstImage;
 	FreqFilter *FreqFilterDialog = new FreqFilter();
-	FreqFilterDialog->getSrcImg(srcImage);
+	FreqFilterDialog->getSrcImg(nowImage);
 	FreqFilterDialog->srcDftSpectrum();
 	FreqFilterDialog->setAttribute(Qt::WA_DeleteOnClose);
 	FreqFilterDialog->setWindowTitle(tr("freqFilter"));
-	QObject::connect(FreqFilterDialog, SIGNAL(idftImage(cv::Mat)), this, SLOT(freqFilterCore(cv::Mat)));
+	QObject::connect(FreqFilterDialog, SIGNAL(idftImage(Mat)), this, SLOT(freqFilterCore(Mat)));
 	FreqFilterDialog->show();
 }
 void MainWindow::freqFilterCore(Mat dst) {
+	dstImage = dst;
 	dstQimage = Mat2QImage(dst);
 	display();
 	save_on();
@@ -330,13 +348,15 @@ void MainWindow::freqFilterCore(Mat dst) {
 
 //空间滤波
 void MainWindow::spaceFilterSolt() {
-	SpaceFilter *SpaceFilterDialog = new SpaceFilter(srcImage);
+	nowImage = dstImage;
+	SpaceFilter *SpaceFilterDialog = new SpaceFilter(nowImage);
 	SpaceFilterDialog->setAttribute(Qt::WA_DeleteOnClose);
 	SpaceFilterDialog->setWindowTitle(tr("spaceFilter"));
-	QObject::connect(SpaceFilterDialog, SIGNAL(sendDstImage(cv::Mat)), this, SLOT(spaceFilterCore(cv::Mat)));
+	QObject::connect(SpaceFilterDialog, SIGNAL(sendDstImage(Mat)), this, SLOT(spaceFilterCore(Mat)));
 	SpaceFilterDialog->show();
 }
 void MainWindow::spaceFilterCore(Mat dst) {
+	dstImage = dst;
 	dstQimage = Mat2QImage(dst);
 	display();
 	save_on();
@@ -344,13 +364,15 @@ void MainWindow::spaceFilterCore(Mat dst) {
 
 //dct
 void  MainWindow::dctSolt() {
-	DctTransformation *Dcter = new DctTransformation(srcImage);
+	nowImage = dstImage;
+	DctTransformation *Dcter = new DctTransformation(nowImage);
 	Dcter->setAttribute(Qt::WA_DeleteOnClose);
 	Dcter->setWindowTitle(tr("dctTransformation"));
 	QObject::connect(Dcter, SIGNAL(sendDstImage(Mat)), this, SLOT(dctCore(Mat)));
 	Dcter->show();
 }
 void  MainWindow::dctCore(Mat dst) {
+	dstImage = dst;
 	dstQimage = Mat2QImage(dst);
 	display();
 	save_on();
