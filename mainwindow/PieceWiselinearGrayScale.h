@@ -15,8 +15,10 @@ public slots:
 	void sendAndPaint();
 signals:
 	void inflectionPoint(int X1,int Y1,int X2,int Y2);
+	void closeAndPush();
 private:
 	Ui::PieceWiselinearGrayScale *ui;
 	QLineSeries *series;
 	QChart *chart;
+	void closeEvent(QCloseEvent *event);
 };

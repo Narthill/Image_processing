@@ -16,7 +16,9 @@ public slots:
 	void filtering();
 signals:
 	void sendDstImage(cv::Mat);
+	void closeAndPush();
 private:
 	Ui::SpaceFilter *ui;
 	cv::Mat srcImg;
+	void closeEvent(QCloseEvent *event);
 };

@@ -18,9 +18,11 @@ public slots:
 	void filtering();
 signals:
 	void idftImage(cv::Mat);
+	void closeAndPush();
 private:
 	Ui::FreqFilter *ui;
 	cv::Mat resource;
 	cv::Mat dstImage;
 	cv::Mat srcSpectrum;
+	void closeEvent(QCloseEvent *event);
 };

@@ -26,7 +26,7 @@
          <widget class="QGraphicsView" name="resultView"/>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="5,1">
+         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="5,0,1">
           <item>
            <spacer name="horizontalSpacer_2">
             <property name="orientation">
@@ -39,6 +39,13 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="revokeBtn">
+            <property name="text">
+             <string>撤销</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="clearResult">

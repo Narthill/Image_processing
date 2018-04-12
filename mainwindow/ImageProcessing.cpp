@@ -504,6 +504,7 @@ Mat ImageProcessing::dftMultiply(Mat &dftImg, Mat &kernel) {
 Mat ImageProcessing::idftTransformation(Mat &outImage) {
 	idft(outImage, outImage);//逆变换
 	outImage = ShowImage(outImage);//转换为可视图像
+	cv::cvtColor(outImage, outImage, CV_GRAY2RGB);
 	return outImage;
 }
 

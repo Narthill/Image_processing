@@ -18,7 +18,9 @@ public slots:
 	void dct();
 signals:
 	void sendDstImage(Mat);
+	void closeAndPush();
 private:
 	Ui::DctTransformation *ui;
 	Mat srcImg;
+	void closeEvent(QCloseEvent *event);
 };

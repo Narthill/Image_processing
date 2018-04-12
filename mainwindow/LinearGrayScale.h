@@ -14,6 +14,8 @@ public slots:
 	void send();
 signals:
 	void contrastAndBright(int,int);
+	void closeAndPush();
 private:
 	Ui::LinearGrayScale *ui;
+	void closeEvent(QCloseEvent *event);
 };

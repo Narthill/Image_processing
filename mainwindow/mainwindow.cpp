@@ -14,7 +14,7 @@
 #include"FreqFilter.h"
 #include"SpaceFilter.h"
 #include"DctTransformation.h"
-
+#include<iostream>
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 {
 	ui = new Ui::MainWindow;
@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	ui->setupUi(this);
 	ui->menu_image->setEnabled(false);
 	ui->menu_video->setEnabled(false);
+	ui->revokeBtn->setEnabled(false);
 	save_off();
 	
 	ui->actionopen->setShortcuts(QKeySequence::Open);
@@ -51,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	connect(ui->action_SpaceFilter, &QAction::triggered, this, &MainWindow::spaceFilterSolt);//空间滤波
 
 	connect(ui->action_Dct, &QAction::triggered, this, &MainWindow::dctSolt);//dct
+	connect(ui->revokeBtn, &QPushButton::clicked, this, &MainWindow::revoke);//dct
 }
 
 MainWindow::~MainWindow()
@@ -73,6 +75,7 @@ void MainWindow::open()
 		srcImage = imread(filename.toLocal8Bit().data());
 		nowImage = srcImage.clone();//当前img;
 		dstImage = srcImage.clone();
+		imageQueue.push_back(nowImage);//压入原图
 		resultScene.clear();//清空原图面板
 
 		//QImage加载成功则展示
@@ -135,7 +138,6 @@ void MainWindow::save_off() {
 void MainWindow::display() {
 	resultScene.clear();//清空结果面板
 	QGraphicsScene *rScene = &resultScene;
-
 	//int with = ui->resultView->width();
 	//int height = ui->resultView->height();
 	QPixmap pixmap = QPixmap::fromImage(dstQimage);
@@ -153,8 +155,71 @@ void MainWindow::display() {
 //	ui->menu_video->setEnabled(false);
 //}
 
+//判断图片是否相同
+bool  MainWindow::matIsEqual(const cv::Mat mat1, const cv::Mat mat2) {
+	if (mat1.empty() && mat2.empty()) {
+		return true;
+	}
+	if (mat1.cols != mat2.cols || mat1.rows != mat2.rows || mat1.dims != mat2.dims ||
+		mat1.channels() != mat2.channels()) {
+		return false;
+	}
+	if (mat1.size() != mat2.size() || mat1.channels() != mat2.channels() || mat1.type() != mat2.type()) {
+		return false;
+	}
+	int nrOfElements1 = mat1.total()*mat1.elemSize();
+	if (nrOfElements1 != mat2.total()*mat2.elemSize()) return false;
+	bool lvRet = memcmp(mat1.data, mat2.data, nrOfElements1) == 0;
+	return lvRet;
+}
+
+//撤销
+void MainWindow::revoke(){
+
+	if (!matIsEqual(imageQueue.back(), dstImage)) {//如果当前压栈的图和上一张图不相同则压栈
+		nowImage = dstImage;//一旦触发信号保存上一次处理最后留下来的图到nowImage
+		imageQueue.push_back(nowImage);//最后生成图进栈
+	}
+
+	//以下实现撤销
+	imageQueue.pop_back();//末尾图出栈
+	dstImage =imageQueue.back();//将dstImage指向出栈后栈的末尾
+	//qDebug() <<"出栈::"<< imageQueue.size();
+	nowImage=dstImage;//为当前图像赋值
+	dstQimage = Mat2QImage(dstImage);
+
+	display();
+
+	if (imageQueue.size() > 1) {
+		ui->revokeBtn->setEnabled(true);
+	}
+	else {
+		ui->revokeBtn->setEnabled(false);
+	}
+	/*if (imageQueue.size() <= 1) {
+		ui->revokeBtn->setEnabled(false);
+	}*/
+}
+
+void MainWindow::pushImg() {
+	if (!matIsEqual(imageQueue.back(), dstImage)) {//如果当前压栈的图和上一张图不相同则压栈
+		nowImage = dstImage;//一旦触发信号保存上一次处理最后留下来的图到nowImage
+		imageQueue.push_back(nowImage);//最后生成图进栈
+		if (imageQueue.size() > 1) {
+			ui->revokeBtn->setEnabled(true);
+		}
+		else {
+			ui->revokeBtn->setEnabled(false);
+		}
+	}
+}
+
 //清除生成图
 void MainWindow::clearResult() {
+	imageQueue.clear();//清空栈
+	nowImage = NULL;
+	dstImage = NULL;
+	srcImage = NULL;
 	resultScene.clear();//清空原图面板
 	ui->menu_image->setEnabled(false);
 	ui->menu_video->setEnabled(false);
@@ -170,10 +235,13 @@ void MainWindow::turn()
 
 //灰度化
 void MainWindow::gray() {
+	
+
 	ImageProcessing img(nowImage);
 	dstImage = img.rgb2gray();
 
-	nowImage = dstImage;
+	pushImg();
+
 	//将Mat图像转换为QImage图像，才能显示
 	dstQimage = Mat2QImage(dstImage);
 	display();
@@ -182,13 +250,13 @@ void MainWindow::gray() {
 
 //二值化
 void MainWindow::binarySolt() {
-	nowImage = dstImage;
 	Binary *BinaryDialog = new Binary();
 	//对话框关闭时销毁
 	BinaryDialog->setAttribute(Qt::WA_DeleteOnClose);
 	BinaryDialog->setWindowTitle(tr("Binary"));
 	//BinaryDialog的阈值发送给二值的core
 	connect(BinaryDialog, SIGNAL(BinaryThres(int)), this, SLOT(binaryCore(int)));
+	connect(BinaryDialog, SIGNAL(closeAndPush()), this, SLOT(pushImg()));//收到关闭信号则图像压栈
 	//ui->widget->addwidget(BinaryDialog)
 	BinaryDialog->show();
 }
@@ -202,11 +270,11 @@ void MainWindow::binaryCore(int thres) {
 
 //线性灰度变换
 void MainWindow::linearGraySolt() {
-	nowImage = dstImage;
 	LinearGrayScale *LinearGrayScaleDialog = new LinearGrayScale();
 	LinearGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
 	LinearGrayScaleDialog->setWindowTitle(tr("LinearGrayScale"));
 	connect(LinearGrayScaleDialog, SIGNAL(contrastAndBright(int,int)), this, SLOT(linearGrayCore(int,int)));
+	connect(LinearGrayScaleDialog, SIGNAL(closeAndPush()), this, SLOT(pushImg()));
 	LinearGrayScaleDialog->show();
 }
 void MainWindow::linearGrayCore(int contrastValue, int brightValue) {
@@ -220,11 +288,11 @@ void MainWindow::linearGrayCore(int contrastValue, int brightValue) {
 
 //分段线性变换
 void MainWindow::pieceWiselinearGraySolt() {
-	nowImage = dstImage;
 	PieceWiselinearGrayScale *PieceWiselinearGrayScaleDialog = new PieceWiselinearGrayScale();
 	PieceWiselinearGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
 	PieceWiselinearGrayScaleDialog->setWindowTitle(tr("PieceWiselinearGrayScale"));
 	connect(PieceWiselinearGrayScaleDialog, SIGNAL(inflectionPoint(int,int,int,int)), this, SLOT(pieceWiselinearGrayCore(int,int,int,int)));
+	connect(PieceWiselinearGrayScaleDialog, SIGNAL(closeAndPush()), this, SLOT(pushImg()));//收到关闭信号则图像压栈
 	PieceWiselinearGrayScaleDialog->show();
 }
 void MainWindow::pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2) {
@@ -238,11 +306,11 @@ void MainWindow::pieceWiselinearGrayCore(int X1, int Y1, int X2, int Y2) {
 
 //对数
 void MainWindow::loglinearGrayScaleSolt() {
-	nowImage = dstImage;
 	LoglinearGrayScale *loglinearGrayScaleDialog = new LoglinearGrayScale();
 	loglinearGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
 	loglinearGrayScaleDialog->setWindowTitle(tr("PieceWiselinearGrayScale"));
 	connect(loglinearGrayScaleDialog, SIGNAL(Loglinear(int)), this, SLOT(loglinearGrayScaleCore(int)));
+	connect(loglinearGrayScaleDialog, SIGNAL(closeAndPush()), this, SLOT(pushImg()));//收到关闭信号则图像压栈
 	loglinearGrayScaleDialog->show();
 }
 void MainWindow::loglinearGrayScaleCore(int c) {
@@ -256,11 +324,11 @@ void MainWindow::loglinearGrayScaleCore(int c) {
 
 //幂率
 void MainWindow::powerLawGrayScaleSolt() {
-	nowImage = dstImage;
 	PowerLawGrayScale *PowerLawGrayScaleDialog = new PowerLawGrayScale();
 	PowerLawGrayScaleDialog->setAttribute(Qt::WA_DeleteOnClose);
 	PowerLawGrayScaleDialog->setWindowTitle(tr("PieceWiselinearGrayScale"));
 	connect(PowerLawGrayScaleDialog, SIGNAL(PowerLaw(double)), this, SLOT(powerLawGrayScaleCore(double)));
+	connect(PowerLawGrayScaleDialog, SIGNAL(closeAndPush()), this, SLOT(pushImg()));//收到关闭信号则图像压栈
 	PowerLawGrayScaleDialog->show();
 }
 void MainWindow::powerLawGrayScaleCore(double index) {
@@ -274,13 +342,13 @@ void MainWindow::powerLawGrayScaleCore(double index) {
 
 //颜色空间缩减
 void MainWindow::cutColorSolt() {
-	nowImage = dstImage;
 	CutColor *CutColorDialog = new CutColor();
 	//对话框关闭时销毁
 	CutColorDialog->setAttribute(Qt::WA_DeleteOnClose);
 	CutColorDialog->setWindowTitle(tr("CutColor"));
 	//BinaryDialog的阈值发送给二值的core
 	connect(CutColorDialog, SIGNAL(CutColorRank(int)), this, SLOT(cutColorCore(int)));
+	connect(CutColorDialog, SIGNAL(closeAndPush()), this, SLOT(pushImg()));//收到关闭信号则图像压栈
 	CutColorDialog->show();
 }
 void MainWindow::cutColorCore(int n) {
@@ -293,13 +361,13 @@ void MainWindow::cutColorCore(int n) {
 
 //直方图及均衡化
 void MainWindow::HistogramSolt() {
-	nowImage = dstImage;
 	Histogram *hist = new Histogram();
 	hist->getSrcImg(nowImage);
 	//对话框关闭时销毁
 	hist->setAttribute(Qt::WA_DeleteOnClose);
 	hist->setWindowTitle(tr("histogram"));
 	QObject::connect(hist, SIGNAL(equaliPic(Mat)), this, SLOT(HistogramCore(Mat)));
+	connect(hist, SIGNAL(closeAndPush()), this, SLOT(pushImg()));//收到关闭信号则图像压栈
 	hist->show();
 }
 void MainWindow::HistogramCore(Mat dst) {
@@ -311,13 +379,13 @@ void MainWindow::HistogramCore(Mat dst) {
 
 //边缘检测
 void MainWindow::EdgeDetectionSolt() {
-	nowImage = dstImage;
 	EdgeDetection *EdgeDetectionDialog = new EdgeDetection();
 	//对话框关闭时销毁
 	EdgeDetectionDialog->setAttribute(Qt::WA_DeleteOnClose);
 	EdgeDetectionDialog->setWindowTitle(tr("EdgeDetection"));
 	//BinaryDialog的阈值发送给二值的core
 	connect(EdgeDetectionDialog, SIGNAL(EdgeNum(int, int, int, int)), this, SLOT(EdgeDetectionCore(int,int,int,int)));
+	connect(EdgeDetectionDialog, SIGNAL(closeAndPush()), this, SLOT(pushImg()));//收到关闭信号则图像压栈
 	EdgeDetectionDialog->show();
 }
 void MainWindow::EdgeDetectionCore(int w,int b,int s,int kSize) {
@@ -330,13 +398,13 @@ void MainWindow::EdgeDetectionCore(int w,int b,int s,int kSize) {
 
 //频域滤波
 void MainWindow::freqFilterSolt() {
-	nowImage = dstImage;
 	FreqFilter *FreqFilterDialog = new FreqFilter();
 	FreqFilterDialog->getSrcImg(nowImage);
 	FreqFilterDialog->srcDftSpectrum();
 	FreqFilterDialog->setAttribute(Qt::WA_DeleteOnClose);
 	FreqFilterDialog->setWindowTitle(tr("freqFilter"));
 	QObject::connect(FreqFilterDialog, SIGNAL(idftImage(Mat)), this, SLOT(freqFilterCore(Mat)));
+	connect(FreqFilterDialog, SIGNAL(closeAndPush()), this, SLOT(pushImg()));//收到关闭信号则图像压栈
 	FreqFilterDialog->show();
 }
 void MainWindow::freqFilterCore(Mat dst) {
@@ -348,11 +416,11 @@ void MainWindow::freqFilterCore(Mat dst) {
 
 //空间滤波
 void MainWindow::spaceFilterSolt() {
-	nowImage = dstImage;
 	SpaceFilter *SpaceFilterDialog = new SpaceFilter(nowImage);
 	SpaceFilterDialog->setAttribute(Qt::WA_DeleteOnClose);
 	SpaceFilterDialog->setWindowTitle(tr("spaceFilter"));
 	QObject::connect(SpaceFilterDialog, SIGNAL(sendDstImage(Mat)), this, SLOT(spaceFilterCore(Mat)));
+	connect(SpaceFilterDialog, SIGNAL(closeAndPush()), this, SLOT(pushImg()));//收到关闭信号则图像压栈
 	SpaceFilterDialog->show();
 }
 void MainWindow::spaceFilterCore(Mat dst) {
@@ -364,11 +432,11 @@ void MainWindow::spaceFilterCore(Mat dst) {
 
 //dct
 void  MainWindow::dctSolt() {
-	nowImage = dstImage;
 	DctTransformation *Dcter = new DctTransformation(nowImage);
 	Dcter->setAttribute(Qt::WA_DeleteOnClose);
 	Dcter->setWindowTitle(tr("dctTransformation"));
 	QObject::connect(Dcter, SIGNAL(sendDstImage(Mat)), this, SLOT(dctCore(Mat)));
+	connect(Dcter, SIGNAL(closeAndPush()), this, SLOT(pushImg()));//收到关闭信号则图像压栈
 	Dcter->show();
 }
 void  MainWindow::dctCore(Mat dst) {

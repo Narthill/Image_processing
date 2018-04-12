@@ -14,6 +14,8 @@ public slots:
 	void send();
 signals:
 	void CutColorRank(int);
+	void closeAndPush();
 private:
 	Ui::CutColor *ui;
+	void closeEvent(QCloseEvent *event);
 };

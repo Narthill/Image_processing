@@ -38,3 +38,9 @@ void LinearGrayScale::send() {
 
 	emit contrastAndBright(contrast, bright);
 }
+
+//¹Ø±ÕÊÂ¼þ
+void LinearGrayScale::closeEvent(QCloseEvent *event)
+{
+	emit closeAndPush();
+}

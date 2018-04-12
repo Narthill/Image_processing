@@ -16,6 +16,8 @@ public slots:
 	void slotslider_DoubleSpinBox();
 signals:
 	void PowerLaw(double);
+	void closeAndPush();
 private:
 	Ui::PowerLawGrayScale *ui;
+	void closeEvent(QCloseEvent *event);
 };

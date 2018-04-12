@@ -73,3 +73,9 @@ void DctTransformation::slotslider_DoubleSpinBox()
 {
 	ui->dctSpinBox->setValue((double)(ui->dctSlider->value()) / 10);
 }
+
+//¹Ø±ÕÊÂ¼ş
+void DctTransformation::closeEvent(QCloseEvent *event)
+{
+	emit closeAndPush();
+}

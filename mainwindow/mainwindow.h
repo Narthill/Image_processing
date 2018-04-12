@@ -24,7 +24,9 @@ private slots:
 	void open();
 	void save();
 	void saveAs();
-
+	void revoke();//撤销
+	void pushImg();//压栈
+	bool matIsEqual(const cv::Mat mat1, const cv::Mat mat2);//判断两图是否相等
 	//处理槽	
 
 	void turn();
@@ -66,6 +68,7 @@ public:
 	void save_on();
 	void save_off();
 	void display();
+	
 	//void clearFormer();
 	void clearResult();
 
@@ -79,6 +82,7 @@ private:
 	QImage dstQimage;//生成图的QImage
 	//QGraphicsScene formerScene;
 	QGraphicsScene resultScene;
+	vector<Mat> imageQueue;
 	
 };
 #endif // MAINWINDOW_H

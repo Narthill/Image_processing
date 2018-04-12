@@ -18,8 +18,10 @@ public slots:
 	void doHist();
 signals:
 	void equaliPic(cv::Mat);
+	void closeAndPush();
 private:
 	Ui::Histogram *ui;
 	cv::Mat resource;
 	cv::Mat dstImage;
+	void closeEvent(QCloseEvent *event);
 };

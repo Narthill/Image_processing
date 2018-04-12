@@ -28,3 +28,9 @@ void CutColor::send() {
 	int n = ui->nSlider->value();
 	emit CutColorRank(n);
 }
+
+//¹Ø±ÕÊÂ¼ş
+void CutColor::closeEvent(QCloseEvent *event)
+{
+	emit closeAndPush();
+}

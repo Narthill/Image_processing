@@ -70,3 +70,9 @@ void Histogram::equaliAndSend() {
 	emit equaliPic(dstImage);
 
 }
+
+//¹Ø±ÕÊÂ¼þ
+void Histogram::closeEvent(QCloseEvent *event)
+{
+	emit closeAndPush();
+}

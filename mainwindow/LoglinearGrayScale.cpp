@@ -29,3 +29,9 @@ void LoglinearGrayScale::send() {
 	int c = ui->cSlider->value();
 	emit Loglinear(c);
 }
+
+//¹Ø±ÕÊÂ¼ş
+void LoglinearGrayScale::closeEvent(QCloseEvent *event)
+{
+	emit closeAndPush();
+}

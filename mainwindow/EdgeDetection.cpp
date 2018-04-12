@@ -55,3 +55,9 @@ void EdgeDetection::send() {
 
 	emit EdgeNum(w,b,s,kSize);
 }
+
+//¹Ø±ÕÊÂ¼þ
+void EdgeDetection::closeEvent(QCloseEvent *event)
+{
+	emit closeAndPush();
+}

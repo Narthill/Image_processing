@@ -14,6 +14,8 @@ public slots:
 	void send();
 signals:
 	void BinaryThres(int);
+	void closeAndPush();
 private:
 	Ui::Binary *ui;
+	void closeEvent(QCloseEvent *event);
 };

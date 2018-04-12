@@ -38,3 +38,9 @@ void PowerLawGrayScale::slotslider_DoubleSpinBox()
 {
 	ui->indexSpinBox->setValue((double)(ui->indexSlider->value()) / 10);
 }
+
+//¹Ø±ÕÊÂ¼þ
+void PowerLawGrayScale::closeEvent(QCloseEvent *event)
+{
+	emit closeAndPush();
+}

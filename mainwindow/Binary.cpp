@@ -31,3 +31,9 @@ void Binary::send() {
 	int thres = ui->BinarySlider->value();
 	emit BinaryThres(thres);
 }
+
+//¹Ø±ÕÊÂ¼ş
+void Binary::closeEvent(QCloseEvent *event)
+{
+	emit closeAndPush();
+}

@@ -14,6 +14,8 @@ public slots:
 	void send();
 signals:
 	void Loglinear(int);
+	void closeAndPush();
 private:
 	Ui::LoglinearGrayScale *ui;
+	void closeEvent(QCloseEvent *event);
 };

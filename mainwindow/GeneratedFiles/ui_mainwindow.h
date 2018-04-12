@@ -63,6 +63,7 @@ public:
     QGraphicsView *resultView;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer_2;
+    QPushButton *revokeBtn;
     QPushButton *clearResult;
     QStatusBar *statusBar;
     QMenuBar *menuBar;
@@ -153,6 +154,11 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer_2);
 
+        revokeBtn = new QPushButton(layoutWidget);
+        revokeBtn->setObjectName(QStringLiteral("revokeBtn"));
+
+        horizontalLayout_2->addWidget(revokeBtn);
+
         clearResult = new QPushButton(layoutWidget);
         clearResult->setObjectName(QStringLiteral("clearResult"));
         clearResult->setLayoutDirection(Qt::LeftToRight);
@@ -160,7 +166,7 @@ public:
         horizontalLayout_2->addWidget(clearResult);
 
         horizontalLayout_2->setStretch(0, 5);
-        horizontalLayout_2->setStretch(1, 1);
+        horizontalLayout_2->setStretch(2, 1);
 
         verticalLayout_3->addLayout(horizontalLayout_2);
 
@@ -246,6 +252,7 @@ public:
         action_SpaceFilter->setIconText(QApplication::translate("MainWindow", "\347\251\272\351\227\264\346\273\244\346\263\242", Q_NULLPTR));
         action_FreqFilter->setText(QApplication::translate("MainWindow", "\351\242\221\345\237\237\346\273\244\346\263\242", Q_NULLPTR));
         action_FreqFilter->setIconText(QApplication::translate("MainWindow", "\351\242\221\345\237\237\346\273\244\346\263\242", Q_NULLPTR));
+        revokeBtn->setText(QApplication::translate("MainWindow", "\346\222\244\351\224\200", Q_NULLPTR));
         clearResult->setText(QApplication::translate("MainWindow", "\346\270\205\347\251\272", Q_NULLPTR));
         menu->setTitle(QApplication::translate("MainWindow", "\346\226\207\344\273\266", Q_NULLPTR));
         menu_image->setTitle(QApplication::translate("MainWindow", "\345\233\276\345\203\217", Q_NULLPTR));

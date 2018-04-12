@@ -136,3 +136,9 @@ void SpaceFilter::filtering() {
 
 	emit sendDstImage(dstImg);
 }
+
+//¹Ø±ÕÊÂ¼þ
+void SpaceFilter::closeEvent(QCloseEvent *event)
+{
+	emit closeAndPush();
+}

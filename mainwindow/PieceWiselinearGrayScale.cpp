@@ -99,3 +99,9 @@ void PieceWiselinearGrayScale::sendAndPaint() {
 
 	emit inflectionPoint(X1,Y1,X2,Y2);
 }
+
+//¹Ø±ÕÊÂ¼þ
+void PieceWiselinearGrayScale::closeEvent(QCloseEvent *event)
+{
+	emit closeAndPush();
+}

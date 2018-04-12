@@ -120,3 +120,9 @@ void FreqFilter::filtering() {
 
 	emit idftImage(dstImg);
 }
+
+//¹Ø±ÕÊÂ¼ş
+void FreqFilter::closeEvent(QCloseEvent *event)
+{
+	emit closeAndPush();
+}
