@@ -166,6 +166,7 @@ public:
         horizontalLayout_2->addWidget(clearResult);
 
         horizontalLayout_2->setStretch(0, 5);
+        horizontalLayout_2->setStretch(1, 1);
         horizontalLayout_2->setStretch(2, 1);
 
         verticalLayout_3->addLayout(horizontalLayout_2);

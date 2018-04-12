@@ -26,7 +26,7 @@
          <widget class="QGraphicsView" name="resultView"/>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="5,0,1">
+         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="5,1,1">
           <item>
            <spacer name="horizontalSpacer_2">
             <property name="orientation">
