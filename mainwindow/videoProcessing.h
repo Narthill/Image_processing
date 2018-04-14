@@ -22,11 +22,12 @@ public:
 public slots:
 	void openVideo();
 	void save();
-	void saveAs();
+	//void saveAs();
 	void playVideo();
 	void pauseVideo();
 	void sliderReleased();
-	
+signals:
+	void closeVideo();
 private:
 	Ui::videoProcessing *ui;
 	QTimer *time_clock;
@@ -43,4 +44,7 @@ private:
 	int videoWidth;
 	int videoHeight;
 	int fourcc;//四字符代码
+
+	//关闭事件
+	void closeEvent(QCloseEvent * event);
 };

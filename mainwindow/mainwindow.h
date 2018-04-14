@@ -66,13 +66,13 @@ private slots:
 	void EdgeDetectionSolt();
 	void EdgeDetectionCore(int w, int b, int s, int kSize);
 
-	void videoProcess();
+ signals:
+	void closeImage();
 public:
 	void save_on();
 	void save_off();
 	void display();
 	
-	//void clearFormer();
 	void clearResult();
 
 private:
@@ -83,9 +83,11 @@ private:
 	Mat dstImage;	//生成mat
 	QImage srcQimage;//原图的QImage
 	QImage dstQimage;//生成图的QImage
-	//QGraphicsScene formerScene;
 	QGraphicsScene resultScene;
 	vector<Mat> imageQueue;
+
+	//关闭事件
+	void closeEvent(QCloseEvent * event);
 	
 };
 #endif // MAINWINDOW_H

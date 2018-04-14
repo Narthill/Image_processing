@@ -4,13 +4,15 @@
 videoProcessing::videoProcessing(QWidget *parent)
 	: QMainWindow(parent)
 {
+	
 	ui = new Ui::videoProcessing;
+
 	ui->setupUi(this);
 	ui->actionopen->setShortcuts(QKeySequence::Open);
 	ui->actionsave->setShortcuts(QKeySequence::Save);
 	ui->actionsaveAs->setShortcuts(QKeySequence::SaveAs);
 	connect(ui->actionsave, &QAction::triggered, this, &videoProcessing::save);
-	connect(ui->actionsaveAs, &QAction::triggered, this, &videoProcessing::saveAs);
+	//connect(ui->actionsaveAs, &QAction::triggered, this, &videoProcessing::saveAs);
 
 
 	ui->videoLabel->setAlignment(Qt::AlignCenter);//设置视频居中
@@ -24,6 +26,9 @@ videoProcessing::videoProcessing(QWidget *parent)
 
 	connect(ui->videoSlider, &QSlider::sliderPressed, this, &videoProcessing::pauseVideo);
 	connect(ui->videoSlider, &QSlider::sliderReleased, this, &videoProcessing::sliderReleased);
+
+	//connect(this, SIGNAL(closeVideo()), parentWidget(), SLOT(showMain()));
+
 }
 
 videoProcessing::~videoProcessing()
@@ -38,10 +43,11 @@ void videoProcessing::save() {
 	QString otherFilename = QFileDialog::getSaveFileName(this,
 		tr("视频保存"),
 		".",
-		tr("video Files"));
+		tr("video Files(*.avi)"));
 	string fileSave = otherFilename.toStdString();
+	capture.set(CV_CAP_PROP_POS_FRAMES, 0);
 	VideoWriter out(fileSave,fourcc,fps,Size(videoWidth,videoHeight));
-	for (long i = 0; i < totalFrameNumber-1;i++) {
+	for (long i = 0; i < totalFrameNumber;i++) {
 		statusBar()->showMessage(tr("正在保存视频"));
 		Mat next_frame;
 		capture.read(next_frame);
@@ -49,21 +55,22 @@ void videoProcessing::save() {
 		statusBar()->showMessage(tr("正在保存视频..."));
 	}
 	statusBar()->showMessage(tr("保存完毕"));
+	capture.set(CV_CAP_PROP_POS_FRAMES, 0);
 }
 
 //另存为
-void videoProcessing::saveAs() {
-	QString otherFilename = QFileDialog::getSaveFileName(this,
-		tr("视频保存"),
-		".",
-		tr("video Files"));
-	if (!otherFilename.isEmpty()) {
-		string fileSave = otherFilename.toStdString();
-	}
-	else {
-		return;
-	}
-}
+//void videoProcessing::saveAs() {
+//	QString otherFilename = QFileDialog::getSaveFileName(this,
+//		tr("视频保存"),
+//		".",
+//		tr("video Files(*.avi)"));
+//	if (!otherFilename.isEmpty()) {
+//		string fileSave = otherFilename.toStdString();
+//	}
+//	else {
+//		return;
+//	}
+//}
 
 
 void videoProcessing::openVideo() {
@@ -136,4 +143,10 @@ void videoProcessing::sliderReleased() {
 	}
 	nowFrame = ui->videoSlider->value();//滑动条的值赋值给当前帧
 	capture.set(CV_CAP_PROP_POS_FRAMES, nowFrame);//将视频定位到当前帧
+}
+
+void videoProcessing::closeEvent(QCloseEvent *event)
+{
+	emit closeVideo();
+	/*parentWidget()->show();*/
 }

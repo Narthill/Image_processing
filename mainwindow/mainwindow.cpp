@@ -20,12 +20,13 @@
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 {
+	
 	ui = new Ui::MainWindow;
+
 	qRegisterMetaType<Mat>("Mat");//注册mat类型数据在信号槽中可传递
-	setWindowState(Qt::WindowMaximized);//可最大化
+
 	ui->setupUi(this);
 	ui->menu_image->setEnabled(false);
-	//ui->menu_video->setEnabled(false);
 	ui->revokeBtn->setEnabled(false);
 	save_off();
 	
@@ -56,9 +57,10 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 	connect(ui->action_SpaceFilter, &QAction::triggered, this, &MainWindow::spaceFilterSolt);//空间滤波
 
 	connect(ui->action_Dct, &QAction::triggered, this, &MainWindow::dctSolt);//dct
-	
+
+	//connect(this, SIGNAL(closeImage()), parentWidget(), SLOT(showMain()));
 	//----------视频
-	connect(ui->actionvideo, &QAction::triggered, this, &MainWindow::videoProcess);
+	//connect(ui->actionvideo, &QAction::triggered, this, &MainWindow::videoProcess);
 }
 
 MainWindow::~MainWindow()
@@ -443,14 +445,19 @@ void  MainWindow::dctCore(Mat dst) {
 	save_on();
 }
 
-
-//图像
-void MainWindow::videoProcess() {
-	videoProcessing *video = new videoProcessing();
-	video->setAttribute(Qt::WA_DeleteOnClose);
-	video->setWindowTitle(tr("视频处理"));
-	video->show();
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+	/*parentWidget()->show();*/
+	emit closeImage();
 }
+
+//视频
+//void MainWindow::videoProcess() {
+//	videoProcessing *video = new videoProcessing();
+//	video->setAttribute(Qt::WA_DeleteOnClose);
+//	video->setWindowTitle(tr("视频处理"));
+//	video->show();
+//}
 
 //滤波
 //void MainWindow::filter() {
