@@ -132,6 +132,7 @@
     <ClCompile Include="PieceWiselinearGrayScale.cpp" />
     <ClCompile Include="PowerLawGrayScale.cpp" />
     <ClCompile Include="SpaceFilter.cpp" />
+    <ClCompile Include="videoProcessing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h" />
@@ -151,11 +152,13 @@
     <QtUic Include="PieceWiselinearGrayScale.ui" />
     <QtUic Include="PowerLawGrayScale.ui" />
     <QtUic Include="SpaceFilter.ui" />
+    <QtUic Include="videoProcessing.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="mainwindow.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="videoProcessing.h" />
     <QtMoc Include="SpaceFilter.h" />
     <QtMoc Include="PieceWiselinearGrayScale.h" />
     <QtMoc Include="CutColor.h" />

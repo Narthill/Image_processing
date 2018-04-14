@@ -55,6 +55,7 @@ public:
     QAction *action4_2;
     QAction *action_SpaceFilter;
     QAction *action_FreqFilter;
+    QAction *actionvideo;
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout_3;
     QSplitter *splitter;
@@ -126,6 +127,8 @@ public:
         action_SpaceFilter->setObjectName(QStringLiteral("action_SpaceFilter"));
         action_FreqFilter = new QAction(MainWindow);
         action_FreqFilter->setObjectName(QStringLiteral("action_FreqFilter"));
+        actionvideo = new QAction(MainWindow);
+        actionvideo->setObjectName(QStringLiteral("actionvideo"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         horizontalLayout_3 = new QHBoxLayout(centralWidget);
@@ -218,6 +221,7 @@ public:
         menu_2->addAction(action_PowerLawlinearGray);
         menu_3->addAction(action_SpaceFilter);
         menu_3->addAction(action_FreqFilter);
+        menu_video->addAction(actionvideo);
 
         retranslateUi(MainWindow);
 
@@ -253,6 +257,7 @@ public:
         action_SpaceFilter->setIconText(QApplication::translate("MainWindow", "\347\251\272\351\227\264\346\273\244\346\263\242", Q_NULLPTR));
         action_FreqFilter->setText(QApplication::translate("MainWindow", "\351\242\221\345\237\237\346\273\244\346\263\242", Q_NULLPTR));
         action_FreqFilter->setIconText(QApplication::translate("MainWindow", "\351\242\221\345\237\237\346\273\244\346\263\242", Q_NULLPTR));
+        actionvideo->setText(QApplication::translate("MainWindow", "\350\247\206\351\242\221\345\244\204\347\220\206", Q_NULLPTR));
         revokeBtn->setText(QApplication::translate("MainWindow", "\346\222\244\351\224\200", Q_NULLPTR));
         clearResult->setText(QApplication::translate("MainWindow", "\346\270\205\347\251\272", Q_NULLPTR));
         menu->setTitle(QApplication::translate("MainWindow", "\346\226\207\344\273\266", Q_NULLPTR));

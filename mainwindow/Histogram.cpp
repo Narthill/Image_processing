@@ -8,6 +8,13 @@ Histogram::Histogram(QWidget *parent)
 {
 	ui = new Ui::Histogram;
 	ui->setupUi(this);
+	ui->Rlabel->setAlignment(Qt::AlignCenter);
+	ui->Glabel->setAlignment(Qt::AlignCenter);
+	ui->Blabel->setAlignment(Qt::AlignCenter);
+	ui->Res_Rlabel->setAlignment(Qt::AlignCenter);
+	ui->Res_Glabel->setAlignment(Qt::AlignCenter);
+	ui->Res_Blabel->setAlignment(Qt::AlignCenter);
+
 	//直方图生成信号
 	QObject::connect(ui->getHistBtn, &QPushButton::clicked, this, &Histogram::doHist);
 

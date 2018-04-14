@@ -34,10 +34,10 @@
     <Filter Include="Source Files\main_ui">
       <UniqueIdentifier>{da9a8d5b-949c-45c1-8724-757d2f5c09af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\dialog_ui">
+    <Filter Include="Header Files\image_widget_ui">
       <UniqueIdentifier>{bd989a3e-ee0a-4fb2-bae4-e39e99f92caf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\dialog_ui">
+    <Filter Include="Source Files\image_widget_ui">
       <UniqueIdentifier>{9d429486-f06f-40a4-9611-41f5ed00b5d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -52,78 +52,84 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Binary.cpp">
-      <Filter>Source Files\dialog_ui</Filter>
+      <Filter>Source Files\image_widget_ui</Filter>
     </ClCompile>
     <ClCompile Include="LinearGrayScale.cpp">
-      <Filter>Source Files\dialog_ui</Filter>
+      <Filter>Source Files\image_widget_ui</Filter>
     </ClCompile>
     <ClCompile Include="PieceWiselinearGrayScale.cpp">
-      <Filter>Source Files\dialog_ui</Filter>
+      <Filter>Source Files\image_widget_ui</Filter>
     </ClCompile>
     <ClCompile Include="mainwindow.cpp">
       <Filter>Source Files\main_ui</Filter>
     </ClCompile>
     <ClCompile Include="CutColor.cpp">
-      <Filter>Source Files\dialog_ui</Filter>
+      <Filter>Source Files\image_widget_ui</Filter>
     </ClCompile>
     <ClCompile Include="LoglinearGrayScale.cpp">
-      <Filter>Source Files\dialog_ui</Filter>
+      <Filter>Source Files\image_widget_ui</Filter>
     </ClCompile>
     <ClCompile Include="PowerLawGrayScale.cpp">
-      <Filter>Source Files\dialog_ui</Filter>
+      <Filter>Source Files\image_widget_ui</Filter>
     </ClCompile>
     <ClCompile Include="EdgeDetection.cpp">
-      <Filter>Source Files\dialog_ui</Filter>
+      <Filter>Source Files\image_widget_ui</Filter>
     </ClCompile>
     <ClCompile Include="FreqFilter.cpp">
-      <Filter>Source Files\dialog_ui</Filter>
+      <Filter>Source Files\image_widget_ui</Filter>
     </ClCompile>
     <ClCompile Include="Histogram.cpp">
-      <Filter>Source Files\dialog_ui</Filter>
+      <Filter>Source Files\image_widget_ui</Filter>
     </ClCompile>
     <ClCompile Include="SpaceFilter.cpp">
-      <Filter>Source Files\dialog_ui</Filter>
+      <Filter>Source Files\image_widget_ui</Filter>
     </ClCompile>
     <ClCompile Include="DctTransformation.cpp">
-      <Filter>Source Files\dialog_ui</Filter>
+      <Filter>Source Files\image_widget_ui</Filter>
+    </ClCompile>
+    <ClCompile Include="videoProcessing.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Binary.h">
-      <Filter>Header Files\dialog_ui</Filter>
+      <Filter>Header Files\image_widget_ui</Filter>
     </QtMoc>
     <QtMoc Include="LinearGrayScale.h">
-      <Filter>Header Files\dialog_ui</Filter>
+      <Filter>Header Files\image_widget_ui</Filter>
     </QtMoc>
     <QtMoc Include="PieceWiselinearGrayScale.h">
-      <Filter>Header Files\dialog_ui</Filter>
+      <Filter>Header Files\image_widget_ui</Filter>
     </QtMoc>
     <QtMoc Include="mainwindow.h">
       <Filter>Header Files\main_ui</Filter>
     </QtMoc>
     <QtMoc Include="CutColor.h">
-      <Filter>Header Files\dialog_ui</Filter>
+      <Filter>Header Files\image_widget_ui</Filter>
     </QtMoc>
     <QtMoc Include="LoglinearGrayScale.h">
-      <Filter>Header Files\dialog_ui</Filter>
+      <Filter>Header Files\image_widget_ui</Filter>
     </QtMoc>
     <QtMoc Include="PowerLawGrayScale.h">
-      <Filter>Header Files\dialog_ui</Filter>
+      <Filter>Header Files\image_widget_ui</Filter>
     </QtMoc>
     <QtMoc Include="EdgeDetection.h">
-      <Filter>Header Files\dialog_ui</Filter>
+      <Filter>Header Files\image_widget_ui</Filter>
     </QtMoc>
     <QtMoc Include="FreqFilter.h">
-      <Filter>Header Files\dialog_ui</Filter>
+      <Filter>Header Files\image_widget_ui</Filter>
     </QtMoc>
     <QtMoc Include="Histogram.h">
-      <Filter>Header Files\dialog_ui</Filter>
+      <Filter>Header Files\image_widget_ui</Filter>
     </QtMoc>
     <QtMoc Include="SpaceFilter.h">
-      <Filter>Header Files\dialog_ui</Filter>
+      <Filter>Header Files\image_widget_ui</Filter>
     </QtMoc>
     <QtMoc Include="DctTransformation.h">
-      <Filter>Header Files\dialog_ui</Filter>
+      <Filter>Header Files\image_widget_ui</Filter>
+    </QtMoc>
+    <QtMoc Include="videoProcessing.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +167,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="DctTransformation.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="videoProcessing.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

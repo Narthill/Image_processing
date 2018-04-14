@@ -6,6 +6,8 @@
 #include <QMetaType>  
 #include<QGraphicsScene>
 #include<opencv2/opencv.hpp>  
+#pragma execution_character_set("utf-8")
+
 using namespace cv;
 Q_DECLARE_METATYPE(cv::Mat);
 namespace Ui {
@@ -64,6 +66,7 @@ private slots:
 	void EdgeDetectionSolt();
 	void EdgeDetectionCore(int w, int b, int s, int kSize);
 
+	void videoProcess();
 public:
 	void save_on();
 	void save_off();

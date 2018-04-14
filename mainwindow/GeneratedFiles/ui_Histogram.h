@@ -88,6 +88,7 @@ public:
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         Rlabel = new QLabel(groupBox);
         Rlabel->setObjectName(QStringLiteral("Rlabel"));
+        Rlabel->setStyleSheet(QStringLiteral("background-color:rgb(255, 255, 255)"));
 
         verticalLayout_2->addWidget(Rlabel);
 
@@ -102,6 +103,7 @@ public:
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
         Glabel = new QLabel(groupBox_2);
         Glabel->setObjectName(QStringLiteral("Glabel"));
+        Glabel->setStyleSheet(QStringLiteral("background-color:rgb(255, 255, 255)"));
 
         verticalLayout_4->addWidget(Glabel);
 
@@ -116,6 +118,7 @@ public:
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
         Blabel = new QLabel(groupBox_3);
         Blabel->setObjectName(QStringLiteral("Blabel"));
+        Blabel->setStyleSheet(QStringLiteral("background-color:rgb(255, 255, 255)"));
 
         verticalLayout_3->addWidget(Blabel);
 
@@ -159,6 +162,7 @@ public:
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
         Res_Rlabel = new QLabel(groupBox_4);
         Res_Rlabel->setObjectName(QStringLiteral("Res_Rlabel"));
+        Res_Rlabel->setStyleSheet(QStringLiteral("background-color:rgb(255, 255, 255)"));
 
         verticalLayout_5->addWidget(Res_Rlabel);
 
@@ -173,6 +177,7 @@ public:
         verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
         Res_Glabel = new QLabel(groupBox_5);
         Res_Glabel->setObjectName(QStringLiteral("Res_Glabel"));
+        Res_Glabel->setStyleSheet(QStringLiteral("background-color:rgb(255, 255, 255)"));
 
         verticalLayout_7->addWidget(Res_Glabel);
 
@@ -187,6 +192,7 @@ public:
         verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
         Res_Blabel = new QLabel(groupBox_6);
         Res_Blabel->setObjectName(QStringLiteral("Res_Blabel"));
+        Res_Blabel->setStyleSheet(QStringLiteral("background-color:rgb(255, 255, 255)"));
 
         verticalLayout_6->addWidget(Res_Blabel);
 

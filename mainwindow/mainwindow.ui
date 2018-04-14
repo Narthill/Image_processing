@@ -117,6 +117,7 @@
     <property name="title">
      <string>视频</string>
     </property>
+    <addaction name="actionvideo"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_image"/>
@@ -258,6 +259,11 @@
    </property>
    <property name="iconText">
     <string>频域滤波</string>
+   </property>
+  </action>
+  <action name="actionvideo">
+   <property name="text">
+    <string>视频处理</string>
    </property>
   </action>
  </widget>
