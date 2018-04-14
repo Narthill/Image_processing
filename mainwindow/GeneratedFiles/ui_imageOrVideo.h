@@ -51,6 +51,7 @@ public:
     {
         if (imageOrVideo->objectName().isEmpty())
             imageOrVideo->setObjectName(QStringLiteral("imageOrVideo"));
+        imageOrVideo->setWindowModality(Qt::NonModal);
         imageOrVideo->resize(357, 271);
         centralWidget = new QWidget(imageOrVideo);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));

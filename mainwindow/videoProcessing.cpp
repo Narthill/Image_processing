@@ -40,11 +40,14 @@ videoProcessing::~videoProcessing()
 void videoProcessing::save() {
 	time_clock->stop();
 
-	QString otherFilename = QFileDialog::getSaveFileName(this,
-		tr("视频保存"),
-		".",
-		tr("video Files(*.avi)"));
-	string fileSave = otherFilename.toStdString();
+	//QString otherFilename = QFileDialog::getSaveFileName(this,
+	//	tr("视频保存"),
+	//	".",
+	//	tr("video Files(*.avi)"));
+
+
+	string fileSave = fileName.toStdString();
+	//qDebug() << otherFilename;
 	capture.set(CV_CAP_PROP_POS_FRAMES, 0);
 	VideoWriter out(fileSave,fourcc,fps,Size(videoWidth,videoHeight));
 	for (long i = 0; i < totalFrameNumber;i++) {
@@ -93,6 +96,8 @@ void videoProcessing::openVideo() {
 		fps = capture.get(CV_CAP_PROP_FPS);
 		secondEachFrame = 1000 / fps;//定时器时间=1000ms/帧率
 		time_clock->setInterval(secondEachFrame);//设置定时器时间
+
+		//videoQueue.push_back()
 
 		Mat frameOne;
 		capture.read(frameOne);//获取第一帧

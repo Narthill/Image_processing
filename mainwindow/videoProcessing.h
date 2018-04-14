@@ -34,6 +34,7 @@ private:
 	QString fileName;
 	QImage img;
 	VideoCapture capture;
+	vector<Mat> videoQueue;
 
 	long totalFrameNumber;
 	long nowFrame;
