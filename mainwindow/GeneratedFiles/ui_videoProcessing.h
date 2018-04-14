@@ -33,6 +33,8 @@ class Ui_videoProcessing
 {
 public:
     QAction *actionopen;
+    QAction *actionsave;
+    QAction *actionsaveAs;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_3;
     QVBoxLayout *verticalLayout_2;
@@ -46,6 +48,7 @@ public:
     QSpacerItem *horizontalSpacer_2;
     QMenuBar *menuBar;
     QMenu *menu;
+    QMenu *menu_2;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -56,6 +59,10 @@ public:
         videoProcessing->resize(611, 531);
         actionopen = new QAction(videoProcessing);
         actionopen->setObjectName(QStringLiteral("actionopen"));
+        actionsave = new QAction(videoProcessing);
+        actionsave->setObjectName(QStringLiteral("actionsave"));
+        actionsaveAs = new QAction(videoProcessing);
+        actionsaveAs->setObjectName(QStringLiteral("actionsaveAs"));
         centralWidget = new QWidget(videoProcessing);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayout_3 = new QVBoxLayout(centralWidget);
@@ -118,6 +125,8 @@ public:
         menuBar->setGeometry(QRect(0, 0, 611, 23));
         menu = new QMenu(menuBar);
         menu->setObjectName(QStringLiteral("menu"));
+        menu_2 = new QMenu(menuBar);
+        menu_2->setObjectName(QStringLiteral("menu_2"));
         videoProcessing->setMenuBar(menuBar);
         mainToolBar = new QToolBar(videoProcessing);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -127,7 +136,11 @@ public:
         videoProcessing->setStatusBar(statusBar);
 
         menuBar->addAction(menu->menuAction());
+        menuBar->addAction(menu_2->menuAction());
         menu->addAction(actionopen);
+        menu->addSeparator();
+        menu->addAction(actionsave);
+        menu->addAction(actionsaveAs);
 
         retranslateUi(videoProcessing);
 
@@ -138,10 +151,13 @@ public:
     {
         videoProcessing->setWindowTitle(QApplication::translate("videoProcessing", "videoProcessing", Q_NULLPTR));
         actionopen->setText(QApplication::translate("videoProcessing", "\346\211\223\345\274\200\350\247\206\351\242\221", Q_NULLPTR));
+        actionsave->setText(QApplication::translate("videoProcessing", "\344\277\235\345\255\230", Q_NULLPTR));
+        actionsaveAs->setText(QApplication::translate("videoProcessing", "\345\217\246\345\255\230\344\270\272", Q_NULLPTR));
         videoLabel->setText(QString());
         playBtn->setText(QApplication::translate("videoProcessing", "\346\222\255\346\224\276", Q_NULLPTR));
         pauseBtn->setText(QApplication::translate("videoProcessing", "\346\232\202\345\201\234", Q_NULLPTR));
         menu->setTitle(QApplication::translate("videoProcessing", "\346\226\207\344\273\266", Q_NULLPTR));
+        menu_2->setTitle(QApplication::translate("videoProcessing", "\350\247\206\351\242\221", Q_NULLPTR));
     } // retranslateUi
 
 };

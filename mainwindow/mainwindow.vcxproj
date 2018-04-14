@@ -123,6 +123,7 @@
     <ClCompile Include="EdgeDetection.cpp" />
     <ClCompile Include="FreqFilter.cpp" />
     <ClCompile Include="Histogram.cpp" />
+    <ClCompile Include="imageOrVideo.cpp" />
     <ClCompile Include="ImageProcessing.cpp" />
     <ClCompile Include="LinearGrayScale.cpp" />
     <ClCompile Include="LoglinearGrayScale.cpp" />
@@ -144,6 +145,7 @@
     <QtUic Include="EdgeDetection.ui" />
     <QtUic Include="FreqFilter.ui" />
     <QtUic Include="Histogram.ui" />
+    <QtUic Include="imageOrVideo.ui" />
     <QtUic Include="LinearGrayScale.ui" />
     <QtUic Include="LoglinearGrayScale.ui" />
     <QtUic Include="mainwindow.ui">
@@ -168,6 +170,7 @@
     <QtMoc Include="Histogram.h" />
     <QtMoc Include="FreqFilter.h" />
     <QtMoc Include="DctTransformation.h" />
+    <QtMoc Include="imageOrVideo.h" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="Binary.h" />
     <ClInclude Include="ImageProcessing.h" />

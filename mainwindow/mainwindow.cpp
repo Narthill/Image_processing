@@ -94,8 +94,8 @@ void MainWindow::open()
 		}
 		else {
 			QMessageBox::information(this,
-				tr("failed"),
-				tr("open picture failed!"));
+				tr("操作失败"),
+				tr("图片打开失败!"));
 			return;
 		}
 	}
@@ -182,11 +182,6 @@ bool  MainWindow::matIsEqual(const cv::Mat mat1, const cv::Mat mat2) {
 //撤销
 void MainWindow::revoke(){
 
-	//if (!matIsEqual(imageQueue.back(), dstImage)) {//如果当前压栈的图和上一张图不相同则压栈
-	//	nowImage = dstImage;//一旦触发信号保存上一次处理最后留下来的图到nowImage
-	//	imageQueue.push_back(nowImage);//最后生成图进栈
-	//}
-
 	//以下实现撤销
 	imageQueue.pop_back();//末尾图出栈
 	dstImage =imageQueue.back();//将dstImage指向出栈后栈的末尾
@@ -202,9 +197,6 @@ void MainWindow::revoke(){
 	else {
 		ui->revokeBtn->setEnabled(false);
 	}
-	/*if (imageQueue.size() <= 1) {
-		ui->revokeBtn->setEnabled(false);
-	}*/
 }
 
 void MainWindow::pushImg() {

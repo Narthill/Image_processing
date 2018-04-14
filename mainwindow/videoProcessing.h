@@ -21,19 +21,26 @@ public:
 	~videoProcessing();
 public slots:
 	void openVideo();
+	void save();
+	void saveAs();
 	void playVideo();
 	void pauseVideo();
 	void sliderReleased();
-
+	
 private:
 	Ui::videoProcessing *ui;
 	QTimer *time_clock;
 	QString fileName;
 	QImage img;
 	VideoCapture capture;
+
 	long totalFrameNumber;
 	long nowFrame;
 
-	int secondEachFrame;//每帧时间 毫秒级
+	int fps;//帧率
+	int secondEachFrame;//每帧时间 毫秒
 
+	int videoWidth;
+	int videoHeight;
+	int fourcc;//四字符代码
 };

@@ -88,7 +88,10 @@
       <Filter>Source Files\image_widget_ui</Filter>
     </ClCompile>
     <ClCompile Include="videoProcessing.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\main_ui</Filter>
+    </ClCompile>
+    <ClCompile Include="imageOrVideo.cpp">
+      <Filter>Source Files\main_ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,7 +132,10 @@
       <Filter>Header Files\image_widget_ui</Filter>
     </QtMoc>
     <QtMoc Include="videoProcessing.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\main_ui</Filter>
+    </QtMoc>
+    <QtMoc Include="imageOrVideo.h">
+      <Filter>Header Files\main_ui</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +176,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="videoProcessing.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="imageOrVideo.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
