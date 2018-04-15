@@ -7,7 +7,6 @@
 videoProcessing::videoProcessing(QWidget *parent)
 	: QMainWindow(parent)
 {
-	
 	ui = new Ui::videoProcessing;
 	ui->setupUi(this);
 	ui->menu_video->setEnabled(false);
@@ -162,7 +161,6 @@ void videoProcessing::playVideo() {
 void videoProcessing::pauseVideo() {
 	time_clock->stop();//定时器停止
 }
-
 //鼠标释放slider
 void videoProcessing::sliderReleased() {
 	//滚轮释放
@@ -173,7 +171,6 @@ void videoProcessing::sliderReleased() {
 	nowframe = *(dstVideoQueue.begin() + nowFrameIndex);//将视频定位到当前帧
 
 }
-
 //窗口关闭信号
 void videoProcessing::closeEvent(QCloseEvent *event)
 {
