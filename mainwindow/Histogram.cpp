@@ -8,6 +8,7 @@ Histogram::Histogram(QWidget *parent)
 {
 	ui = new Ui::Histogram;
 	ui->setupUi(this);
+	ui->getEquHisBtn->setEnabled(false);
 	ui->Rlabel->setAlignment(Qt::AlignCenter);
 	ui->Glabel->setAlignment(Qt::AlignCenter);
 	ui->Blabel->setAlignment(Qt::AlignCenter);
@@ -53,6 +54,8 @@ void Histogram::doHist() {
 	ui->Blabel->setPixmap(QPixmap::fromImage(BQimage));
 	
 	dstImage = img.picSrcChannelsSave();//¾ùºâ»¯
+
+	ui->getEquHisBtn->setEnabled(true);
 }
 void Histogram::equaliAndSend() {
 	ImageProcessing dstimg(dstImage);

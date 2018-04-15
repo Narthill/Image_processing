@@ -93,6 +93,9 @@
     <ClCompile Include="imageOrVideo.cpp">
       <Filter>Source Files\main_ui</Filter>
     </ClCompile>
+    <ClCompile Include="AboutWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Binary.h">
@@ -137,6 +140,9 @@
     <QtMoc Include="imageOrVideo.h">
       <Filter>Header Files\main_ui</Filter>
     </QtMoc>
+    <QtMoc Include="AboutWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainwindow.ui">
@@ -179,6 +185,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="imageOrVideo.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="AboutWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

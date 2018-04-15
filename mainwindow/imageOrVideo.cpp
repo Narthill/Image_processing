@@ -1,6 +1,7 @@
 #include "imageOrVideo.h"
 #include "ui_imageOrVideo.h"
 
+
 imageOrVideo::imageOrVideo(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -8,12 +9,19 @@ imageOrVideo::imageOrVideo(QWidget *parent)
 	ui->setupUi(this);
 	connect(ui->imageBtn, &QPushButton::clicked, this, &imageOrVideo::imageProcess);
 	connect(ui->videoBtn, &QPushButton::clicked, this, &imageOrVideo::videoProcess);
-
+	connect(ui->actionAbout, &QAction::triggered, this, &imageOrVideo::about);
 }
 
 imageOrVideo::~imageOrVideo()
 {
 	delete ui;
+}
+
+void imageOrVideo::about() {
+	AboutWidget* ab = new AboutWidget();
+	ab->setAttribute(Qt::WA_DeleteOnClose);
+	ab->setWindowTitle(tr("¹ØÓÚ"));
+	ab->show();
 }
 
 void imageOrVideo::imageProcess(){

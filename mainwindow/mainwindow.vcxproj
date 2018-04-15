@@ -117,6 +117,7 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AboutWidget.cpp" />
     <ClCompile Include="Binary.cpp" />
     <ClCompile Include="CutColor.cpp" />
     <ClCompile Include="DctTransformation.cpp" />
@@ -139,6 +140,7 @@
     <QtMoc Include="mainwindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="AboutWidget.ui" />
     <QtUic Include="Binary.ui" />
     <QtUic Include="CutColor.ui" />
     <QtUic Include="DctTransformation.ui" />
@@ -171,6 +173,7 @@
     <QtMoc Include="FreqFilter.h" />
     <QtMoc Include="DctTransformation.h" />
     <QtMoc Include="imageOrVideo.h" />
+    <QtMoc Include="AboutWidget.h" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="Binary.h" />
     <ClInclude Include="ImageProcessing.h" />
