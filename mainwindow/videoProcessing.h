@@ -30,9 +30,15 @@ public slots:
 	void playVideo();
 	void pauseVideo();
 	void sliderReleased();
+	void videoTime();
 	void showFristFrame();
 	
 	void video_Gary();
+	void video_Histogram();
+
+	void video_BinarySolt();
+	void video_BinaryShow(int n);
+	void video_BinaryCore(int n);
 
 	void video_CutColorSolt();
 	void video_CutColorShow(int n);

@@ -13,6 +13,8 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -39,12 +41,19 @@ public:
     QAction *actionCutColor;
     QAction *actionSpaceFilter;
     QAction *actionSobel;
+    QAction *actionHistogram;
+    QAction *actionBinary;
     QWidget *centralWidget;
-    QVBoxLayout *verticalLayout_3;
+    QVBoxLayout *verticalLayout;
+    QFrame *frame;
     QVBoxLayout *verticalLayout_2;
     QLabel *videoLabel;
-    QVBoxLayout *verticalLayout;
+    QGroupBox *groupBox;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *timeLabel;
+    QFrame *line;
     QSlider *videoSlider;
+    QGroupBox *groupBox_2;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
     QPushButton *playBtn;
@@ -60,7 +69,7 @@ public:
     {
         if (videoProcessing->objectName().isEmpty())
             videoProcessing->setObjectName(QStringLiteral("videoProcessing"));
-        videoProcessing->resize(611, 531);
+        videoProcessing->resize(717, 607);
         actionopen = new QAction(videoProcessing);
         actionopen->setObjectName(QStringLiteral("actionopen"));
         actionsave = new QAction(videoProcessing);
@@ -75,66 +84,109 @@ public:
         actionSpaceFilter->setObjectName(QStringLiteral("actionSpaceFilter"));
         actionSobel = new QAction(videoProcessing);
         actionSobel->setObjectName(QStringLiteral("actionSobel"));
+        actionHistogram = new QAction(videoProcessing);
+        actionHistogram->setObjectName(QStringLiteral("actionHistogram"));
+        actionBinary = new QAction(videoProcessing);
+        actionBinary->setObjectName(QStringLiteral("actionBinary"));
         centralWidget = new QWidget(videoProcessing);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        verticalLayout_3 = new QVBoxLayout(centralWidget);
-        verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout = new QVBoxLayout(centralWidget);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        frame = new QFrame(centralWidget);
+        frame->setObjectName(QStringLiteral("frame"));
+        frame->setFrameShape(QFrame::Panel);
+        frame->setFrameShadow(QFrame::Sunken);
+        verticalLayout_2 = new QVBoxLayout(frame);
         verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        videoLabel = new QLabel(centralWidget);
+        videoLabel = new QLabel(frame);
         videoLabel->setObjectName(QStringLiteral("videoLabel"));
         videoLabel->setStyleSheet(QStringLiteral("background-color:rgb(255, 255, 255)"));
 
         verticalLayout_2->addWidget(videoLabel);
 
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(6);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        videoSlider = new QSlider(centralWidget);
+
+        verticalLayout->addWidget(frame);
+
+        groupBox = new QGroupBox(centralWidget);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        groupBox->setStyleSheet(QStringLiteral(""));
+        groupBox->setFlat(false);
+        groupBox->setCheckable(false);
+        horizontalLayout_3 = new QHBoxLayout(groupBox);
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        timeLabel = new QLabel(groupBox);
+        timeLabel->setObjectName(QStringLiteral("timeLabel"));
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(timeLabel->sizePolicy().hasHeightForWidth());
+        timeLabel->setSizePolicy(sizePolicy);
+        timeLabel->setStyleSheet(QStringLiteral(""));
+
+        horizontalLayout_3->addWidget(timeLabel);
+
+        line = new QFrame(groupBox);
+        line->setObjectName(QStringLiteral("line"));
+        line->setFrameShape(QFrame::VLine);
+        line->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout_3->addWidget(line);
+
+        videoSlider = new QSlider(groupBox);
         videoSlider->setObjectName(QStringLiteral("videoSlider"));
         videoSlider->setOrientation(Qt::Horizontal);
 
-        verticalLayout->addWidget(videoSlider);
+        horizontalLayout_3->addWidget(videoSlider);
 
-        horizontalLayout = new QHBoxLayout();
+        horizontalLayout_3->setStretch(0, 1);
+        horizontalLayout_3->setStretch(2, 6);
+
+        verticalLayout->addWidget(groupBox);
+
+        groupBox_2 = new QGroupBox(centralWidget);
+        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
+        horizontalLayout = new QHBoxLayout(groupBox_2);
         horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalLayout->setContentsMargins(-1, 0, -1, 0);
+        horizontalSpacer = new QSpacerItem(98, 18, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer);
 
-        playBtn = new QPushButton(centralWidget);
+        playBtn = new QPushButton(groupBox_2);
         playBtn->setObjectName(QStringLiteral("playBtn"));
 
         horizontalLayout->addWidget(playBtn);
 
-        pauseBtn = new QPushButton(centralWidget);
+        pauseBtn = new QPushButton(groupBox_2);
         pauseBtn->setObjectName(QStringLiteral("pauseBtn"));
 
         horizontalLayout->addWidget(pauseBtn);
 
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_2 = new QSpacerItem(217, 35, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_2);
 
+        horizontalLayout->setStretch(0, 2);
+        horizontalLayout->setStretch(1, 1);
+        horizontalLayout->setStretch(2, 1);
+        horizontalLayout->setStretch(3, 2);
 
-        verticalLayout->addLayout(horizontalLayout);
+        verticalLayout->addWidget(groupBox_2);
 
-
-        verticalLayout_2->addLayout(verticalLayout);
-
-        verticalLayout_2->setStretch(0, 5);
-        verticalLayout_2->setStretch(1, 1);
-
-        verticalLayout_3->addLayout(verticalLayout_2);
-
+        verticalLayout->setStretch(0, 7);
+        verticalLayout->setStretch(1, 1);
         videoProcessing->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(videoProcessing);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 611, 23));
+        menuBar->setGeometry(QRect(0, 0, 717, 23));
         menu = new QMenu(menuBar);
         menu->setObjectName(QStringLiteral("menu"));
         menu_video = new QMenu(menuBar);
@@ -157,6 +209,8 @@ public:
         menu_video->addAction(actionCutColor);
         menu_video->addAction(actionSpaceFilter);
         menu_video->addAction(actionSobel);
+        menu_video->addAction(actionHistogram);
+        menu_video->addAction(actionBinary);
 
         retranslateUi(videoProcessing);
 
@@ -174,7 +228,12 @@ public:
         actionCutColor->setText(QApplication::translate("videoProcessing", "\351\242\234\350\211\262\347\251\272\351\227\264\347\274\251\345\207\217", Q_NULLPTR));
         actionSpaceFilter->setText(QApplication::translate("videoProcessing", "\347\251\272\351\227\264\346\273\244\346\263\242", Q_NULLPTR));
         actionSobel->setText(QApplication::translate("videoProcessing", "\350\276\271\347\274\230\346\243\200\346\265\213", Q_NULLPTR));
+        actionHistogram->setText(QApplication::translate("videoProcessing", "\347\233\264\346\226\271\345\233\276\345\235\207\350\241\241\345\214\226", Q_NULLPTR));
+        actionBinary->setText(QApplication::translate("videoProcessing", "\344\272\214\345\200\274\345\214\226", Q_NULLPTR));
         videoLabel->setText(QString());
+        groupBox->setTitle(QApplication::translate("videoProcessing", "\345\211\251\344\275\231\346\227\266\351\225\277", Q_NULLPTR));
+        timeLabel->setText(QString());
+        groupBox_2->setTitle(QString());
         playBtn->setText(QApplication::translate("videoProcessing", "\346\222\255\346\224\276", Q_NULLPTR));
         pauseBtn->setText(QApplication::translate("videoProcessing", "\346\232\202\345\201\234", Q_NULLPTR));
         menu->setTitle(QApplication::translate("videoProcessing", "\346\226\207\344\273\266", Q_NULLPTR));

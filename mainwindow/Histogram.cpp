@@ -73,7 +73,7 @@ void Histogram::equaliAndSend() {
 	ui->Res_Blabel->clear();
 	ui->Res_Blabel->setPixmap(QPixmap::fromImage(dst_BQimage));
 
-	qRegisterMetaType< cv::Mat >("cv::Mat");
+	//qRegisterMetaType< cv::Mat >("cv::Mat");
 	emit equaliPic(dstImage);
 
 }

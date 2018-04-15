@@ -262,7 +262,6 @@ void MainWindow::binarySolt() {
 	//BinaryDialog的阈值发送给二值的core
 	QObject::connect(BinaryDialog, SIGNAL(BinaryThres(int)), this, SLOT(binaryCore(int)));
 	QObject::connect(BinaryDialog, SIGNAL(closeAndPush()), this, SLOT(pushImg()));//收到关闭信号则图像压栈
-	//ui->widget->addwidget(BinaryDialog)
 	BinaryDialog->show();
 }
 void MainWindow::binaryCore(int thres) {

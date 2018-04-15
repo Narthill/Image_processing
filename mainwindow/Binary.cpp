@@ -10,6 +10,7 @@ Binary::Binary(QWidget *parent)
 	ui->setupUi(this);
 	ui->BinarySlider->setRange(0, 255);
 	ui->BinarySpinBox->setRange(0, 255);
+	thres = 0;
 
 	//»¥Á¬SliderºÍSpinBox
 	QObject::connect(ui->BinarySlider, SIGNAL(valueChanged(int)), ui->BinarySpinBox, SLOT(setValue(int)));
@@ -28,7 +29,7 @@ Binary::~Binary()
 }
 
 void Binary::send() {
-	int thres = ui->BinarySlider->value();
+	thres = ui->BinarySlider->value();
 	emit BinaryThres(thres);
 }
 
@@ -36,4 +37,5 @@ void Binary::send() {
 void Binary::closeEvent(QCloseEvent *event)
 {
 	emit closeAndPush();
+	emit closeAndSend(thres);
 }

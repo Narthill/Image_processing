@@ -5,6 +5,8 @@
 #include"EdgeDetection.h"
 #include"SpaceFilter.h"
 #include"CutColor.h"
+#include"Binary.h"
+#include<iostream>
 videoProcessing::videoProcessing(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -21,21 +23,29 @@ videoProcessing::videoProcessing(QWidget *parent)
 
 	ui->videoLabel->setAlignment(Qt::AlignCenter);//设置视频居中
 	ui->videoSlider->setEnabled(false);
+	ui->pauseBtn->setEnabled(false);
+	ui->playBtn->setEnabled(false);
+	ui->videoSlider->setEnabled(false);
+
 	time_clock = new QTimer();
-	
+
 	connect(ui->actionopen, &QAction::triggered, this, &videoProcessing::openVideo);
 	connect(ui->playBtn, &QPushButton::clicked, this, &videoProcessing::playVideo);
 	connect(ui->pauseBtn, &QPushButton::clicked, this, &videoProcessing::pauseVideo);
 	connect(time_clock, SIGNAL(timeout()), this, SLOT(playVideo()));//计时器时间一到就播放下一帧
+	connect(time_clock, SIGNAL(timeout()), this, SLOT(videoTime()));
 
 	connect(ui->videoSlider, &QSlider::sliderPressed, this, &videoProcessing::pauseVideo);
 	connect(ui->videoSlider, &QSlider::sliderReleased, this, &videoProcessing::sliderReleased);
 
 	//处理
 	connect(ui->actionGray, &QAction::triggered, this, &videoProcessing::video_Gary);
+	connect(ui->actionBinary, &QAction::triggered, this, &videoProcessing::video_BinarySolt);
 	connect(ui->actionSobel, &QAction::triggered, this, &videoProcessing::video_SobelSolt);
 	connect(ui->actionCutColor, &QAction::triggered, this, &videoProcessing::video_CutColorSolt);
 	connect(ui->actionSpaceFilter, &QAction::triggered, this, &videoProcessing::video_SpaceFilterSolt);
+	connect(ui->actionHistogram, &QAction::triggered, this, &videoProcessing::video_Histogram);
+	
 }
 
 videoProcessing::~videoProcessing()
@@ -147,10 +157,9 @@ void videoProcessing::showFristFrame() {
 void videoProcessing::playVideo() {
 	//播放
 	time_clock->start();
-	if (nowFrameIndex == totalFrameNumber) {
+	if (nowFrameIndex = totalFrameNumber) {
 		time_clock->stop();
 		nowFrameIndex = 0;
-		//qDebug() << "yes.it stop!";
 		return;
 	}
 	//capture.read(frame);
@@ -182,6 +191,17 @@ void videoProcessing::sliderReleased() {
 	nowFrameIndex = ui->videoSlider->value();
 	nowframe = *(dstVideoQueue.begin() + nowFrameIndex);//将视频定位到当前帧
 
+}
+//剩余时间
+void videoProcessing::videoTime() {
+	int totalTime = secondEachFrame*(totalFrameNumber-nowFrameIndex);
+	int s = totalTime / 1000;
+	int m = s / 60;
+	int rs =s % 60;
+	
+	QString time = QString::number(m, 10)+" m:"+QString::number(rs, 10)+" s";
+	ui->timeLabel->setAlignment(Qt::AlignCenter);
+	ui->timeLabel->setText(time);
 }
 //窗口关闭信号
 void videoProcessing::closeEvent(QCloseEvent *event)
@@ -305,8 +325,8 @@ void videoProcessing::video_SpaceFilterShow(Mat showFrame) {
 void videoProcessing::video_SpaceFilterBlur(int width, int height) {
 	for (long i = 0; i < totalFrameNumber; i++) {
 		statusBar()->showMessage(tr("正在进行均值滤波"));
-		ImageProcessing img(*(videoQueue.begin() + i));
-		*(dstVideoQueue.begin() + i) = img.blurFilter(width, height);
+		ImageProcessing FilterBlur(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = FilterBlur.blurFilter(width, height);
 		statusBar()->showMessage(tr("正在进行均值滤波......"));
 	}
 	statusBar()->showMessage(tr("均值滤波完成！"));
@@ -317,8 +337,8 @@ void videoProcessing::video_SpaceFilterGauss(int width, int height, int sigmaX, 
 
 	for (long i = 0; i < totalFrameNumber; i++) {
 		statusBar()->showMessage(tr("正在进行高斯滤波"));
-		ImageProcessing img(*(videoQueue.begin() + i));
-		*(dstVideoQueue.begin() + i) = img.gaussianBlurFilter(width, height, sigmaX, sigmaY);
+		ImageProcessing FilterBlur(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = FilterBlur.gaussianBlurFilter(width, height, sigmaX, sigmaY);
 		statusBar()->showMessage(tr("正在进行高斯滤波......"));
 	}
 	statusBar()->showMessage(tr("高斯滤波完成！"));
@@ -328,8 +348,8 @@ void videoProcessing::video_SpaceFilterGauss(int width, int height, int sigmaX, 
 void videoProcessing::video_SpaceFilterMedian(int ksize) {
 	for (long i = 0; i < totalFrameNumber; i++) {
 		statusBar()->showMessage(tr("正在进行中值滤波"));
-		ImageProcessing img(*(videoQueue.begin() + i));
-		*(dstVideoQueue.begin() + i) = img.medianBlurFilter(ksize);
+		ImageProcessing FilterBlur(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = FilterBlur.medianBlurFilter(ksize);
 		statusBar()->showMessage(tr("正在进行中值滤波......"));
 	}
 	statusBar()->showMessage(tr("中值滤波完成！"));
@@ -339,11 +359,55 @@ void videoProcessing::video_SpaceFilterMedian(int ksize) {
 void videoProcessing::video_SpaceFilterLaplace(int ksize) {
 	for (long i = 0; i < totalFrameNumber; i++) {
 		statusBar()->showMessage(tr("正在进行拉普拉斯滤波"));
-		ImageProcessing img(*(videoQueue.begin() + i));
-		*(dstVideoQueue.begin() + i) = img.fil2DLaplace(ksize);
+		ImageProcessing FilterBlur(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = FilterBlur.fil2DLaplace(ksize);
 		statusBar()->showMessage(tr("正在进行拉普拉斯滤波......"));
 	}
 	statusBar()->showMessage(tr("拉普拉斯滤波完成！"));
 	showFristFrame();
 	uiItemOpen();
+}
+//二值化
+void videoProcessing::video_BinarySolt() {
+	Binary *BinaryDialog = new Binary();
+	//对话框关闭时销毁
+	BinaryDialog->setAttribute(Qt::WA_DeleteOnClose);
+	BinaryDialog->setWindowTitle(tr("二值化"));
+	//BinaryDialog的阈值发送给二值的core
+	QObject::connect(BinaryDialog, SIGNAL(BinaryThres(int)), this, SLOT(video_BinaryShow(int)));
+	QObject::connect(BinaryDialog, SIGNAL(closeAndSend(int)), this, SLOT(video_BinaryCore(int)));
+	BinaryDialog->show();
+}
+void videoProcessing::video_BinaryShow(int n) {
+	Mat showFrame;
+	ImageProcessing Binary(*(videoQueue.begin() + nowFrameIndex));
+	showFrame = Binary.rgb2black(n);
+
+	img = Mat2QImage(showFrame);
+	ui->videoLabel->clear();
+	ui->videoLabel->setPixmap((QPixmap::fromImage(img)));
+	ui->videoLabel->show();
+}
+void videoProcessing::video_BinaryCore(int n) {
+	for (long i = 0; i < totalFrameNumber; i++) {
+		statusBar()->showMessage(tr("正在二值化"));
+		ImageProcessing Binary(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = Binary.rgb2black(n);
+		statusBar()->showMessage(tr("正在二值化......"));
+	}
+	statusBar()->showMessage(tr("二值化完成！"));
+	showFristFrame();
+	uiItemOpen();
+}
+//直方图均衡化
+void videoProcessing::video_Histogram() {
+	time_clock->stop();
+	for (long i = 0; i < totalFrameNumber; i++) {
+		statusBar()->showMessage(tr("正在均衡化直方图"));
+		ImageProcessing Histogram(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = Histogram.picSrcChannelsSave();
+		statusBar()->showMessage(tr("正在均衡化直方图......"));
+	}
+	statusBar()->showMessage(tr("均衡化直方图完成！"));
+	showFristFrame();
 }
