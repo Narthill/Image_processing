@@ -6,7 +6,6 @@ imageOrVideo::imageOrVideo(QWidget *parent)
 {
 	ui = new Ui::imageOrVideo;
 	ui->setupUi(this);
-	//this->setModal(true);
 	connect(ui->imageBtn, &QPushButton::clicked, this, &imageOrVideo::imageProcess);
 	connect(ui->videoBtn, &QPushButton::clicked, this, &imageOrVideo::videoProcess);
 

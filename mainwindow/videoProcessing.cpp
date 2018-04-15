@@ -3,6 +3,7 @@
 #include<QDebug>
 #include"ImageProcessing.h"
 #include"EdgeDetection.h"
+#include"SpaceFilter.h"
 #include"CutColor.h"
 videoProcessing::videoProcessing(QWidget *parent)
 	: QMainWindow(parent)
@@ -10,6 +11,7 @@ videoProcessing::videoProcessing(QWidget *parent)
 	ui = new Ui::videoProcessing;
 	ui->setupUi(this);
 	ui->menu_video->setEnabled(false);
+	qRegisterMetaType<Mat>("Mat");//注册mat类型数据在信号槽中可传递
 
 	ui->actionopen->setShortcuts(QKeySequence::Open);
 	ui->actionsave->setShortcuts(QKeySequence::Save);
@@ -24,7 +26,7 @@ videoProcessing::videoProcessing(QWidget *parent)
 	connect(ui->actionopen, &QAction::triggered, this, &videoProcessing::openVideo);
 	connect(ui->playBtn, &QPushButton::clicked, this, &videoProcessing::playVideo);
 	connect(ui->pauseBtn, &QPushButton::clicked, this, &videoProcessing::pauseVideo);
-	connect(time_clock, SIGNAL(timeout()), this, SLOT(playVideo()));
+	connect(time_clock, SIGNAL(timeout()), this, SLOT(playVideo()));//计时器时间一到就播放下一帧
 
 	connect(ui->videoSlider, &QSlider::sliderPressed, this, &videoProcessing::pauseVideo);
 	connect(ui->videoSlider, &QSlider::sliderReleased, this, &videoProcessing::sliderReleased);
@@ -33,6 +35,7 @@ videoProcessing::videoProcessing(QWidget *parent)
 	connect(ui->actionGray, &QAction::triggered, this, &videoProcessing::video_Gary);
 	connect(ui->actionSobel, &QAction::triggered, this, &videoProcessing::video_SobelSolt);
 	connect(ui->actionCutColor, &QAction::triggered, this, &videoProcessing::video_CutColorSolt);
+	connect(ui->actionSpaceFilter, &QAction::triggered, this, &videoProcessing::video_SpaceFilterSolt);
 }
 
 videoProcessing::~videoProcessing()
@@ -59,7 +62,6 @@ void videoProcessing::save() {
 		statusBar()->showMessage(tr("保存失败！"));
 	}
 }
-
 //另存为
 void videoProcessing::saveAs() {
 	QString otherFilename = QFileDialog::getSaveFileName(this,
@@ -82,10 +84,11 @@ void videoProcessing::saveAs() {
 		statusBar()->showMessage(tr("另存失败！"));
 	}
 }
-
 //打开视频，并载入到容器
 void videoProcessing::openVideo() {
 	time_clock->stop();
+	uiItemClose();
+	
 	fileName = QFileDialog::getOpenFileName(this, tr("打开视频文件"),".",tr("video file(*.mp4 *.avi)"));
 	string fileOpen = fileName.toStdString();
 
@@ -94,6 +97,7 @@ void videoProcessing::openVideo() {
 		ui->menu_video->setEnabled(true);//打开视频选项
 
 		if (capture.isOpened()) { capture.release(); }
+		//载入视频
 		capture.open(fileOpen);
 		//格式
 		fourcc=capture.get(CV_CAP_PROP_FOURCC);
@@ -105,12 +109,18 @@ void videoProcessing::openVideo() {
 		totalFrameNumber = capture.get(CV_CAP_PROP_FRAME_COUNT);
 		//帧率
 		fps = capture.get(CV_CAP_PROP_FPS);
-		secondEachFrame = 1000 / fps;//定时器时间=1000ms/帧率
-		time_clock->setInterval(secondEachFrame);//设置定时器时间
-
-		ui->videoSlider->setRange(0, totalFrameNumber - 1);//初始化视频条
-		nowFrameIndex = 0;//初始化当前帧的位置
-
+		//定时器时间=1000ms/帧率
+		secondEachFrame = 1000 / fps;
+		//设置定时器时间
+		time_clock->setInterval(secondEachFrame);
+		//初始化视频条
+		ui->videoSlider->setRange(0, totalFrameNumber - 1);
+		//初始化当前帧的位置
+		nowFrameIndex = 0;
+		//清空容器
+		videoQueue.clear();
+		dstVideoQueue.clear();
+		//将视频装入容器
 		for (int i = 0; i < totalFrameNumber; i++) {
 			statusBar()->showMessage(tr("正在加载视频"));
 			Mat frame;
@@ -120,8 +130,10 @@ void videoProcessing::openVideo() {
 			statusBar()->showMessage(tr("正在加载视频......"));
 		}
 		statusBar()->showMessage(tr("视频加载完毕！"));
+		//展示第一帧
 		showFristFrame();
 	}
+	uiItemOpen();
 }
 //展示第一帧
 void videoProcessing::showFristFrame() {
@@ -176,7 +188,20 @@ void videoProcessing::closeEvent(QCloseEvent *event)
 {
 	emit closeVideo();
 }
-
+//管理控件的可选与不可选
+void videoProcessing::uiItemClose() {
+	ui->menuBar->setEnabled(false);
+	ui->pauseBtn->setEnabled(false);
+	ui->playBtn->setEnabled(false);
+	ui->videoSlider->setEnabled(false);
+}
+void videoProcessing::uiItemOpen() {
+	ui->menuBar->setEnabled(true);
+	ui->pauseBtn->setEnabled(true);
+	ui->playBtn->setEnabled(true);
+	ui->videoSlider->setEnabled(true);
+}
+//灰度化
 void videoProcessing::video_Gary() {
 	time_clock->stop();
 	for (long i = 0; i < totalFrameNumber; i++) {
@@ -188,9 +213,10 @@ void videoProcessing::video_Gary() {
 	statusBar()->showMessage(tr("灰度化完成！"));
 	showFristFrame();
 }
-
+//边缘检测
 void videoProcessing::video_SobelSolt() {
 	time_clock->stop();
+	uiItemClose();
 	EdgeDetection *EdgeDetectionDialog = new EdgeDetection();
 	//对话框关闭时销毁
 	EdgeDetectionDialog->setAttribute(Qt::WA_DeleteOnClose);
@@ -219,9 +245,12 @@ void videoProcessing::video_SobelCore(int w, int b, int s, int kSize) {
 	}
 	statusBar()->showMessage(tr("提取边缘完成！"));
 	showFristFrame();
+	uiItemOpen();
 }
-
+//颜色空间缩减
 void videoProcessing::video_CutColorSolt() {
+	time_clock->stop();
+	uiItemClose();
 	CutColor *CutColorDialog = new CutColor();
 	//对话框关闭时销毁
 	CutColorDialog->setAttribute(Qt::WA_DeleteOnClose);
@@ -250,4 +279,71 @@ void videoProcessing::video_CutColorCore(int n) {
 	}
 	statusBar()->showMessage(tr("颜色空间缩减完成！"));
 	showFristFrame();
+	uiItemOpen();
+}
+//空间滤波
+void videoProcessing::video_SpaceFilterSolt() {
+	time_clock->stop();
+	uiItemClose();
+	SpaceFilter *SpaceFilterDialog = new SpaceFilter(*(videoQueue.begin() + nowFrameIndex));
+	SpaceFilterDialog->setAttribute(Qt::WA_DeleteOnClose);
+	SpaceFilterDialog->setWindowTitle(tr("空间滤波"));
+	QObject::connect(SpaceFilterDialog, SIGNAL(sendDstImage(Mat)), this, SLOT(video_SpaceFilterShow(Mat)));
+
+	QObject::connect(SpaceFilterDialog, SIGNAL(closeAndSendBlur(int,int)), this, SLOT(video_SpaceFilterBlur(int,int)));
+	QObject::connect(SpaceFilterDialog, SIGNAL(closeAndSendGauss(int, int, int, int)), this, SLOT(video_SpaceFilterGauss(int, int, int, int)));
+	QObject::connect(SpaceFilterDialog, SIGNAL(closeAndSendMedian(int)), this, SLOT(video_SpaceFilterMedian(int)));
+	QObject::connect(SpaceFilterDialog, SIGNAL(closeAndSendLaplace(int)), this, SLOT(video_SpaceFilterLaplace(int)));
+	SpaceFilterDialog->show();
+}
+void videoProcessing::video_SpaceFilterShow(Mat showFrame) {
+	img = Mat2QImage(showFrame);
+	ui->videoLabel->clear();
+	ui->videoLabel->setPixmap((QPixmap::fromImage(img)));
+	ui->videoLabel->show();
+}
+void videoProcessing::video_SpaceFilterBlur(int width, int height) {
+	for (long i = 0; i < totalFrameNumber; i++) {
+		statusBar()->showMessage(tr("正在进行均值滤波"));
+		ImageProcessing img(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = img.blurFilter(width, height);
+		statusBar()->showMessage(tr("正在进行均值滤波......"));
+	}
+	statusBar()->showMessage(tr("均值滤波完成！"));
+	showFristFrame();
+	uiItemOpen();
+}
+void videoProcessing::video_SpaceFilterGauss(int width, int height, int sigmaX, int sigmaY) {
+
+	for (long i = 0; i < totalFrameNumber; i++) {
+		statusBar()->showMessage(tr("正在进行高斯滤波"));
+		ImageProcessing img(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = img.gaussianBlurFilter(width, height, sigmaX, sigmaY);
+		statusBar()->showMessage(tr("正在进行高斯滤波......"));
+	}
+	statusBar()->showMessage(tr("高斯滤波完成！"));
+	showFristFrame();
+	uiItemOpen();
+}
+void videoProcessing::video_SpaceFilterMedian(int ksize) {
+	for (long i = 0; i < totalFrameNumber; i++) {
+		statusBar()->showMessage(tr("正在进行中值滤波"));
+		ImageProcessing img(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = img.medianBlurFilter(ksize);
+		statusBar()->showMessage(tr("正在进行中值滤波......"));
+	}
+	statusBar()->showMessage(tr("中值滤波完成！"));
+	showFristFrame();
+	uiItemOpen();
+}
+void videoProcessing::video_SpaceFilterLaplace(int ksize) {
+	for (long i = 0; i < totalFrameNumber; i++) {
+		statusBar()->showMessage(tr("正在进行拉普拉斯滤波"));
+		ImageProcessing img(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = img.fil2DLaplace(ksize);
+		statusBar()->showMessage(tr("正在进行拉普拉斯滤波......"));
+	}
+	statusBar()->showMessage(tr("拉普拉斯滤波完成！"));
+	showFristFrame();
+	uiItemOpen();
 }

@@ -17,8 +17,20 @@ public slots:
 signals:
 	void sendDstImage(cv::Mat);
 	void closeAndPush();
+	void closeAndSendBlur(int width, int height);
+	void closeAndSendGauss(int width, int height, int sigmaX, int sigmaY);
+	void closeAndSendMedian(int ksize);
+	void closeAndSendLaplace(int ksize);
+
 private:
 	Ui::SpaceFilter *ui;
 	cv::Mat srcImg;
 	void closeEvent(QCloseEvent *event);
+
+	int choose;
+	int width;
+	int height;
+	int ksize;
+	double sigmaX;
+	double sigmaY;
 };

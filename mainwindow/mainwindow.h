@@ -9,7 +9,7 @@
 #pragma execution_character_set("utf-8")
 
 using namespace cv;
-Q_DECLARE_METATYPE(cv::Mat);
+//Q_DECLARE_METATYPE(cv::Mat);//×¢²áºê
 namespace Ui {
 	class MainWindow;
 }

@@ -26,6 +26,7 @@ SpaceFilter::SpaceFilter(Mat &src,QWidget *parent)
 	ui->sigmaXspinBox->setRange(1,10);
 	ui->sigmaYspinBox->setRange(1,10);
 	/* test */
+	choose = 0; width = 1; height = 1;ksize=1;sigmaX=1;sigmaY=1;
 
 	QObject::connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(chooseFilter(int)));
 
@@ -90,14 +91,14 @@ void SpaceFilter::chooseFilter(int a) {
 }
 void SpaceFilter::filtering() {
 	ImageProcessing img(srcImg);
-	int choose = ui->comboBox->currentIndex();
-	int width = ui->kwidthSlider->value();
-	int height = ui->kheightSlider->value();
-	int ksize = ui->ksizeSlider->value();
+	choose = ui->comboBox->currentIndex();
+	width = ui->kwidthSlider->value();
+	height = ui->kheightSlider->value();
+	ksize = ui->ksizeSlider->value();
 
 	/* test */
-	double sigmaX = ui->sigmaXSlider->value();
-	double sigmaY = ui->sigmaYSlider->value();
+	sigmaX = ui->sigmaXSlider->value();
+	sigmaY = ui->sigmaYSlider->value();
 	/* test */
 
 	Mat dstImg;
@@ -141,4 +142,16 @@ void SpaceFilter::filtering() {
 void SpaceFilter::closeEvent(QCloseEvent *event)
 {
 	emit closeAndPush();
+	if (choose == 0) {
+		emit closeAndSendBlur(width, height);
+	}
+	else if (choose == 1) {
+		emit closeAndSendGauss(width, height, sigmaX, sigmaY);
+	}
+	else if (choose == 2) {
+		emit closeAndSendMedian(ksize);
+	}
+	else if (choose == 3) {
+		emit closeAndSendLaplace(ksize);
+	}
 }

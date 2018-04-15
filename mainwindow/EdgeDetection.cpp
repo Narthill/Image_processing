@@ -1,5 +1,5 @@
 #include "EdgeDetection.h"
-
+#include<QDebug>
 EdgeDetection::EdgeDetection(QWidget *parent)
 	: QWidget(parent)
 {
@@ -14,6 +14,7 @@ EdgeDetection::EdgeDetection(QWidget *parent)
 	ui->modelSpinBox->setRange(3, 7);
 	ui->gSlider->setRange(3, 20);
 	ui->gSpinBox->setRange(3, 20);
+	w = 3;s = 0;b=0;kSize=3;
 
 	//»¥Á¬SliderºÍSpinBox
 	QObject::connect(ui->bigSlider, SIGNAL(valueChanged(int)), ui->bigSpinBox, SLOT(setValue(int)));

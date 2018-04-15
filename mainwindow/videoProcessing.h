@@ -5,11 +5,12 @@
 #include<QtGui\qpixmap.h>
 #include<opencv2/opencv.hpp>
 #include <QFileDialog>
+#include <QMetaType>  
 #include"Mat2QImage.h"
-
 #pragma execution_character_set("utf-8")
-using namespace cv;
 
+using namespace cv;
+Q_DECLARE_METATYPE(cv::Mat);//×¢²áºê
 namespace Ui { class videoProcessing; };
 
 class videoProcessing : public QMainWindow
@@ -19,6 +20,9 @@ class videoProcessing : public QMainWindow
 public:
 	videoProcessing(QWidget *parent = Q_NULLPTR);
 	~videoProcessing();
+
+	void uiItemClose();
+	void uiItemOpen();
 public slots:
 	void openVideo();
 	void save();
@@ -37,6 +41,14 @@ public slots:
 	void video_SobelSolt();
 	void video_SobelShow(int w, int b, int s, int kSize);
 	void video_SobelCore(int w, int b, int s, int kSize);
+
+	void video_SpaceFilterSolt();
+	void video_SpaceFilterShow(Mat);
+	void video_SpaceFilterBlur(int width, int height);
+	void video_SpaceFilterGauss(int width, int height, int sigmaX, int sigmaY);
+	void video_SpaceFilterMedian(int ksize);
+	void video_SpaceFilterLaplace(int ksize);
+
 signals:
 	void closeVideo();
 private:
