@@ -206,6 +206,7 @@ void MainWindow::revoke(){
 	}
 }
 
+//压栈
 void MainWindow::pushImg() {
 	if (!matIsEqual(imageQueue.back(), dstImage)) {//如果当前压栈的图和上一张图不相同则压栈
 		nowImage = dstImage;//一旦触发信号保存上一次处理最后留下来的图到nowImage

@@ -3,6 +3,7 @@
 #include<QDebug>
 #include"ImageProcessing.h"
 #include"EdgeDetection.h"
+#include"CutColor.h"
 videoProcessing::videoProcessing(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -32,6 +33,7 @@ videoProcessing::videoProcessing(QWidget *parent)
 	//处理
 	connect(ui->actionGray, &QAction::triggered, this, &videoProcessing::video_Gary);
 	connect(ui->actionSobel, &QAction::triggered, this, &videoProcessing::video_SobelSolt);
+	connect(ui->actionCutColor, &QAction::triggered, this, &videoProcessing::video_CutColorSolt);
 }
 
 videoProcessing::~videoProcessing()
@@ -156,7 +158,6 @@ void videoProcessing::playVideo() {
 	}
 	
 }
-
 //暂停
 void videoProcessing::pauseVideo() {
 	time_clock->stop();//定时器停止
@@ -202,20 +203,17 @@ void videoProcessing::video_SobelSolt() {
 	QObject::connect(EdgeDetectionDialog, SIGNAL(closeAndSend(int, int, int, int)), this, SLOT(video_SobelCore(int, int, int, int)));//收到关闭信号则传递给Core
 	EdgeDetectionDialog->show();
 }
-
 void videoProcessing::video_SobelShow(int w, int b, int s, int kSize) {
 	Mat showFrame;
 	ImageProcessing sobel(*(videoQueue.begin() + nowFrameIndex));
 	showFrame = sobel.edgeDetection(w, b, s, kSize);
 
-	img = Mat2QImage(showFrame);//显示第一帧
+	img = Mat2QImage(showFrame);
 	ui->videoLabel->clear();
 	ui->videoLabel->setPixmap((QPixmap::fromImage(img)));
 	ui->videoLabel->show();
 }
-
 void videoProcessing::video_SobelCore(int w, int b, int s, int kSize) {
-	time_clock->stop();
 	for (long i = 0; i < totalFrameNumber; i++) {
 		statusBar()->showMessage(tr("正在提取边缘"));
 		ImageProcessing sobel(*(videoQueue.begin() + i));
@@ -223,5 +221,36 @@ void videoProcessing::video_SobelCore(int w, int b, int s, int kSize) {
 		statusBar()->showMessage(tr("正在提取边缘......"));
 	}
 	statusBar()->showMessage(tr("提取边缘完成！"));
+	showFristFrame();
+}
+
+void videoProcessing::video_CutColorSolt() {
+	CutColor *CutColorDialog = new CutColor();
+	//对话框关闭时销毁
+	CutColorDialog->setAttribute(Qt::WA_DeleteOnClose);
+	CutColorDialog->setWindowTitle(tr("颜色空间缩减"));
+	//BinaryDialog的阈值发送给二值的core
+	QObject::connect(CutColorDialog, SIGNAL(CutColorRank(int)), this, SLOT(video_CutColorShow(int)));
+	QObject::connect(CutColorDialog, SIGNAL(closeAndSend(int)), this, SLOT(video_CutColorCore(int)));//收到关闭信号则图像压栈
+	CutColorDialog->show();
+}
+void videoProcessing::video_CutColorShow(int n) {
+	Mat showFrame;
+	ImageProcessing cutColor(*(videoQueue.begin() + nowFrameIndex));
+	showFrame = cutColor.cutColor(n);
+
+	img = Mat2QImage(showFrame);
+	ui->videoLabel->clear();
+	ui->videoLabel->setPixmap((QPixmap::fromImage(img)));
+	ui->videoLabel->show();
+}
+void videoProcessing::video_CutColorCore(int n) {
+	for (long i = 0; i < totalFrameNumber; i++) {
+		statusBar()->showMessage(tr("正在颜色空间缩减"));
+		ImageProcessing cutColor(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = cutColor.cutColor(n);
+		statusBar()->showMessage(tr("正在颜色空间缩减......"));
+	}
+	statusBar()->showMessage(tr("颜色空间缩减完成！"));
 	showFristFrame();
 }

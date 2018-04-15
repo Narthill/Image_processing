@@ -30,6 +30,10 @@ public slots:
 	
 	void video_Gary();
 
+	void video_CutColorSolt();
+	void video_CutColorShow(int n);
+	void video_CutColorCore(int n);
+
 	void video_SobelSolt();
 	void video_SobelShow(int w, int b, int s, int kSize);
 	void video_SobelCore(int w, int b, int s, int kSize);

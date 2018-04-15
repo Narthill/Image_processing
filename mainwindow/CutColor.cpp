@@ -25,7 +25,7 @@ CutColor::~CutColor()
 	delete ui;
 }
 void CutColor::send() {
-	int n = ui->nSlider->value();
+	n = ui->nSlider->value();
 	emit CutColorRank(n);
 }
 
@@ -33,4 +33,5 @@ void CutColor::send() {
 void CutColor::closeEvent(QCloseEvent *event)
 {
 	emit closeAndPush();
+	emit closeAndSend(n);
 }
