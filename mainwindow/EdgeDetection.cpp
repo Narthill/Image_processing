@@ -41,16 +41,16 @@ EdgeDetection::~EdgeDetection()
 	delete ui;
 }
 void EdgeDetection::send() {
-	int w = ui->gSlider->value();
+	w = ui->gSlider->value();
 	if (w % 2 == 0) {
 		w++;
 	}
-	int kSize = ui->modelSlider->value();
+	kSize = ui->modelSlider->value();
 	if (kSize % 2 == 0) {
 		kSize++;
 	}
-	int b = ui->bigSlider->value();
-	int s = ui->smallSlider->value();
+	b = ui->bigSlider->value();
+	s = ui->smallSlider->value();
 	
 
 	emit EdgeNum(w,b,s,kSize);
@@ -60,4 +60,5 @@ void EdgeDetection::send() {
 void EdgeDetection::closeEvent(QCloseEvent *event)
 {
 	emit closeAndPush();
+	emit closeAndSend(w, b, s, kSize);
 }

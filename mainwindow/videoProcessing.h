@@ -26,6 +26,13 @@ public slots:
 	void playVideo();
 	void pauseVideo();
 	void sliderReleased();
+	void showFristFrame();
+	
+	void video_Gary();
+
+	void video_SobelSolt();
+	void video_SobelShow(int w, int b, int s, int kSize);
+	void video_SobelCore(int w, int b, int s, int kSize);
 signals:
 	void closeVideo();
 private:
@@ -35,6 +42,7 @@ private:
 	QImage img;
 	VideoCapture capture;
 	vector<Mat> videoQueue;
+	vector<Mat> dstVideoQueue;
 
 	long totalFrameNumber;
 	long nowFrameIndex;

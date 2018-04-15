@@ -30,7 +30,6 @@ private slots:
 	void pushImg();//压栈
 	bool matIsEqual(const cv::Mat mat1, const cv::Mat mat2);//判断两图是否相等
 	//处理槽	
-
 	void turn();
 	void gray();
 	void binarySolt();

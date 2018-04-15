@@ -24,7 +24,7 @@ private:
 	Mat bChannelsSave;
 	//vector<Mat> getAllChannels;
 public:
-	ImageProcessing(Mat srcImg);
+	ImageProcessing(Mat &srcImg);
 	
 	/* COLOR HANDLE FUNCTION */
 	Mat cutColor(int n);

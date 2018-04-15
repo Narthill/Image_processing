@@ -72,7 +72,6 @@ public:
     QMenu *menu_image;
     QMenu *menu_2;
     QMenu *menu_3;
-    QMenu *menu_video;
     QToolBar *toolBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -193,8 +192,6 @@ public:
         menu_2->setObjectName(QStringLiteral("menu_2"));
         menu_3 = new QMenu(menu_image);
         menu_3->setObjectName(QStringLiteral("menu_3"));
-        menu_video = new QMenu(menuBar);
-        menu_video->setObjectName(QStringLiteral("menu_video"));
         MainWindow->setMenuBar(menuBar);
         toolBar = new QToolBar(MainWindow);
         toolBar->setObjectName(QStringLiteral("toolBar"));
@@ -202,7 +199,6 @@ public:
 
         menuBar->addAction(menu->menuAction());
         menuBar->addAction(menu_image->menuAction());
-        menuBar->addAction(menu_video->menuAction());
         menu->addAction(actionopen);
         menu->addSeparator();
         menu->addAction(actionsave);
@@ -221,7 +217,6 @@ public:
         menu_2->addAction(action_PowerLawlinearGray);
         menu_3->addAction(action_SpaceFilter);
         menu_3->addAction(action_FreqFilter);
-        menu_video->addAction(actionvideo);
 
         retranslateUi(MainWindow);
 
@@ -264,7 +259,6 @@ public:
         menu_image->setTitle(QApplication::translate("MainWindow", "\345\233\276\345\203\217", Q_NULLPTR));
         menu_2->setTitle(QApplication::translate("MainWindow", "\347\201\260\345\272\246\345\217\230\346\215\242", Q_NULLPTR));
         menu_3->setTitle(QApplication::translate("MainWindow", "\346\273\244\346\263\242", Q_NULLPTR));
-        menu_video->setTitle(QApplication::translate("MainWindow", "\350\247\206\351\242\221", Q_NULLPTR));
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", Q_NULLPTR));
     } // retranslateUi
 

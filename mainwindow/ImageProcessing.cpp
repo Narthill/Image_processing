@@ -9,7 +9,7 @@ using namespace cv;
 
 
 //¹¹Ôìº¯ÊýcolorHandle
-ImageProcessing::ImageProcessing(Mat Img) {
+ImageProcessing::ImageProcessing(Mat &Img) {
 	srcImg = Img;
 }
 

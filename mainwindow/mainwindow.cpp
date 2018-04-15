@@ -83,6 +83,11 @@ void MainWindow::open()
 		srcImage = imread(filename.toLocal8Bit().data());
 		nowImage = srcImage.clone();//当前img;
 		dstImage = srcImage.clone();
+
+		if (imageQueue.size() != 0) {
+			imageQueue.clear();
+		}//清空
+
 		imageQueue.push_back(nowImage);//压入原图
 		resultScene.clear();//清空原图面板
 

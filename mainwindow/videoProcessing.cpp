@@ -1,19 +1,21 @@
 #include "videoProcessing.h"
 #include "ui_videoProcessing.h"
 #include<QDebug>
+#include"ImageProcessing.h"
+#include"EdgeDetection.h"
 videoProcessing::videoProcessing(QWidget *parent)
 	: QMainWindow(parent)
 {
 	
 	ui = new Ui::videoProcessing;
-
 	ui->setupUi(this);
+	ui->menu_video->setEnabled(false);
+
 	ui->actionopen->setShortcuts(QKeySequence::Open);
 	ui->actionsave->setShortcuts(QKeySequence::Save);
 	ui->actionsaveAs->setShortcuts(QKeySequence::SaveAs);
 	connect(ui->actionsave, &QAction::triggered, this, &videoProcessing::save);
 	connect(ui->actionsaveAs, &QAction::triggered, this, &videoProcessing::saveAs);
-
 
 	ui->videoLabel->setAlignment(Qt::AlignCenter);//设置视频居中
 	ui->videoSlider->setEnabled(false);
@@ -27,8 +29,9 @@ videoProcessing::videoProcessing(QWidget *parent)
 	connect(ui->videoSlider, &QSlider::sliderPressed, this, &videoProcessing::pauseVideo);
 	connect(ui->videoSlider, &QSlider::sliderReleased, this, &videoProcessing::sliderReleased);
 
-	//connect(this, SIGNAL(closeVideo()), parentWidget(), SLOT(showMain()));
-
+	//处理
+	connect(ui->actionGray, &QAction::triggered, this, &videoProcessing::video_Gary);
+	connect(ui->actionSobel, &QAction::triggered, this, &videoProcessing::video_SobelSolt);
 }
 
 videoProcessing::~videoProcessing()
@@ -39,17 +42,20 @@ videoProcessing::~videoProcessing()
 //保存
 void videoProcessing::save() {
 	time_clock->stop();
-	if (!fileName.isEmpty()) {
+	if (!fileName.isEmpty() && dstVideoQueue.size() != 0) {
 		string fileSave = fileName.toStdString();
 		VideoWriter out(fileSave, fourcc, fps, Size(videoWidth, videoHeight));
 		for (long i = 0; i < totalFrameNumber; i++) {
 			statusBar()->showMessage(tr("正在保存视频"));
 			Mat next_frame;
-			next_frame = *(videoQueue.begin() + i);
+			next_frame = *(dstVideoQueue.begin() + i);
 			out.write(next_frame);
 			statusBar()->showMessage(tr("正在保存视频..."));
 		}
 		statusBar()->showMessage(tr("保存完毕！"));
+	}
+	else {
+		statusBar()->showMessage(tr("保存失败！"));
 	}
 }
 
@@ -59,31 +65,32 @@ void videoProcessing::saveAs() {
 		tr("视频保存"),
 		".",
 		tr("video Files(*.avi)"));
-	if (!otherFilename.isEmpty()) {
+	if (!otherFilename.isEmpty()&& dstVideoQueue.size()!=0) {
 		string fileSave = otherFilename.toStdString();
 		VideoWriter out(fileSave, fourcc, fps, Size(videoWidth, videoHeight));
 		for (long i = 0; i < totalFrameNumber; i++) {
-			statusBar()->showMessage(tr("正在保存视频"));
+			statusBar()->showMessage(tr("正在另存视频"));
 			Mat next_frame;
-			next_frame = *(videoQueue.begin() + i);
+			next_frame = *(dstVideoQueue.begin() + i);
 			out.write(next_frame);
-			statusBar()->showMessage(tr("正在保存视频..."));
+			statusBar()->showMessage(tr("正在另存视频..."));
 		}
-		statusBar()->showMessage(tr("保存完毕！"));
+		statusBar()->showMessage(tr("另存完毕！"));
 	}
 	else {
-		return;
+		statusBar()->showMessage(tr("另存失败！"));
 	}
 }
 
-
+//打开视频，并载入到容器
 void videoProcessing::openVideo() {
 	time_clock->stop();
 	fileName = QFileDialog::getOpenFileName(this, tr("打开视频文件"),".",tr("video file(*.mp4 *.avi)"));
-
 	string fileOpen = fileName.toStdString();
+
 	if (!fileName.isEmpty()) {
 		ui->videoSlider->setEnabled(true);
+		ui->menu_video->setEnabled(true);//打开视频选项
 
 		if (capture.isOpened()) { capture.release(); }
 		capture.open(fileOpen);
@@ -100,30 +107,30 @@ void videoProcessing::openVideo() {
 		secondEachFrame = 1000 / fps;//定时器时间=1000ms/帧率
 		time_clock->setInterval(secondEachFrame);//设置定时器时间
 
-		
+		ui->videoSlider->setRange(0, totalFrameNumber - 1);//初始化视频条
+		nowFrameIndex = 0;//初始化当前帧的位置
 
 		for (int i = 0; i < totalFrameNumber; i++) {
 			statusBar()->showMessage(tr("正在加载视频"));
 			Mat frame;
 			capture.read(frame);//获取第一帧
-			videoQueue.push_back(frame);
+			videoQueue.push_back(frame);//原视频赋值
+			dstVideoQueue.push_back(frame);//生成视频也要赋值
 			statusBar()->showMessage(tr("正在加载视频......"));
 		}
 		statusBar()->showMessage(tr("视频加载完毕！"));
-
-		Mat frameOne = *videoQueue.begin();
-
-		img = Mat2QImage(frameOne);//显示第一帧
-		ui->videoLabel->clear();
-		ui->videoLabel->setPixmap((QPixmap::fromImage(img)));
-		ui->videoLabel->show();
+		showFristFrame();
 	}
-
-	
-	ui->videoSlider->setRange(0, totalFrameNumber-1);
-	nowFrameIndex = 0;
 }
-
+//展示第一帧
+void videoProcessing::showFristFrame() {
+	Mat frameOne = *dstVideoQueue.begin();
+	img = Mat2QImage(frameOne);//显示第一帧
+	ui->videoLabel->clear();
+	ui->videoLabel->setPixmap((QPixmap::fromImage(img)));
+	ui->videoLabel->show();
+}
+//播放视频
 void videoProcessing::playVideo() {
 	//播放
 	time_clock->start();
@@ -134,7 +141,7 @@ void videoProcessing::playVideo() {
 		return;
 	}
 	//capture.read(frame);
-	nowframe =*(videoQueue.begin()+ nowFrameIndex);
+	nowframe =*(dstVideoQueue.begin()+ nowFrameIndex);
 	
 	if (!nowframe.empty())
 	{
@@ -150,20 +157,71 @@ void videoProcessing::playVideo() {
 	
 }
 
+//暂停
 void videoProcessing::pauseVideo() {
 	time_clock->stop();//定时器停止
 }
+
+//鼠标释放slider
 void videoProcessing::sliderReleased() {
 	//滚轮释放
 	if (ui->videoSlider->value() != totalFrameNumber) {
 		time_clock->start();//不到最后一帧就可以将定时器打开
 	}
 	nowFrameIndex = ui->videoSlider->value();
-	nowframe = *(videoQueue.begin() + nowFrameIndex);//将视频定位到当前帧
+	nowframe = *(dstVideoQueue.begin() + nowFrameIndex);//将视频定位到当前帧
 
 }
 
+//窗口关闭信号
 void videoProcessing::closeEvent(QCloseEvent *event)
 {
 	emit closeVideo();
+}
+
+void videoProcessing::video_Gary() {
+	time_clock->stop();
+	for (long i = 0; i < totalFrameNumber; i++) {
+		statusBar()->showMessage(tr("正在灰度化"));
+		ImageProcessing gray(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i)=gray.rgb2gray() ;
+		statusBar()->showMessage(tr("正在灰度化......"));
+	}
+	statusBar()->showMessage(tr("灰度化完成！"));
+	showFristFrame();
+}
+
+void videoProcessing::video_SobelSolt() {
+	time_clock->stop();
+	EdgeDetection *EdgeDetectionDialog = new EdgeDetection();
+	//对话框关闭时销毁
+	EdgeDetectionDialog->setAttribute(Qt::WA_DeleteOnClose);
+	EdgeDetectionDialog->setWindowTitle(tr("边缘检测"));
+	//BinaryDialog的阈值发送给二值的core
+	QObject::connect(EdgeDetectionDialog, SIGNAL(EdgeNum(int, int, int, int)), this, SLOT(video_SobelShow(int, int, int, int)));
+	QObject::connect(EdgeDetectionDialog, SIGNAL(closeAndSend(int, int, int, int)), this, SLOT(video_SobelCore(int, int, int, int)));//收到关闭信号则传递给Core
+	EdgeDetectionDialog->show();
+}
+
+void videoProcessing::video_SobelShow(int w, int b, int s, int kSize) {
+	Mat showFrame;
+	ImageProcessing sobel(*(videoQueue.begin() + nowFrameIndex));
+	showFrame = sobel.edgeDetection(w, b, s, kSize);
+
+	img = Mat2QImage(showFrame);//显示第一帧
+	ui->videoLabel->clear();
+	ui->videoLabel->setPixmap((QPixmap::fromImage(img)));
+	ui->videoLabel->show();
+}
+
+void videoProcessing::video_SobelCore(int w, int b, int s, int kSize) {
+	time_clock->stop();
+	for (long i = 0; i < totalFrameNumber; i++) {
+		statusBar()->showMessage(tr("正在提取边缘"));
+		ImageProcessing sobel(*(videoQueue.begin() + i));
+		*(dstVideoQueue.begin() + i) = sobel.edgeDetection(w,b,s,kSize);
+		statusBar()->showMessage(tr("正在提取边缘......"));
+	}
+	statusBar()->showMessage(tr("提取边缘完成！"));
+	showFristFrame();
 }

@@ -15,7 +15,12 @@ public slots:
 signals:
 	void EdgeNum(int,int,int,int);
 	void closeAndPush();
+	void closeAndSend(int, int, int, int);
 private:                                                 
 	Ui::EdgeDetection *ui;
 	void closeEvent(QCloseEvent *event);
+	int w;
+	int s;
+	int b;
+	int kSize;
 };

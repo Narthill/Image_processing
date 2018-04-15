@@ -22,7 +22,7 @@ SpaceFilter::SpaceFilter(Mat &src,QWidget *parent)
 
 	/* test */
 	ui->sigmaXSlider->setRange(1, 10);
-	ui->sigmaXSlider->setRange(1, 10);
+	ui->sigmaYSlider->setRange(1, 10);
 	ui->sigmaXspinBox->setRange(1,10);
 	ui->sigmaYspinBox->setRange(1,10);
 	/* test */
