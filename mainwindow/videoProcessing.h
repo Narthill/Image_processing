@@ -22,7 +22,7 @@ public:
 public slots:
 	void openVideo();
 	void save();
-	//void saveAs();
+	void saveAs();
 	void playVideo();
 	void pauseVideo();
 	void sliderReleased();
@@ -37,7 +37,8 @@ private:
 	vector<Mat> videoQueue;
 
 	long totalFrameNumber;
-	long nowFrame;
+	long nowFrameIndex;
+	Mat nowframe;
 
 	int fps;//帧率
 	int secondEachFrame;//每帧时间 毫秒
