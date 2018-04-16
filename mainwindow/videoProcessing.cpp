@@ -12,7 +12,7 @@ videoProcessing::videoProcessing(QWidget *parent)
 {
 	ui = new Ui::videoProcessing;
 	ui->setupUi(this);
-	ui->menu_video->setEnabled(false);
+
 	qRegisterMetaType<Mat>("Mat");//注册mat类型数据在信号槽中可传递
 
 	ui->actionopen->setShortcuts(QKeySequence::Open);
@@ -22,10 +22,8 @@ videoProcessing::videoProcessing(QWidget *parent)
 	connect(ui->actionsaveAs, &QAction::triggered, this, &videoProcessing::saveAs);
 
 	ui->videoLabel->setAlignment(Qt::AlignCenter);//设置视频居中
-	ui->videoSlider->setEnabled(false);
-	ui->pauseBtn->setEnabled(false);
-	ui->playBtn->setEnabled(false);
-	ui->videoSlider->setEnabled(false);
+	uiItemClose();
+	ui->menu_video->setEnabled(false);
 
 	time_clock = new QTimer();
 
@@ -97,15 +95,11 @@ void videoProcessing::saveAs() {
 //打开视频，并载入到容器
 void videoProcessing::openVideo() {
 	time_clock->stop();
-	uiItemClose();
 	
 	fileName = QFileDialog::getOpenFileName(this, tr("打开视频文件"),".",tr("video file(*.mp4 *.avi)"));
 	string fileOpen = fileName.toStdString();
 
 	if (!fileName.isEmpty()) {
-		ui->videoSlider->setEnabled(true);
-		ui->menu_video->setEnabled(true);//打开视频选项
-
 		if (capture.isOpened()) { capture.release(); }
 		//载入视频
 		capture.open(fileOpen);
@@ -142,8 +136,9 @@ void videoProcessing::openVideo() {
 		statusBar()->showMessage(tr("视频加载完毕！"));
 		//展示第一帧
 		showFristFrame();
+		uiItemOpen();
+		ui->menu_video->setEnabled(true);//打开视频选项
 	}
-	uiItemOpen();
 }
 //展示第一帧
 void videoProcessing::showFristFrame() {
@@ -209,13 +204,15 @@ void videoProcessing::closeEvent(QCloseEvent *event)
 }
 //管理控件的可选与不可选
 void videoProcessing::uiItemClose() {
-	ui->menuBar->setEnabled(false);
+	ui->actionsave->setEnabled(false);
+	ui->actionsaveAs->setEnabled(false);
 	ui->pauseBtn->setEnabled(false);
 	ui->playBtn->setEnabled(false);
 	ui->videoSlider->setEnabled(false);
 }
 void videoProcessing::uiItemOpen() {
-	ui->menuBar->setEnabled(true);
+	ui->actionsave->setEnabled(true);
+	ui->actionsaveAs->setEnabled(true);
 	ui->pauseBtn->setEnabled(true);
 	ui->playBtn->setEnabled(true);
 	ui->videoSlider->setEnabled(true);
