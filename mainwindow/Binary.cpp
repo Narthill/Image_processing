@@ -38,9 +38,12 @@ void Binary::send() {
 //关闭事件
 void Binary::closeEvent(QCloseEvent *event)
 {
+	//获取触发关闭事件的按钮
 	QPushButton* btn=qobject_cast<QPushButton *>(sender());
 	if (btn != NULL && btn->objectName() == "sureBtn") {
+		//如果是确定键，就发送压栈信号与传出数据信号
 		emit closeAndPush();
+		//该传出数据信号是给视频的
 		emit closeAndSend(thres);
 	}
 	else {

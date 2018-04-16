@@ -20,7 +20,6 @@
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent)
 {
-	
 	ui = new Ui::MainWindow;
 
 	qRegisterMetaType<Mat>("Mat");//注册mat类型数据在信号槽中可传递
@@ -107,6 +106,13 @@ void MainWindow::open()
 			return;
 		}
 	}
+	//打开或者关闭撤销按钮
+	if (imageQueue.size() > 1) {
+		ui->revokeBtn->setEnabled(true);
+	}
+	else {
+		ui->revokeBtn->setEnabled(false);
+	}
 }
 
 //保存
@@ -191,6 +197,13 @@ bool  MainWindow::matIsEqual(const cv::Mat mat1, const cv::Mat mat2) {
 	if (nrOfElements1 != mat2.total()*mat2.elemSize()) return false;
 	bool lvRet = memcmp(mat1.data, mat2.data, nrOfElements1) == 0;
 	return lvRet;
+
+	//data：Mat对象中的一个指针，指向内存中存放矩阵数据的一块内存(uchar* data)
+	//dims：Mat所代表的矩阵的维度，如 3 * 4 的矩阵为 2 维， 3 * 4 * 5 的为3维
+	//channels：通道，矩阵中的每一个矩阵元素拥有的值的个数，比如说 3 * 4 矩阵中一共 12 个元素，如果每个元素有三个值，那么就说这个矩阵是 3 通道的，即 channels = 3。常见的是一张彩色图片有红、绿、蓝三个通道。
+	//depth：深度，即每一个像素的位数(bits)，在opencv的Mat.depth()中得到的是一个 0 – 6 的数字，分别代表不同的位数：enum{ CV_8U = 0, CV_8S = 1, CV_16U = 2, CV_16S = 3, CV_32S = 4, CV_32F = 5, CV_64F = 6 }; 可见 0和1都代表8位， 2和3都代表16位，4和5代表32位，6代表64位；
+	//step：是一个数组，定义了矩阵的布局，具体见下面图片分析，另外注意 step1(step / elemSize1)，M.step[m - 1] 总是等于 elemSize，M.step1(m - 1)总是等于 channels；
+	//elemSize : 矩阵中每一个元素的数据大小，如果Mat中的数据的数据类型是 CV_8U 那么 elemSize = 1，CV_8UC3 那么 elemSize = 3，CV_16UC2 那么 elemSize = 4；记住另外有个 elemSize1 表示的是矩阵中数据类型的大小，即 elemSize / channels 的大小
 }
 
 //撤销
@@ -226,7 +239,8 @@ void MainWindow::pushImg() {
 		else {
 			ui->revokeBtn->setEnabled(false);
 		}
-	nowImage = imageQueue.back();
+	nowImage = imageQueue.back();//nowImage指向栈顶
+
 	int size = imageQueue.size();
 	QString stackStatus = "处理容器中的图片数量:"+QString::number(size, 10);//栈中状态
 	statusBar()->showMessage(stackStatus);
@@ -242,14 +256,19 @@ void MainWindow::notPushImg() {
 	ui->resultView->show();
 }
 
-//清除生成图
+//清除生成图与栈
 void MainWindow::clearResult() {
 	imageQueue.clear();//清空栈
 	nowImage = NULL;
 	dstImage = NULL;
 	srcImage = NULL;
 	resultScene.clear();//清空原图面板
+
+	int size = imageQueue.size();
+	QString stackStatus = "处理容器中的图片数量:" + QString::number(size, 10);//栈中状态
+	statusBar()->showMessage(stackStatus);
 	ui->menu_image->setEnabled(false);
+	ui->revokeBtn->setEnabled(false);
 	save_off();
 }
 

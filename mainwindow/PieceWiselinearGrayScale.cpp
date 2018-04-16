@@ -1,6 +1,6 @@
 #include "PieceWiselinearGrayScale.h"
 
-
+#pragma execution_character_set("utf-8")
 PieceWiselinearGrayScale::PieceWiselinearGrayScale(QWidget *parent)
 	: QWidget(parent)
 {
@@ -48,17 +48,19 @@ PieceWiselinearGrayScale::PieceWiselinearGrayScale(QWidget *parent)
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 
 	series = new QLineSeries;//绘图对象
-	// 构建 series，作为图表的数据源,添加两点
+	// 构建 series，作为图表的数据源,添加起始和终点
 	series->append(0, 0);
 	series->append(255, 255);
 
 	chart = new QChart;//表对象
 	
-	//设置X、Y轴
+	//设置X、Y轴相关参数
 	QValueAxis *axisX = new QValueAxis;
 	axisX->setRange(0, 255);
 	//axisX->setLabelsVisible(true);
+	//设置下标为10进制整数
 	axisX->setLabelFormat("%u");
+	//设置内部网格为两行
 	axisX->setGridLineVisible(true);
 	axisX->setMinorTickCount(2);
 
@@ -70,12 +72,16 @@ PieceWiselinearGrayScale::PieceWiselinearGrayScale(QWidget *parent)
 	axisY->setMinorTickCount(2);
 
 	chart->legend()->hide();  // 隐藏图例
+	//加入x、y
 	chart->setAxisX(axisX);  
 	chart->setAxisY(axisY);
+	//绘图
 	chart->addSeries(series);
-	chart->setTitle("Piecewise Linear Transformation");  // 设置图表的标题 
-
+	chart->setTitle("分段线性变换");  // 设置图表的标题 
+	
+	//添加chart到ChartView
 	ui->ChartView_1->setChart(chart);
+	//抗锯齿
 	ui->ChartView_1->setRenderHint(QPainter::Antialiasing);
 }
 
