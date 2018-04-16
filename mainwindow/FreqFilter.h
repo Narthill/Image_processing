@@ -19,6 +19,7 @@ public slots:
 signals:
 	void idftImage(cv::Mat);
 	void closeAndPush();
+	void closeNotPush();
 private:
 	Ui::FreqFilter *ui;
 	cv::Mat resource;

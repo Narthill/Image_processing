@@ -37,6 +37,7 @@ public:
     QSlider *cSlider;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
+    QPushButton *sureBtn;
     QPushButton *closeBtn;
 
     void setupUi(QWidget *LoglinearGrayScale)
@@ -86,6 +87,11 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
+        sureBtn = new QPushButton(LoglinearGrayScale);
+        sureBtn->setObjectName(QStringLiteral("sureBtn"));
+
+        horizontalLayout->addWidget(sureBtn);
+
         closeBtn = new QPushButton(LoglinearGrayScale);
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
 
@@ -107,6 +113,7 @@ public:
     {
         LoglinearGrayScale->setWindowTitle(QApplication::translate("LoglinearGrayScale", "LoglinearGrayScale", Q_NULLPTR));
         label->setText(QApplication::translate("LoglinearGrayScale", "\345\270\270\346\225\260C", Q_NULLPTR));
+        sureBtn->setText(QApplication::translate("LoglinearGrayScale", "\347\241\256\345\256\232", Q_NULLPTR));
         closeBtn->setText(QApplication::translate("LoglinearGrayScale", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 

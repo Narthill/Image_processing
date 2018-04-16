@@ -44,6 +44,7 @@ PieceWiselinearGrayScale::PieceWiselinearGrayScale(QWidget *parent)
 	QObject::connect(ui->Y2_Slider, SIGNAL(valueChanged(int)), this, SLOT(sendAndPaint()));
 
 	//关闭信号
+	QObject::connect(ui->sureBtn, &QPushButton::clicked, this, &QWidget::close);
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 
 	series = new QLineSeries;//绘图对象
@@ -103,5 +104,11 @@ void PieceWiselinearGrayScale::sendAndPaint() {
 //关闭事件
 void PieceWiselinearGrayScale::closeEvent(QCloseEvent *event)
 {
-	emit closeAndPush();
+	QPushButton* btn = qobject_cast<QPushButton *>(sender());
+	if (btn != NULL && btn->objectName() == "sureBtn") {
+		emit closeAndPush();
+	}
+	else {
+		emit closeNotPush();
+	}
 }

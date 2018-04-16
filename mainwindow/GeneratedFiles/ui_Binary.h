@@ -37,6 +37,7 @@ public:
     QSlider *BinarySlider;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
+    QPushButton *sureBtn;
     QPushButton *closeBtn;
 
     void setupUi(QWidget *Binary)
@@ -88,6 +89,11 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer);
 
+        sureBtn = new QPushButton(Binary);
+        sureBtn->setObjectName(QStringLiteral("sureBtn"));
+
+        horizontalLayout_2->addWidget(sureBtn);
+
         closeBtn = new QPushButton(Binary);
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
 
@@ -109,6 +115,7 @@ public:
     {
         Binary->setWindowTitle(QApplication::translate("Binary", "Binary", Q_NULLPTR));
         label->setText(QApplication::translate("Binary", "\344\272\214\345\200\274\345\214\226\351\230\210\345\200\274", Q_NULLPTR));
+        sureBtn->setText(QApplication::translate("Binary", "\347\241\256\345\256\232", Q_NULLPTR));
         closeBtn->setText(QApplication::translate("Binary", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 

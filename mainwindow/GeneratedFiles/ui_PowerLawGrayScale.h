@@ -37,6 +37,7 @@ public:
     QSlider *indexSlider;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
+    QPushButton *sureBtn;
     QPushButton *closeBtn;
 
     void setupUi(QWidget *PowerLawGrayScale)
@@ -86,6 +87,11 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
+        sureBtn = new QPushButton(PowerLawGrayScale);
+        sureBtn->setObjectName(QStringLiteral("sureBtn"));
+
+        horizontalLayout->addWidget(sureBtn);
+
         closeBtn = new QPushButton(PowerLawGrayScale);
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
 
@@ -107,6 +113,7 @@ public:
     {
         PowerLawGrayScale->setWindowTitle(QApplication::translate("PowerLawGrayScale", "PowerLawGrayScale", Q_NULLPTR));
         label_2->setText(QApplication::translate("PowerLawGrayScale", "\346\214\207\346\225\260", Q_NULLPTR));
+        sureBtn->setText(QApplication::translate("PowerLawGrayScale", "\347\241\256\345\256\232", Q_NULLPTR));
         closeBtn->setText(QApplication::translate("PowerLawGrayScale", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 

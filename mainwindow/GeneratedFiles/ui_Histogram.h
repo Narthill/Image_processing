@@ -59,6 +59,7 @@ public:
     QPushButton *getEquHisBtn;
     QHBoxLayout *horizontalLayout_5;
     QSpacerItem *horizontalSpacer_3;
+    QPushButton *sureBtn;
     QPushButton *closeBtn;
     QSpacerItem *horizontalSpacer_4;
 
@@ -230,6 +231,11 @@ public:
 
         horizontalLayout_5->addItem(horizontalSpacer_3);
 
+        sureBtn = new QPushButton(Histogram);
+        sureBtn->setObjectName(QStringLiteral("sureBtn"));
+
+        horizontalLayout_5->addWidget(sureBtn);
+
         closeBtn = new QPushButton(Histogram);
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
 
@@ -268,7 +274,8 @@ public:
         groupBox_6->setTitle(QApplication::translate("Histogram", "\345\235\207\350\241\241\345\214\226\345\220\216B\351\200\232\351\201\223", Q_NULLPTR));
         Res_Blabel->setText(QString());
         getEquHisBtn->setText(QApplication::translate("Histogram", "\345\235\207\350\241\241\345\214\226\347\233\264\346\226\271\345\233\276", Q_NULLPTR));
-        closeBtn->setText(QApplication::translate("Histogram", "\345\205\263\351\227\255\347\252\227\345\217\243", Q_NULLPTR));
+        sureBtn->setText(QApplication::translate("Histogram", "\347\241\256\345\256\232", Q_NULLPTR));
+        closeBtn->setText(QApplication::translate("Histogram", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -17,6 +17,7 @@ public slots:
 signals:
 	void sendDstImage(cv::Mat);
 	void closeAndPush();
+	void closeNotPush();
 	void closeAndSendBlur(int width, int height);
 	void closeAndSendGauss(int width, int height, int sigmaX, int sigmaY);
 	void closeAndSendMedian(int ksize);

@@ -1,5 +1,5 @@
 #include "DctTransformation.h"
-#include "ui_DctTransformation.h"]
+#include "ui_DctTransformation.h"
 #include"ImageProcessing.h"
 #include"Mat2QImage.h"
 
@@ -21,6 +21,7 @@ DctTransformation::DctTransformation(Mat &src,QWidget *parent)
 	QObject::connect(ui->dctSlider, SIGNAL(valueChanged(int)), this, SLOT(dct()));
 
 	//关闭信号
+	QObject::connect(ui->sureBtn, &QPushButton::clicked, this, &QWidget::close);
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 }
 
@@ -77,5 +78,11 @@ void DctTransformation::slotslider_DoubleSpinBox()
 //关闭事件
 void DctTransformation::closeEvent(QCloseEvent *event)
 {
-	emit closeAndPush();
+	QPushButton* btn = qobject_cast<QPushButton *>(sender());
+	if (btn != NULL && btn->objectName() == "sureBtn") {
+		emit closeAndPush();
+	}
+	else {
+		emit closeNotPush();
+	}
 }

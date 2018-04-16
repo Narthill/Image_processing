@@ -23,6 +23,7 @@ Histogram::Histogram(QWidget *parent)
 	QObject::connect(ui->getEquHisBtn, &QPushButton::clicked, this, &Histogram::equaliAndSend);
 
 	//关闭信号
+	QObject::connect(ui->sureBtn, &QPushButton::clicked, this, &QWidget::close);
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 }
 
@@ -84,5 +85,11 @@ void Histogram::equaliAndSend() {
 //关闭事件
 void Histogram::closeEvent(QCloseEvent *event)
 {
-	emit closeAndPush();
+	QPushButton* btn = qobject_cast<QPushButton *>(sender());
+	if (btn != NULL && btn->objectName() == "sureBtn") {
+		emit closeAndPush();
+	}
+	else {
+		emit closeNotPush();
+	}
 }

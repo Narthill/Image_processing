@@ -17,6 +17,7 @@ public slots:
 signals:
 	void PowerLaw(double);
 	void closeAndPush();
+	void closeNotPush();
 private:
 	Ui::PowerLawGrayScale *ui;
 	void closeEvent(QCloseEvent *event);

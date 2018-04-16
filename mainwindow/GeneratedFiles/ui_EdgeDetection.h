@@ -62,6 +62,7 @@ public:
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout_4;
     QSpacerItem *horizontalSpacer;
+    QPushButton *sureBtn;
     QPushButton *closeBtn;
 
     void setupUi(QWidget *EdgeDetection)
@@ -236,6 +237,11 @@ public:
 
         horizontalLayout_4->addItem(horizontalSpacer);
 
+        sureBtn = new QPushButton(EdgeDetection);
+        sureBtn->setObjectName(QStringLiteral("sureBtn"));
+
+        horizontalLayout_4->addWidget(sureBtn);
+
         closeBtn = new QPushButton(EdgeDetection);
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
 
@@ -265,6 +271,7 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("EdgeDetection", "Canny\350\276\271\347\274\230\346\243\200\346\265\213\350\256\276\345\256\232", Q_NULLPTR));
         label_4->setText(QApplication::translate("EdgeDetection", "\351\253\230\346\226\257\346\250\241\347\263\212\346\250\241\346\235\277\345\244\247\345\260\217", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("EdgeDetection", "\351\253\230\346\226\257\346\250\241\347\263\212\350\256\276\345\256\232", Q_NULLPTR));
+        sureBtn->setText(QApplication::translate("EdgeDetection", "\347\241\256\345\256\232", Q_NULLPTR));
         closeBtn->setText(QApplication::translate("EdgeDetection", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 

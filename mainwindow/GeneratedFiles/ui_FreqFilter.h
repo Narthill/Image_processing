@@ -69,6 +69,7 @@ public:
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
+    QPushButton *sureBtn;
     QPushButton *closeBtn;
     QButtonGroup *highOrlow;
 
@@ -269,6 +270,11 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
+        sureBtn = new QPushButton(FreqFilter);
+        sureBtn->setObjectName(QStringLiteral("sureBtn"));
+
+        horizontalLayout->addWidget(sureBtn);
+
         closeBtn = new QPushButton(FreqFilter);
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
 
@@ -318,6 +324,7 @@ public:
         groupBox_4->setTitle(QApplication::translate("FreqFilter", "\345\217\202\346\225\260", Q_NULLPTR));
         rGroupBox->setTitle(QApplication::translate("FreqFilter", "\351\200\232\345\270\246\345\215\212\345\276\204", Q_NULLPTR));
         btwGroupBox->setTitle(QApplication::translate("FreqFilter", "\345\267\264\347\211\271\346\262\203\346\226\257\346\254\241\346\225\260", Q_NULLPTR));
+        sureBtn->setText(QApplication::translate("FreqFilter", "\347\241\256\345\256\232", Q_NULLPTR));
         closeBtn->setText(QApplication::translate("FreqFilter", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 

@@ -124,7 +124,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,1">
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,1,1">
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -137,6 +137,13 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="sureBtn">
+       <property name="text">
+        <string>确定</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="closeBtn">

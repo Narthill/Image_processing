@@ -19,6 +19,7 @@ public slots:
 signals:
 	void sendDstImage(Mat);
 	void closeAndPush();
+	void closeNotPush();
 private:
 	Ui::DctTransformation *ui;
 	Mat srcImg;

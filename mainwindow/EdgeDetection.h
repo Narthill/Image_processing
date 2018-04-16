@@ -15,6 +15,7 @@ public slots:
 signals:
 	void EdgeNum(int,int,int,int);
 	void closeAndPush();
+	void closeNotPush();
 	void closeAndSend(int, int, int, int);
 private:                                                 
 	Ui::EdgeDetection *ui;

@@ -34,6 +34,7 @@ EdgeDetection::EdgeDetection(QWidget *parent)
 	QObject::connect(ui->modelSlider, SIGNAL(valueChanged(int)), this, SLOT(send()));
 
 	//关闭信号
+	QObject::connect(ui->sureBtn, &QPushButton::clicked, this, &QWidget::close);
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 }
 
@@ -60,6 +61,12 @@ void EdgeDetection::send() {
 //关闭事件
 void EdgeDetection::closeEvent(QCloseEvent *event)
 {
-	emit closeAndPush();
-	emit closeAndSend(w, b, s, kSize);
+	QPushButton* btn = qobject_cast<QPushButton *>(sender());
+	if (btn != NULL && btn->objectName() == "sureBtn") {
+		emit closeAndPush();
+		emit closeAndSend(w, b, s, kSize);
+	}
+	else {
+		emit closeNotPush();
+	}
 }

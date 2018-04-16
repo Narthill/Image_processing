@@ -50,6 +50,7 @@ public:
     QLabel *vLabel;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
+    QPushButton *sureBtn;
     QPushButton *closeBtn;
 
     void setupUi(QWidget *DctTransformation)
@@ -155,6 +156,11 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer);
 
+        sureBtn = new QPushButton(DctTransformation);
+        sureBtn->setObjectName(QStringLiteral("sureBtn"));
+
+        horizontalLayout_2->addWidget(sureBtn);
+
         closeBtn = new QPushButton(DctTransformation);
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
 
@@ -183,6 +189,7 @@ public:
         uLabel->setText(QString());
         groupBox_4->setTitle(QApplication::translate("DctTransformation", "V\351\200\232\351\201\223\351\242\221\350\260\261", Q_NULLPTR));
         vLabel->setText(QString());
+        sureBtn->setText(QApplication::translate("DctTransformation", "\347\241\256\345\256\232", Q_NULLPTR));
         closeBtn->setText(QApplication::translate("DctTransformation", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 

@@ -1,4 +1,5 @@
 #include "Binary.h"
+#include<QDebug>
 //①在子窗口中声明信号
 //②在主窗口中声明并实现槽函数
 //③在主窗口中庸connect绑定信号和槽
@@ -20,6 +21,7 @@ Binary::Binary(QWidget *parent)
 	QObject::connect(ui->BinarySlider, SIGNAL(valueChanged(int)), this, SLOT(send()));
 
 	//关闭信号
+	QObject::connect(ui->sureBtn, &QPushButton::clicked, this, &QWidget::close);
 	QObject::connect(ui->closeBtn,&QPushButton::clicked, this,&QWidget::close );
 }
 
@@ -36,6 +38,12 @@ void Binary::send() {
 //关闭事件
 void Binary::closeEvent(QCloseEvent *event)
 {
-	emit closeAndPush();
-	emit closeAndSend(thres);
+	QPushButton* btn=qobject_cast<QPushButton *>(sender());
+	if (btn != NULL && btn->objectName() == "sureBtn") {
+		emit closeAndPush();
+		emit closeAndSend(thres);
+	}
+	else {
+		emit closeNotPush();
+	}
 }

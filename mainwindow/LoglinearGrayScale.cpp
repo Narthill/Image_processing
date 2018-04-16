@@ -17,6 +17,7 @@ LoglinearGrayScale::LoglinearGrayScale(QWidget *parent)
 	QObject::connect(ui->cSlider, SIGNAL(valueChanged(int)), this, SLOT(send()));
 
 	//关闭信号
+	QObject::connect(ui->sureBtn, &QPushButton::clicked, this, &QWidget::close);
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 }
 
@@ -33,5 +34,11 @@ void LoglinearGrayScale::send() {
 //关闭事件
 void LoglinearGrayScale::closeEvent(QCloseEvent *event)
 {
-	emit closeAndPush();
+	QPushButton* btn = qobject_cast<QPushButton *>(sender());
+	if (btn != NULL && btn->objectName() == "sureBtn") {
+		emit closeAndPush();
+	}
+	else {
+		emit closeNotPush();
+	}
 }

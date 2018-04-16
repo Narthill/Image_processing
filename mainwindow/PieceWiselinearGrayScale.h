@@ -16,6 +16,7 @@ public slots:
 signals:
 	void inflectionPoint(int X1,int Y1,int X2,int Y2);
 	void closeAndPush();
+	void closeNotPush();
 private:
 	Ui::PieceWiselinearGrayScale *ui;
 	QLineSeries *series;

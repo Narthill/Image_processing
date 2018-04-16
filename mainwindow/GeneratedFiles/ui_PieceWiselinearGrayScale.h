@@ -55,6 +55,7 @@ public:
     QSlider *Y2_Slider;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
+    QPushButton *sureBtn;
     QPushButton *closeBtn;
 
     void setupUi(QWidget *PieceWiselinearGrayScale)
@@ -190,6 +191,11 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer);
 
+        sureBtn = new QPushButton(PieceWiselinearGrayScale);
+        sureBtn->setObjectName(QStringLiteral("sureBtn"));
+
+        horizontalLayout_2->addWidget(sureBtn);
+
         closeBtn = new QPushButton(PieceWiselinearGrayScale);
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
 
@@ -197,6 +203,7 @@ public:
 
         horizontalLayout_2->setStretch(0, 3);
         horizontalLayout_2->setStretch(1, 1);
+        horizontalLayout_2->setStretch(2, 1);
 
         verticalLayout_3->addLayout(horizontalLayout_2);
 
@@ -217,6 +224,7 @@ public:
         groupBox_2->setTitle(QApplication::translate("PieceWiselinearGrayScale", "\346\213\220\347\202\2712", Q_NULLPTR));
         label_14->setText(QApplication::translate("PieceWiselinearGrayScale", "X2", Q_NULLPTR));
         label_15->setText(QApplication::translate("PieceWiselinearGrayScale", "Y2", Q_NULLPTR));
+        sureBtn->setText(QApplication::translate("PieceWiselinearGrayScale", "\347\241\256\345\256\232", Q_NULLPTR));
         closeBtn->setText(QApplication::translate("PieceWiselinearGrayScale", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 

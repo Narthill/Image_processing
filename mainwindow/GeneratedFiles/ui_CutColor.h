@@ -37,6 +37,7 @@ public:
     QSlider *nSlider;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
+    QPushButton *sureBtn;
     QPushButton *closeBtn;
 
     void setupUi(QWidget *CutColor)
@@ -86,6 +87,11 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
+        sureBtn = new QPushButton(CutColor);
+        sureBtn->setObjectName(QStringLiteral("sureBtn"));
+
+        horizontalLayout->addWidget(sureBtn);
+
         closeBtn = new QPushButton(CutColor);
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
 
@@ -107,6 +113,7 @@ public:
     {
         CutColor->setWindowTitle(QApplication::translate("CutColor", "CutColor", Q_NULLPTR));
         label->setText(QApplication::translate("CutColor", "\347\274\251\345\207\217\347\255\211\347\272\247", Q_NULLPTR));
+        sureBtn->setText(QApplication::translate("CutColor", "\347\241\256\345\256\232", Q_NULLPTR));
         closeBtn->setText(QApplication::translate("CutColor", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 

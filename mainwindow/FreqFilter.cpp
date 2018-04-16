@@ -26,7 +26,11 @@ FreqFilter::FreqFilter(QWidget *parent)
 	//处理信号
 	QObject::connect(ui->rSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
 	QObject::connect(ui->btwSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
+
+	QObject::connect(ui->highRbtn, SIGNAL(toggled(bool)), this, SLOT(filtering()));
+	QObject::connect(ui->lowRbtn, SIGNAL(toggled(bool)), this, SLOT(filtering()));
 	//关闭信号
+	QObject::connect(ui->sureBtn, &QPushButton::clicked, this, &QWidget::close);
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 }
 
@@ -124,5 +128,11 @@ void FreqFilter::filtering() {
 //关闭事件
 void FreqFilter::closeEvent(QCloseEvent *event)
 {
-	emit closeAndPush();
+	QPushButton* btn = qobject_cast<QPushButton *>(sender());
+	if (btn != NULL && btn->objectName() == "sureBtn") {
+		emit closeAndPush();
+	}
+	else {
+		emit closeNotPush();
+	}
 }

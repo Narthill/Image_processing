@@ -19,6 +19,7 @@ public slots:
 signals:
 	void equaliPic(cv::Mat);
 	void closeAndPush();
+	void closeNotPush();
 private:
 	Ui::Histogram *ui;
 	cv::Mat resource;

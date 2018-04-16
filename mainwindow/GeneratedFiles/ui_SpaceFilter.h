@@ -69,6 +69,7 @@ public:
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
+    QPushButton *sureBtn;
     QPushButton *closeBtn;
 
     void setupUi(QWidget *SpaceFilter)
@@ -286,6 +287,11 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
+        sureBtn = new QPushButton(SpaceFilter);
+        sureBtn->setObjectName(QStringLiteral("sureBtn"));
+
+        horizontalLayout->addWidget(sureBtn);
+
         closeBtn = new QPushButton(SpaceFilter);
         closeBtn->setObjectName(QStringLiteral("closeBtn"));
 
@@ -316,6 +322,7 @@ public:
         groupBox_kheight->setTitle(QApplication::translate("SpaceFilter", "\346\240\270\351\253\230", Q_NULLPTR));
         groupBox_kwidth->setTitle(QApplication::translate("SpaceFilter", "\346\240\270\345\256\275", Q_NULLPTR));
         groupBox_ksize->setTitle(QApplication::translate("SpaceFilter", "\346\273\244\346\263\242\346\240\270\345\244\247\345\260\217", Q_NULLPTR));
+        sureBtn->setText(QApplication::translate("SpaceFilter", "\347\241\256\345\256\232", Q_NULLPTR));
         closeBtn->setText(QApplication::translate("SpaceFilter", "\345\205\263\351\227\255", Q_NULLPTR));
     } // retranslateUi
 

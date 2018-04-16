@@ -17,6 +17,7 @@ CutColor::CutColor(QWidget *parent)
 	QObject::connect(ui->nSlider, SIGNAL(valueChanged(int)), this, SLOT(send()));
 
 	//关闭信号
+	QObject::connect(ui->sureBtn, &QPushButton::clicked, this, &QWidget::close);
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 }
 
@@ -32,6 +33,12 @@ void CutColor::send() {
 //关闭事件
 void CutColor::closeEvent(QCloseEvent *event)
 {
-	emit closeAndPush();
-	emit closeAndSend(n);
+	QPushButton* btn = qobject_cast<QPushButton *>(sender());
+	if (btn != NULL && btn->objectName() == "sureBtn") {
+		emit closeAndPush();
+		emit closeAndSend(n);
+	}
+	else {
+		emit closeNotPush();
+	}
 }

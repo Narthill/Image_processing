@@ -213,9 +213,16 @@
         </spacer>
        </item>
        <item>
+        <widget class="QPushButton" name="sureBtn">
+         <property name="text">
+          <string>确定</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="closeBtn">
          <property name="text">
-          <string>关闭窗口</string>
+          <string>关闭</string>
          </property>
         </widget>
        </item>

@@ -54,7 +54,8 @@ SpaceFilter::SpaceFilter(Mat &src,QWidget *parent)
 	QObject::connect(ui->ksizeSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
 	QObject::connect(ui->sigmaXSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
 	QObject::connect(ui->sigmaYSlider, SIGNAL(valueChanged(int)), this, SLOT(filtering()));
-
+	//关闭信号
+	QObject::connect(ui->sureBtn, &QPushButton::clicked, this, &QWidget::close);
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 }
 
@@ -141,17 +142,23 @@ void SpaceFilter::filtering() {
 //关闭事件
 void SpaceFilter::closeEvent(QCloseEvent *event)
 {
-	emit closeAndPush();
-	if (choose == 0) {
-		emit closeAndSendBlur(width, height);
+	QPushButton* btn = qobject_cast<QPushButton *>(sender());
+	if (btn != NULL && btn->objectName() == "sureBtn") {
+		emit closeAndPush();
+		if (choose == 0) {
+			emit closeAndSendBlur(width, height);
+		}
+		else if (choose == 1) {
+			emit closeAndSendGauss(width, height, sigmaX, sigmaY);
+		}
+		else if (choose == 2) {
+			emit closeAndSendMedian(ksize);
+		}
+		else if (choose == 3) {
+			emit closeAndSendLaplace(ksize);
+		}
 	}
-	else if (choose == 1) {
-		emit closeAndSendGauss(width, height, sigmaX, sigmaY);
-	}
-	else if (choose == 2) {
-		emit closeAndSendMedian(ksize);
-	}
-	else if (choose == 3) {
-		emit closeAndSendLaplace(ksize);
+	else {
+		emit closeNotPush();
 	}
 }

@@ -157,10 +157,9 @@ void videoProcessing::showFristFrame() {
 void videoProcessing::playVideo() {
 	//播放
 	time_clock->start();
-	if (nowFrameIndex = totalFrameNumber) {
+	if (nowFrameIndex == totalFrameNumber) {
 		time_clock->stop();
 		nowFrameIndex = 0;
-		return;
 	}
 	//capture.read(frame);
 	nowframe =*(dstVideoQueue.begin()+ nowFrameIndex);
@@ -236,8 +235,10 @@ void videoProcessing::video_Gary() {
 //边缘检测
 void videoProcessing::video_SobelSolt() {
 	time_clock->stop();
-	uiItemClose();
+
 	EdgeDetection *EdgeDetectionDialog = new EdgeDetection();
+	//模态对话框
+	EdgeDetectionDialog->setWindowModality(Qt::ApplicationModal);
 	//对话框关闭时销毁
 	EdgeDetectionDialog->setAttribute(Qt::WA_DeleteOnClose);
 	EdgeDetectionDialog->setWindowTitle(tr("边缘检测"));
@@ -265,13 +266,13 @@ void videoProcessing::video_SobelCore(int w, int b, int s, int kSize) {
 	}
 	statusBar()->showMessage(tr("提取边缘完成！"));
 	showFristFrame();
-	uiItemOpen();
 }
 //颜色空间缩减
 void videoProcessing::video_CutColorSolt() {
 	time_clock->stop();
-	uiItemClose();
 	CutColor *CutColorDialog = new CutColor();
+	//模态对话框
+	CutColorDialog->setWindowModality(Qt::ApplicationModal);
 	//对话框关闭时销毁
 	CutColorDialog->setAttribute(Qt::WA_DeleteOnClose);
 	CutColorDialog->setWindowTitle(tr("颜色空间缩减"));
@@ -299,13 +300,15 @@ void videoProcessing::video_CutColorCore(int n) {
 	}
 	statusBar()->showMessage(tr("颜色空间缩减完成！"));
 	showFristFrame();
-	uiItemOpen();
 }
 //空间滤波
 void videoProcessing::video_SpaceFilterSolt() {
 	time_clock->stop();
-	uiItemClose();
+
 	SpaceFilter *SpaceFilterDialog = new SpaceFilter(*(videoQueue.begin() + nowFrameIndex));
+	//模态对话框
+	SpaceFilterDialog->setWindowModality(Qt::ApplicationModal);
+	//对话框关闭时销毁
 	SpaceFilterDialog->setAttribute(Qt::WA_DeleteOnClose);
 	SpaceFilterDialog->setWindowTitle(tr("空间滤波"));
 	QObject::connect(SpaceFilterDialog, SIGNAL(sendDstImage(Mat)), this, SLOT(video_SpaceFilterShow(Mat)));
@@ -331,7 +334,6 @@ void videoProcessing::video_SpaceFilterBlur(int width, int height) {
 	}
 	statusBar()->showMessage(tr("均值滤波完成！"));
 	showFristFrame();
-	uiItemOpen();
 }
 void videoProcessing::video_SpaceFilterGauss(int width, int height, int sigmaX, int sigmaY) {
 
@@ -343,7 +345,6 @@ void videoProcessing::video_SpaceFilterGauss(int width, int height, int sigmaX, 
 	}
 	statusBar()->showMessage(tr("高斯滤波完成！"));
 	showFristFrame();
-	uiItemOpen();
 }
 void videoProcessing::video_SpaceFilterMedian(int ksize) {
 	for (long i = 0; i < totalFrameNumber; i++) {
@@ -354,7 +355,6 @@ void videoProcessing::video_SpaceFilterMedian(int ksize) {
 	}
 	statusBar()->showMessage(tr("中值滤波完成！"));
 	showFristFrame();
-	uiItemOpen();
 }
 void videoProcessing::video_SpaceFilterLaplace(int ksize) {
 	for (long i = 0; i < totalFrameNumber; i++) {
@@ -365,11 +365,13 @@ void videoProcessing::video_SpaceFilterLaplace(int ksize) {
 	}
 	statusBar()->showMessage(tr("拉普拉斯滤波完成！"));
 	showFristFrame();
-	uiItemOpen();
 }
 //二值化
 void videoProcessing::video_BinarySolt() {
+	time_clock->stop();
 	Binary *BinaryDialog = new Binary();
+	//模态对话框
+	BinaryDialog->setWindowModality(Qt::ApplicationModal);
 	//对话框关闭时销毁
 	BinaryDialog->setAttribute(Qt::WA_DeleteOnClose);
 	BinaryDialog->setWindowTitle(tr("二值化"));
@@ -397,7 +399,6 @@ void videoProcessing::video_BinaryCore(int n) {
 	}
 	statusBar()->showMessage(tr("二值化完成！"));
 	showFristFrame();
-	uiItemOpen();
 }
 //直方图均衡化
 void videoProcessing::video_Histogram() {
