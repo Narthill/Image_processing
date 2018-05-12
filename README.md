@@ -1,5 +1,5 @@
 # Image_processing
-# 图像处理软件
+图像视频处理GUI
 
 ## 基于:
 `QT5.9.4 32bit`
