@@ -77,15 +77,15 @@
   - DCT 离散余弦变换  
     ![](repositories/07.PNG)  
 
-  - canny 边缘检测
+  - canny 边缘检测  
     ![](repositories/08.PNG)  
 
 - **视频处理**
-  - 灰度化
+  - 灰度化  
     ![](repositories/10.PNG)  
 
-  - 拉普拉斯滤波
+  - 拉普拉斯滤波  
     ![](repositories/11.PNG)  
 
-  - 边缘检测
+  - 边缘检测  
     ![](repositories/12.PNG)  
