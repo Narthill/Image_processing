@@ -56,36 +56,26 @@
 ## **部分**功能演示
 - **图像处理**
   - 二值化  
-    ![](repositories/01.PNG)  
-
+    <img src="repositories/01.PNG" width="50%" height="50%">
   - 灰度变换  
-    ![](repositories/02.PNG)  
- 
+    <img src="repositories/02.PNG" width="50%" height="50%">
   - 直方图均衡化  
-    ![](repositories/04.PNG)  
-
+    <img src="repositories/04.PNG" width="50%" height="50%">
   - 颜色空间缩减  
-    ![](repositories/03.PNG) 
-
+    <img src="repositories/03.PNG" width="50%" height="50%">
   - 滤波
     - 空间滤波  
-    ![](repositories/05.PNG)  
-
+    <img src="repositories/05.PNG" width="50%" height="50%">
     - 频域滤波  
-    ![](repositories/06.PNG)  
-
+    <img src="repositories/06.PNG" width="50%" height="50%">
   - DCT 离散余弦变换  
-    ![](repositories/07.PNG)  
-
+    <img src="repositories/07.PNG" width="50%" height="50%">
   - canny 边缘检测  
-    ![](repositories/08.PNG)  
-
+    <img src="repositories/08.PNG" width="50%" height="50%">
 - **视频处理**
   - 灰度化  
-    ![](repositories/10.PNG)  
-
+    <img src="repositories/10.PNG" width="50%" height="50%">
   - 拉普拉斯滤波  
-    ![](repositories/11.PNG)  
-
+    <img src="repositories/11.PNG" width="50%" height="50%">
   - 边缘检测  
-    ![](repositories/12.PNG)  
+    <img src="repositories/12.PNG" width="50%" height="50%">
