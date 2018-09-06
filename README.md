@@ -65,9 +65,9 @@
     <img src="repositories/03.PNG" width="50%" height="50%">
   - 滤波
     - 空间滤波  
-    <img src="repositories/05.PNG" width="50%" height="50%">
-    - 频域滤波   
-    <img src="repositories/06.PNG" width="50%" height="50%">
+      <img src="repositories/05.PNG" width="50%" height="50%">
+    - 频域滤波  
+      <img src="repositories/06.PNG" width="50%" height="50%">
   - DCT 离散余弦变换  
     <img src="repositories/07.PNG" width="50%" height="50%">
   - canny 边缘检测  
