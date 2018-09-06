@@ -56,36 +56,36 @@
 ## **部分**功能演示
 - **图像处理**
   - 二值化  
-    ![](https://github.com/Narthill/Image_processing/master/repositories/01.png)  
+    ![](repositories/01.png)  
 
   - 灰度变换  
-    ![](https://github.com/Narthill/Image_processing/master/repositories/02.png)  
+    ![](repositories/02.png)  
  
   - 直方图均衡化  
-    ![](https://github.com/Narthill/Image_processing/master/repositories/04.png)  
+    ![](repositories/04.png)  
 
   - 颜色空间缩减  
-    ![](https://github.com/Narthill/Image_processing/master/repositories/03.png) 
+    ![](repositories/03.png) 
 
   - 滤波
     - 空间滤波  
-    ![](https://github.com/Narthill/Image_processing/master/repositories/05.png)  
+    ![](repositories/05.png)  
 
     - 频域滤波  
-    ![](https://github.com/Narthill/Image_processing/master/repositories/06.png)  
+    ![](repositories/06.png)  
 
   - DCT 离散余弦变换  
-    ![](https://github.com/Narthill/Image_processing/master/repositories/07.png)  
+    ![](repositories/07.png)  
 
   - canny 边缘检测
-    ![](https://github.com/Narthill/Image_processing/master/repositories/08.png)  
+    ![](repositories/08.png)  
 
 - **视频处理**
   - 灰度化
-    ![](https://github.com/Narthill/Image_processing/master/repositories/10.png)  
+    ![](repositories/10.png)  
 
   - 拉普拉斯滤波
-    ![](https://github.com/Narthill/Image_processing/master/repositories/11.png)  
+    ![](repositories/11.png)  
 
   - 边缘检测
-    ![](https://github.com/Narthill/Image_processing/master/repositories/12.png)  
+    ![](repositories/12.png)  
