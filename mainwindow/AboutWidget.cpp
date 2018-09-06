@@ -13,7 +13,7 @@ AboutWidget::AboutWidget(QWidget *parent)
 		+ tr("<b>OPENCV°æ±¾:</b>") + "<br>"
 		+ tr("opencv 2.4.10 32bit") + "<br>" 
 		+ tr("<b>Ô´ÂëµØÖ·:</b>") + "<br>"
-		+ "<a href=\"https://github.com/Narthill/Image_processing\">https://github.com/Narthill/Image_processing</a>");
+		+ tr("<a href=\"https://github.com/Narthill/Image_processing\">https://github.com/Narthill/Image_processing</a>"));
 	ui->label->setOpenExternalLinks(true);
 	QObject::connect(ui->closeBtn, &QPushButton::clicked, this, &QWidget::close);
 }
