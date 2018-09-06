@@ -56,36 +56,36 @@
 ## **部分**功能演示
 - **图像处理**
   - 二值化  
-    ![](raw/master/repositories/01.png)  
+    ![](https://github.com/Narthill/Image_processing/raw/master/repositories/01.png)  
 
   - 灰度变换  
-    ![](raw/master/repositories/02.png)  
+    ![](https://github.com/Narthill/Image_processing/raw/master/repositories/02.png)  
  
   - 直方图均衡化  
-    ![](raw/master/repositories/04.png)  
+    ![](https://github.com/Narthill/Image_processing/raw/master/repositories/04.png)  
 
   - 颜色空间缩减  
-    ![](raw/master/repositories/03.png) 
+    ![](https://github.com/Narthill/Image_processing/raw/master/repositories/03.png) 
 
   - 滤波
     - 空间滤波  
-    ![](raw/master/repositories/05.png)  
+    ![](https://github.com/Narthill/Image_processing/raw/master/repositories/05.png)  
 
     - 频域滤波  
-    ![](raw/master/repositories/06.png)  
+    ![](https://github.com/Narthill/Image_processing/raw/master/repositories/06.png)  
 
   - DCT 离散余弦变换  
-    ![](raw/master/repositories/07.png)  
+    ![](https://github.com/Narthill/Image_processing/raw/master/repositories/07.png)  
 
   - canny 边缘检测
-    ![](raw/master/repositories/08.png)  
+    ![](https://github.com/Narthill/Image_processing/raw/master/repositories/08.png)  
 
 - **视频处理**
   - 灰度化
-    ![](raw/master/repositories/10.png)  
+    ![](https://github.com/Narthill/Image_processing/raw/master/repositories/10.png)  
 
   - 拉普拉斯滤波
-    ![](raw/master/repositories/11.png)  
+    ![](https://github.com/Narthill/Image_processing/raw/master/repositories/11.png)  
 
   - 边缘检测
-    ![](raw/master/repositories/12.png)  
+    ![](https://github.com/Narthill/Image_processing/raw/master/repositories/12.png)  
